@@ -1,0 +1,14 @@
+*~
+.directory
+*.sublime*
+.svn
+bower_components
+node_modules/
+tmp/
+build/
+apidoc/
+.idea/
+atlassian-ide-plugin.xml
+cert/
+.DS_Store
+nightly/

@@ -1,0 +1,1254 @@
+{
+    "options_settings": {
+        "message": "تنظیمات ",
+        "description": "Options header: Settings."
+    },
+    "security_cache_help": {
+        "message": "باید عدد باشد بین 1-999",
+        "description": "Help text for cache time."
+    },
+    "key_gen_wait_info": {
+        "message": "لطفا صبر کنید٬ تولید کلید می تواند تا چند دقیقه زمان ببرد. این متفاوت است برای فاکتور های گوناگون از جمله اندازه کلید .",
+        "description": "Wait dialog info message"
+    },
+    "security_log_attachment_added": {
+        "message": "ضمیمه بارگزاری شد",
+        "description": "Attachment added as an event type"
+    },
+    "message_read_error": {
+        "message": "نمی  تواند این پیام رمزگزاری شده را بخواند: $1",
+        "description": "Message read error message: $1: error message."
+    },
+    "security_log_key_backup": {
+        "message": "Key Backup",
+        "description": "Key backup container as an event source"
+    },
+    "keygrid_all_keys": {
+        "message": "همه ",
+        "description": "Selection of key type."
+    },
+    "security_log_text_input": {
+        "message": "Input-event in text field",
+        "description": "A click in the text field as an event type"
+    },
+    "security_display_inline": {
+        "message": "در صفحه ارائه دهنده ایمیل ",
+        "description": "Decrypted message display option"
+    },
+    "verify_result_error": {
+        "message": "امضای اشتباه ",
+        "description": "Verfiy signature error. Wrong signature of [userid]."
+    },
+    "pwd_dialog_header": {
+        "message": "رمز عبور را وارد کن",
+        "description": "Header of the password dialog."
+    },
+    "waiting_dialog_prepare_email": {
+        "message": "آماده سازی پیام...",
+        "description": "Message in the waiting dialog for quoting email"
+    },
+    "keygrid_creation_date_short": {
+        "message": "ساخته شده",
+        "description": "Short creation date of a PGP key. Max. width: 90px"
+    },
+    "security_display_decrypted": {
+        "message": "پیام های رمزگزاری شده کجا به نمایش در می آیند ؟ ",
+        "description": "Label for display options"
+    },
+    "general_primary_key_always": {
+        "message": "همیشه کلید خصوصی را به لیست دریافت کنندگان اضافه کنید. (اجازه  رمزگشایی بده به ایمیل های ارسالی)",
+        "description": "Label for primary private key option."
+    },
+    "security_compose_webmail": {
+        "message": "در ویرایش کننده نوشته از ارائه دهنده ایمیل ",
+        "description": "Mail compose option"
+    },
+    "security_background_header": {
+        "message": "پیش زمینه امنیتی ",
+        "description": "Security background header"
+    },
+    "keygrid_user_email": {
+        "message": "ایمیل",
+        "description": "Email address in User ID of a PGP key."
+    },
+    "key_import_extend_description": {
+        "message": "The PGP fingerprint is used to identify the key information of your communication.",
+        "description": ""
+    },
+    "form_confirm": {
+        "message": "Confirm",
+        "description": "Confirm form button."
+    },
+    "watchlist_delete_confirmation": {
+        "message": "آیا واقعا می خواهید این سایت را از لیست ارائه دهندگان ایمیل پاک کنید ؟ ",
+        "description": "Mesage in the watchlist delete confirmation dialog."
+    },
+    "popup_last_activities": {
+        "message": "آخرین فعالیت ها ",
+        "description": "Title text for the last activities area"
+    },
+    "key_export_header": {
+        "message": "کلید خروجی ",
+        "description": "Export key dialog header."
+    },
+    "key_import_private_exists": {
+        "message": "کلید خصوصی موجود   بخشی از کلید عمومی  $1  کاربر  $2  وارد دسته کلید شده. ",
+        "description": "Import success message: $1: keyid, $2: userid."
+    },
+    "upload_attachment": {
+        "message": "اضافه کردن پیوست ",
+        "description": "Text in the upload attachment button of the message editor dialog"
+    },
+    "keybackup_restore_dialog_button": {
+        "message": "نسخه پشتیبان را برگردان",
+        "description": ""
+    },
+    "decrypt_digital_signature_failure": {
+        "message": "Digital signature error",
+        "description": "Caption digital signature"
+    },
+    "verify_error": {
+        "message": "نمی تواند این پیام را تایید کند:  $1",
+        "description": "Error during verification process."
+    },
+    "pwd_dialog_wrong_pwd": {
+        "message": "رمز عبور اشتباه ",
+        "description": "Password error message."
+    },
+    "key_import_extend_date": {
+        "message": "Created:",
+        "description": ""
+    },
+    "security_cache_header": {
+        "message": "بخاطر سپردن رمز عبور در مرورگر ؟ ",
+        "description": "Password cache header"
+    },
+    "popup_actived_checkbox_tooltip": {
+        "message": "فعال/ ویرایشگر خارجی را غیرفعال کن ",
+        "description": "Text of the checkbox for activating/deactivating the plugin"
+    },
+    "save_attachment_as_message": {
+        "message": "پوشه ای  را که می خواهید ضمیمه را در آنجا ذخیره کنید. ",
+        "description": "Message in the attachment save dialog"
+    },
+    "pwd_dialog_keyid_tooltip": {
+        "message": "ID کلید شما ",
+        "description": "Tooltip explaining the key id."
+    },
+    "alert_header_success": {
+        "message": "موفقیت!",
+        "description": "Alert header of category success."
+    },
+    "keygrid_public_keys": {
+        "message": "کلیدهای عمومی ",
+        "description": "Selection of key type."
+    },
+    "editor_sign_button": {
+        "message": "ورود",
+        "description": "Sign button."
+    },
+    "security_log_remeber_click": {
+        "message": "Click-event in password dialog",
+        "description": ""
+    },
+    "key_gen_success": {
+        "message": "کلید جدید ساخته و به دسته کلید وارد شده است",
+        "description": "Key generation success message"
+    },
+    "security_log_action": {
+        "message": "اقدام",
+        "description": "Title of the action column of the security log table."
+    },
+    "key_gen_never": {
+        "message": "هرگز",
+        "description": "Key expires after time range"
+    },
+    "general_primary_key_label": {
+        "message": " کلید خصوصی اصلی ",
+        "description": "Label for primary private key option."
+    },
+    "clear_localstorage_confirm_title": {
+        "message": "تایید ",
+        "description": "The title of the confirmation dialog."
+    },
+    "key_import_file_select": {
+        "message": " کلید نوشته را برای وارد کردن انتخاب کنید",
+        "description": "File selection button label."
+    },
+    "security_log_dialog_encrypt": {
+        "message": "Click-event to encrypt on dialog",
+        "description": ""
+    },
+    "watchlist_title_frame": {
+        "message": "الگوی دامنه ",
+        "description": "Web domain URL match pattern of site in watchlist."
+    },
+    "keygrid_key_length": {
+        "message": "طول",
+        "description": "Key length of a PGP key."
+    },
+    "keygrid_private_keys": {
+        "message": "کلیدهای خصوصی ",
+        "description": "Selection of key type."
+    },
+    "keyring_display_keys": {
+        "message": "کلید ها را نمایش بده",
+        "description": "Tab of keyring to display keys."
+    },
+    "security_background_preview": {
+        "message": "پیش نمایش ",
+        "description": "Preview"
+    },
+    "security_log_content_copy": {
+        "message": "Copy-event in verify dialog",
+        "description": ""
+    },
+    "security_background_coloring": {
+        "message": "رنگ",
+        "description": "Coloring"
+    },
+    "popup_options": {
+        "message": "گزینه ",
+        "description": "Open options dialog."
+    },
+    "security_log_textarea_click": {
+        "message": "کلیک- اونت در نوشته ها ",
+        "description": "A click in the text area as an event type"
+    },
+    "digital_signature_status_false": {
+        "message": "invalid",
+        "description": ""
+    },
+    "security_log_empty": {
+        "message": "هیچگونه ورودی ",
+        "description": "Message when the security log is empty"
+    },
+    "security_background_text": {
+        "message": "پیش زمینه امنیتی همان  پیش زمینه شخصی میل ولپ شما است که به  کاربر برای اعمال نفوذ به رابط  کاربری در وب سایت های دیگر و اپلیکیشن ها کمک می کند. برای بالا بردن امنیت٬‌ پیش زمنیه خصوصی را بوجود بیاورید و تغییر دهید. ",
+        "description": "Security background text"
+    },
+    "keyring_generate_key": {
+        "message": "کلید را تولید کن  ",
+        "description": "Tab of keyring to generate key."
+    },
+    "key_import_error": {
+        "message": "خطا را وارد کن.",
+        "description": "Import error alert."
+    },
+    "key_import_extend_headline": {
+        "message": "Advanced information for encrypted communication:",
+        "description": "Key import dialog header"
+    },
+    "key_import_multiple_keys": {
+        "message": "برای وارد کردن کلید های چندتایی٬ به راحتی آن ها را اینجا برگردانید. نوشته های اضافی در اطراف کلید ها در نظر نگیرید.",
+        "description": "Info message."
+    },
+    "popup_help": {
+        "message": "کمک",
+        "description": "Open help dialog."
+    },
+    "keygrid_subkeyid": {
+        "message": "شناسه",
+        "description": "Subkey ID of a PGP key."
+    },
+    "key_import_dialog_header": {
+        "message": "کلید را به دسته کلید اضافه کن ",
+        "description": "Key import dialog header."
+    },
+    "key_gen_pwd_match": {
+        "message": "تطبیق رمز عبور",
+        "description": "Passphrase input field status"
+    },
+    "security_log_dialog_undo": {
+        "message": "Click-event to undo on dialog",
+        "description": ""
+    },
+    "key_import_another": {
+        "message": "دیگری را وارد کن...",
+        "description": "Import another key button."
+    },
+    "editor_no_sign_caption_long": {
+        "message": "ایمیل بصورت دیجیتالی امضا نمی شود",
+        "description": "Caption digital signature"
+    },
+    "pwd_dialog_reason_decrypt": {
+        "message": "Enter key password to decrypt this message.",
+        "description": ""
+    },
+    "keygrid_delete": {
+        "message": "پاک کردن",
+        "description": "Max. 6 characters."
+    },
+    "security_log_add_attachment": {
+        "message": "دکمه اضافه کردن ضمیمه کلیک شده ",
+        "description": "A click on the attachment upload button as an event type"
+    },
+    "key_import_public_read": {
+        "message": "قادر به خواندن یک کلید عمومی نیست: $1",
+        "description": "Import error message. $1: error message"
+    },
+    "watchlist_title_active": {
+        "message": "فعال",
+        "description": "Entry in watchlist is active."
+    },
+    "key_gen_pwd": {
+        "message": "رمز عبور را وارد کن ",
+        "description": "Label for passphrase input field"
+    },
+    "key_gen_error": {
+        "message": "خطا همزمان با ساخت کلید. ",
+        "description": "Key generation error message"
+    },
+    "form_busy": {
+        "message": "مشغول است ",
+        "description": "Form in busy state."
+    },
+    "keygrid_userid": {
+        "message": "شناسه",
+        "description": "User ID of a PGP key."
+    },
+    "keygrid_algorithm": {
+        "message": "الگوریتم",
+        "description": "Public-key algorithm of a PGP key."
+    },
+    "keybackup_restore_dialog_list_1": {
+        "message": "وقتی برگه بازیابی را از دست می دهی. ",
+        "description": ""
+    },
+    "security_log_import_dialog": {
+        "message": "Import Dialog",
+        "description": "Import dialog popup as an event source"
+    },
+    "decrypt_digital_signature": {
+        "message": "Digitally signed",
+        "description": "Caption digital signature"
+    },
+    "watchlist_command_cancel": {
+        "message": "لغو تغییرات ",
+        "description": "Cancel changes in watchlist."
+    },
+    "security_compose_warn": {
+        "message": "این تنظیمات باعث پایین آمدن سطح امنیتی در میل ولپ شده است. ارائه دهنده سرویس ایمیل می تواند به پیام های شما دسترسی پیدا کند. ",
+        "description": "Mail compose options warning"
+    },
+    "popup_active_on": {
+        "message": "روشن ",
+        "description": "Activity status of the extension."
+    },
+    "pwd_dialog_cancel": {
+        "message": "کلید بازگشایی قفل لغو شد.",
+        "description": "User canceled key unlock dialog."
+    },
+    "encrypt_dialog_header": {
+        "message": "رمزگزاری برای :",
+        "description": "Header of encrypt dialog."
+    },
+    "keybackup_waiting_description": {
+        "message": "مدرکی با کد پشتیبان گرفته آماده شده است",
+        "description": ""
+    },
+    "keygrid_send_pub_key": {
+        "message": "کلید های عمومی را با ایمیل بفرست",
+        "description": "Export key menu."
+    },
+    "security_log_password_show": {
+        "message": "Click-event in password dialog",
+        "description": ""
+    },
+    "security_log_password_dialog": {
+        "message": "Password Dialog",
+        "description": "Password dialog popup as an event source"
+    },
+    "keygrid_export": {
+        "message": "خروجی ",
+        "description": "Export key."
+    },
+    "security_log_backup_code_input": {
+        "message": "Input-event in backup code",
+        "description": ""
+    },
+    "keyring_public": {
+        "message": "عمومی ",
+        "description": "public key type"
+    },
+    "keyring_header": {
+        "message": "مدیریت کلیدی ",
+        "description": "Header of the key ring."
+    },
+    "keygrid_userid_signatures": {
+        "message": "امضاها ",
+        "description": "Signatures on User ID of a PGP key."
+    },
+    "form_cancel": {
+        "message": "لغو",
+        "description": "Cancel form button."
+    },
+    "keygrid_invalid_userid": {
+        "message": "ID کاربری نامعتبر",
+        "description": "User ID invalid."
+    },
+    "popup_reload_tooltip": {
+        "message": "تمام المان های میل ولپ را بارگزاری کن ",
+        "description": "Reload all SS Browser Plugin UI elements on page."
+    },
+    "keyring_setup_import_key": {
+        "message": "کلید را وارد کن ",
+        "description": "Import key"
+    },
+    "keyring_setup_no_keypair": {
+        "message": "اگر می خواهید مخاطبانتان را به ارتباطات رمزگزاری شده  پایان به پایان دعوت کنید کلید اضافه نیاز به رمزگزاری و رمزگشایی پیام ها دارد ",
+        "description": "Setup text if no keypair available"
+    },
+    "settings_security_log": {
+        "message": "ورودی امنیتی ",
+        "description": "Tab of options to display security log."
+    },
+    "keyring_private": {
+        "message": "خصوصی ",
+        "description": "private key type"
+    },
+    "keybackup_setup_dialog_list_2": {
+        "message": "انتقال به دستگاه های دیگر.",
+        "description": ""
+    },
+    "encrypt_dialog_no_recipient": {
+        "message": "لطفا گیرنده را اضافه کن",
+        "description": "Error message if no recipient selected."
+    },
+    "digital_signature_status_null": {
+        "message": "Signature can not be verified",
+        "description": ""
+    },
+    "popup_actived_checkbox": {
+        "message": "فعال شده",
+        "description": "Text of the checkbox for activating/deactivating the plugin"
+    },
+    "editor_sign_caption_short": {
+        "message": "ایمیل بصورت دیجیتالی امضا شده است ",
+        "description": "Caption digital signature"
+    },
+    "general_editor_plain": {
+        "message": "نوشته ساده",
+        "description": "Editor option: plain text."
+    },
+    "key_import_invalidated_description": {
+        "message": "An encrypted communication with [CONTACT] is no longer possible. The contact must re-invite you.",
+        "description": "Key import dialog description"
+    },
+    "security_log_editor": {
+        "message": "ویرایشگر PGP ",
+        "description": "Message editor container as an event source"
+    },
+    "clear_localstorage_confirm_message": {
+        "message": "آیا می خواهید تمام کلید های PGP را از پروفایل این مرورگر پاک کنید ؟ ",
+        "description": "The message of the confirmation dialog."
+    },
+    "security_log_backup_dialog_cancel": {
+        "message": "Click-event to close on dialog",
+        "description": ""
+    },
+    "form_undo": {
+        "message": "واگرد",
+        "description": "Undo form button."
+    },
+    "keygrid_key_not_expire": {
+        "message": "کلید منقضی نشده است ",
+        "description": "Expiration date of a PGP key not set."
+    },
+    "popup_reload": {
+        "message": "بارگذاری مجدد",
+        "description": "Reload all SS Browser Plugin elements on page."
+    },
+    "keygen_dialog_password_placeholder": {
+        "message": "حداقل 4 حرف",
+        "description": ""
+    },
+    "form_no": {
+        "message": "نه",
+        "description": "No form button."
+    },
+    "options_title": {
+        "message": "گزینه میل ولپ",
+        "description": "Title of options page."
+    },
+    "keybackup_waiting_headline": {
+        "message": "نسخه پشتیبان بساز ",
+        "description": ""
+    },
+    "form_continue": {
+        "message": "ادامه",
+        "description": "Continue form button."
+    },
+    "security_log_signature_modal_close": {
+        "message": "Click-event to close the signature dialog",
+        "description": ""
+    },
+    "decrypt_popup_header": {
+        "message": "پیام",
+        "description": "Header of decrypt popup."
+    },
+    "security_log_backup_dialog_ok": {
+        "message": "Click-event to ok on dialog",
+        "description": ""
+    },
+    "keygrid_status_invalid": {
+        "message": "نامعتبر",
+        "description": "Validity status of a PGP key."
+    },
+    "restore_password_dialog_button": {
+        "message": "Show",
+        "description": ""
+    },
+    "security_log_email_viewer": {
+        "message": "رمزگشایی ایمیل PGP",
+        "description": "Email decryption container as an event source"
+    },
+    "security_log_text": {
+        "message": "ورودی امنیتی فعالیت های کاربر را در اجزای یکپارچه میل ولپ نشان می دهد ",
+        "description": "Text explaining the purpose of the security log"
+    },
+    "keyring_public_private": {
+        "message": "جفت کلید ",
+        "description": "public and private key types"
+    },
+    "keygen_dialog_confirm_error_unequal": {
+        "message": "Please check the inputs.",
+        "description": ""
+    },
+    "security_compose_external": {
+        "message": "در یک پنجره ویرایش کننده جدا متعلق به میل ولپ",
+        "description": "Mail compose option"
+    },
+    "keygrid_primary_key": {
+        "message": "کلید اصلی ",
+        "description": "Main key in the PGP key."
+    },
+    "editor_no_sign_caption_short": {
+        "message": "ایمیل بصورت دیجیتالی امضا نشده است ",
+        "description": "Caption digital signature"
+    },
+    "verify_result_success": {
+        "message": "امضا شده توسط ",
+        "description": "Verfiy signature succeeded."
+    },
+    "keygrid_user_ids": {
+        "message": "شناسه های کاربر",
+        "description": "User IDs of a PGP key."
+    },
+    "security_background_button_title": {
+        "message": "تنظیمات پیش زمینه امنیتی قابل تغییر دادن است در تنظیمات میل ولپ ",
+        "description": "The tooltip text for the keylock button"
+    },
+    "keyring_setup_no_keypair_heading": {
+        "message": "دسته کلید حاوی کلید اضافه نیست. ",
+        "description": "Setup heading if no keypair available"
+    },
+    "watchlist_title_scan": {
+        "message": "وضعیت ",
+        "description": "Scan status of site in watchlist."
+    },
+    "upload_aborting_warning": {
+        "message": "فایل بارگزاری شده لغو خواهد شد. ",
+        "description": "A warning for the aborting of the file upload."
+    },
+    "waiting_dialog_decryption_failed": {
+        "message": "رمزگشایی ناموفق بود!",
+        "description": "Error message in the waiting dialog after failing to decrypt a message"
+    },
+    "keygen_dialog_confirm": {
+        "message": "تکرار",
+        "description": ""
+    },
+    "keybackup_setup_dialog_headline": {
+        "message": "پیشنهاد: نسخه پشتیبان را نصب کنید",
+        "description": ""
+    },
+    "key_import_textarea": {
+        "message": "کلید نوشته را اینجا برگردان: ",
+        "description": "Key import box."
+    },
+    "watchlist_command_create": {
+        "message": "یک سابقه جدید اضافه کن ",
+        "description": "Create entry in watchlist."
+    },
+    "security_log_password_input": {
+        "message": "اونت - وارد شده  در رمز عبور وارد شده ",
+        "description": "A click in the text area as an event type"
+    },
+    "key_gen_name_help": {
+        "message": "نام کامل صاحب کلید ",
+        "description": "Help text for name field."
+    },
+    "encrypt_error": {
+        "message": "نمی تواند این پیام را رمزگزاری کند:  $1",
+        "description": "Error during encryption process."
+    },
+    "popup_actions_current_page": {
+        "message": "زبانه جاری :",
+        "description": "Title text for the reload and add buttons"
+    },
+    "key_gen_months": {
+        "message": "ماه ها ",
+        "description": "Key expires after time range"
+    },
+    "encrypt_dialog_add": {
+        "message": "اضافه",
+        "description": "Max 6 character."
+    },
+    "alert_invalid_domainmatchpattern_warning": {
+        "message": "الگوی تطبیق دامنه باید شروع شود با  *.",
+        "description": "Alert header of category warning."
+    },
+    "keygrid_status_valid": {
+        "message": "معتبر ",
+        "description": "Validity status of a PGP key."
+    },
+    "message_no_keys": {
+        "message": "هیچ کلید خصوصی در این پیام پیدا نشد. نیاز به کلید ID خصوصی است: $1",
+        "description": "Decrypt error message."
+    },
+    "security_cache_off": {
+        "message": "نه.",
+        "description": "Don't store password."
+    },
+    "keyring_export_keys": {
+        "message": "کلید های خروجی ",
+        "description": "Tab of keyring to export keys."
+    },
+    "keygrid_signer_name": {
+        "message": "امضا کننده",
+        "description": "User ID of signer."
+    },
+    "security_log_verify_dialog": {
+        "message": "Verify Dialog",
+        "description": "Verify dialog as an event source"
+    },
+    "dialog_keyid_label": {
+        "message": "ID اصلی : ",
+        "description": "Label for key ID."
+    },
+    "pwd_dialog_cache_pwd": {
+        "message": "رمز عبور را بطور موقط به خاطر بسپار ",
+        "description": "Checkbox label for remembering of the password."
+    },
+    "popup_remove_page_tooltip": {
+        "message": "صفحه فعلی را از لیست ارائه دهندگان ایمیل حذف کن",
+        "description": "Remove page from watchlist."
+    },
+    "form_import": {
+        "message": "وارد کردن",
+        "description": "Import form button."
+    },
+    "editor_encrypt_button": {
+        "message": "رمزگزاری ",
+        "description": "Encrypt button."
+    },
+    "digital_signature_dialog_header": {
+        "message": "Digital signature",
+        "description": "Header of digital signature dialog."
+    },
+    "key_gen_pwd_reenter": {
+        "message": "رمز عبور را دوباره وارد کن",
+        "description": "Label for passphrase input field"
+    },
+    "digital_signature_status_null_description": {
+        "message": "The contact of the digital signature has not yet been confirmed for encrypted communication. Ask the contact for an invite.",
+        "description": ""
+    },
+    "pwd_dialog_reason_create_backup": {
+        "message": "Enter key password to create the recovery sheet.",
+        "description": ""
+    },
+    "keygrid_user_name": {
+        "message": "اسم",
+        "description": "Name in User ID of a PGP key."
+    },
+    "pwd_dialog_pwd_please": {
+        "message": "لطفا رمز عبور را وارد کنید",
+        "description": "Placeholder for password."
+    },
+    "keybackup_restore_dialog_headline": {
+        "message": "پیشنهاد : بازگرداندن نسخه پشتیبان ",
+        "description": ""
+    },
+    "security_log_timestamp": {
+        "message": "برچسب زمان ",
+        "description": "Title of the timestamp column of the security log table."
+    },
+    "keyring_setup_import_key_explanation": {
+        "message": "آیا در حال حاضر کلید اضافی بر روی دستگاه دیگری  دارید ؟ می توانید کلید موجود را وارد کنید. فقط از کلید اضافه بر روی دستگاه٬ خروجی بگیرید و بعد از  دستگاه  آن را در اینجا وارد کن.",
+        "description": "Import key"
+    },
+    "key_import_extend_hint": {
+        "message": "Hint:",
+        "description": ""
+    },
+    "security_display_popup": {
+        "message": "در یک پنجره جدا از میل ولپ",
+        "description": "Decrypted message display option"
+    },
+    "key_import_public_update": {
+        "message": "کلید عمومی $1 از کاربر  $2 به روز شده",
+        "description": "Import success message: $1: keyid, $2: userid."
+    },
+    "form_submit": {
+        "message": "ثبت کردن",
+        "description": "Submit form button."
+    },
+    "restore_backup_dialog_headline": {
+        "message": "Enter restore code:",
+        "description": ""
+    },
+    "editor_no_primary_key_caption_short": {
+        "message": "ایمیل نمی تواند بصورت دیجیتالی امضا شود",
+        "description": "Caption digital signature"
+    },
+    "watchlist_record_title": {
+        "message": "ارائه دهنده ایمیل ",
+        "description": "Title of the watchlist editor dialog."
+    },
+    "key_export_clipboard": {
+        "message": "کپی به کلیپبورد",
+        "description": "Copy to clipboard button."
+    },
+    "dialog_popup_close": {
+        "message": "بستن",
+        "description": "Close decrypt popup."
+    },
+    "verify_result_warning": {
+        "message": "امضا شده با کلید ناشناس",
+        "description": "Verfiy signature warning."
+    },
+    "alert_header_warning": {
+        "message": "اخطار!",
+        "description": "Alert header of category warning."
+    },
+    "digital_signature_status_true": {
+        "message": "valid",
+        "description": ""
+    },
+    "key_gen_key_size": {
+        "message": "نوع کلید ",
+        "description": "Advanced key generation settings: Key size"
+    },
+    "keygen_waiting_headline": {
+        "message": "تنظیم کردن ارتباطات رمزگزاری شده",
+        "description": ""
+    },
+    "security_log_textarea_input": {
+        "message": "اونت - وارد شده در نوشته ها ",
+        "description": "A click in the text area as an event type"
+    },
+    "key_gen_demail": {
+        "message": "آدرس دی - ایمیل ",
+        "description": "De-Mail address name."
+    },
+    "keygrid_delete_confirmation": {
+        "message": "آیا از پاک کردن این کلید اطمینان دارید ؟ ",
+        "description": "Delete confirmation dialog."
+    },
+    "pwd_dialog_title": {
+        "message": "ورود رمز عبور | میل ولپ",
+        "description": "Title of the password dialog."
+    },
+    "security_log_backup_create": {
+        "message": "Click-event for create backup",
+        "description": ""
+    },
+    "keygrid_subkeys": {
+        "message": "کلید های فرعی ",
+        "description": "Subkeys of a PGP key."
+    },
+    "form_clear": {
+        "message": "پاک",
+        "description": "Clear form button."
+    },
+    "pwd_dialog_reason_sign": {
+        "message": "Enter key password to sign this message.",
+        "description": ""
+    },
+    "key_gen_another": {
+        "message": "دیگری را بوجود بیاور ",
+        "description": "Key import button"
+    },
+    "popup_remove_page": {
+        "message": "حذف",
+        "description": "Remove page from watchlist."
+    },
+    "security_log_dialog_transfer": {
+        "message": "Click-event to transfer on dialog",
+        "description": ""
+    },
+    "key_gen_expiration": {
+        "message": "انقضا ",
+        "description": "Key expires after time range"
+    },
+    "security_log_sign_dialog": {
+        "message": "Sign Dialog",
+        "description": "Sign dialog as an event source"
+    },
+    "keygrid_validity_status": {
+        "message": "وضعیت ",
+        "description": "Validity status of a PGP key."
+    },
+    "keyring_import_keys": {
+        "message": "کلید ها را وارد کن ",
+        "description": "Tab of keyring to import keys."
+    },
+    "keygen_dialog_prolog": {
+        "message": "رمز عبور قرار بدهید تا از ارتباطات رمزگزاری شده شما محافظت بشه:",
+        "description": ""
+    },
+    "security_log_key_generator": {
+        "message": "مولد کلید ",
+        "description": "Key generator container as an event source"
+    },
+    "key_export_create_file": {
+        "message": "دانلود ",
+        "description": "Download file button."
+    },
+    "alert_no_domainmatchpattern_warning": {
+        "message": "حداقل یک الگوی تطبیق دامنه مورد نیاز است. ",
+        "description": "Alert header of category warning."
+    },
+    "key_import_public_success": {
+        "message": "کلید عمومی  $1  از کاربر  $2 وارد به دسته کلید شده است ",
+        "description": "Import success message: $1: keyid, $2: userid."
+    },
+    "pwd_dialog_reason_editor": {
+        "message": "Enter key password to update the settings for encrypted communication.",
+        "description": ""
+    },
+    "key_set_as_primary": {
+        "message": "تنظیم کن به عنوان اصلی ",
+        "description": "Set as primary key for the keyring button"
+    },
+    "keygrid_key_fingerprint": {
+        "message": "اثر انگشت",
+        "description": "Unique string identifier for a PGP key."
+    },
+    "editor_error_content": {
+        "message": "خطای محتوا",
+        "description": ""
+    },
+    "keybackup_setup_dialog_button": {
+        "message": "از تنظیمات نسخه پشتیبان گرفته شد",
+        "description": ""
+    },
+    "popup_add_page_tooltip": {
+        "message": "مالیولپ را برای این صفحه فعال کن",
+        "description": "Add page to watchlist."
+    },
+    "keygrid_sort_type": {
+        "message": "نوع کلید ",
+        "description": "Key grid sort selector."
+    },
+    "key_gen_years": {
+        "message": "سال ها",
+        "description": "Key expires after time range"
+    },
+    "editor_blur_warn": {
+        "message": "اخطار. ویرایش کننده نوشته تمرکز را از دست داد.",
+        "description": "Warning for lost focus."
+    },
+    "header_warning": {
+        "message": "اخطار!",
+        "description": "Header warning."
+    },
+    "keygrid_key_type": {
+        "message": "نوع",
+        "description": "The type of the key."
+    },
+    "editor_no_primary_key_caption_long": {
+        "message": "ایمیل بصورت دیجیتالی امضا نمی شود زیرا کلید اصلی پیدا نمی شود ",
+        "description": "Caption digital signature"
+    },
+    "keygen_dialog_confirm_success": {
+        "message": "Inputs are correct.",
+        "description": ""
+    },
+    "keyring_migration_error": {
+        "message": "خطای کلید ورودی ",
+        "description": "Tab of keyring to display migration errors."
+    },
+    "keybackup_restore_dialog_list_2": {
+        "message": "یک جدید را نیاز دارید بدلیل ایمنی ",
+        "description": ""
+    },
+    "security_log_attachment_download": {
+        "message": "ضمیمه دانلود شد",
+        "description": "Attachment downloaded as an event source"
+    },
+    "security_background_angle": {
+        "message": "زاویه",
+        "description": "Angle"
+    },
+    "key_details_title": {
+        "message": "اطلاعات کلید",
+        "description": "The title of the key details dialog."
+    },
+    "security_cache_time": {
+        "message": "دقایق.",
+        "description": "Store password in memory for $1 minutes."
+    },
+    "wrong_restore_code": {
+        "message": "کد بازگرداندن اشتباه است",
+        "description": ""
+    },
+    "settings_watchlist": {
+        "message": "لیست ارائه دهندگان نامه ",
+        "description": "Tab of options to display list of supported mail providers."
+    },
+    "general_editor_rich": {
+        "message": "ویرایشگر نوشته Rich ",
+        "description": "Editor option: rich text."
+    },
+    "security_cache_on": {
+        "message": "بله٬ در خاطر نگه دار برای ",
+        "description": "Store password in memory for $1 minutes."
+    },
+    "security_log_remove_attachment": {
+        "message": "ضمیمه حذف شد",
+        "description": "A click on the attachment remove button as event type"
+    },
+    "options_home": {
+        "message": "گزینه ",
+        "description": "Options navigation: Home."
+    },
+    "keygen_dialog_password": {
+        "message": "رمز عبور کلیدی",
+        "description": ""
+    },
+    "keybackup_setup_dialog_description": {
+        "message": "نسخه پشتیبان مورد نیاز است برای اطمینان از ارتباطات رمزگزاری شده شما :",
+        "description": ""
+    },
+    "key_gen_wait_header": {
+        "message": "تولید کلید در جریان است...",
+        "description": "Wait dialog header"
+    },
+    "watchlist_title_site": {
+        "message": "سایت",
+        "description": "Site in watchlist."
+    },
+    "editor_transfer": {
+        "message": "انتقال",
+        "description": "Transfer button of editor popup."
+    },
+    "keygrid_display_all_keys": {
+        "message": "تمام کلیدها را نشان بده",
+        "description": "Export key menu."
+    },
+    "watchlist_expose_api": {
+        "message": "رابط برنامه نویسی",
+        "description": "Expose API to Webmailer."
+    },
+    "key_import_extend_fingerprint": {
+        "message": "PGP-Fingerprint:",
+        "description": ""
+    },
+    "key_export_warning_private": {
+        "message": "این فایل حاوی کلید های خصوصی است. ",
+        "description": "Key export warning."
+    },
+    "key_import_invalid_text": {
+        "message": "کلید معتبری پیدا نشد",
+        "description": "Import error alert."
+    },
+    "keyring_setup_generate_key": {
+        "message": "ساخت کلید ",
+        "description": "Generate key"
+    },
+    "word_or": {
+        "message": "یا",
+        "description": "Separate list of elements."
+    },
+    "key_import_exception": {
+        "message": "یک استثنا رخ داده است همزمان با پروسس کلید ها ",
+        "description": "Import error alert."
+    },
+    "keygrid_display_key_pair": {
+        "message": "جفت کلید را نشان بده ",
+        "description": "Export key menu."
+    },
+    "key_import_invalidated_headline": {
+        "message": "Warning! The existing data for encrypted communication is expired.",
+        "description": "Key import dialog header"
+    },
+    "security_compose_mail": {
+        "message": "کجا می خواهید ایمیل را یاد داشت کنید؟ ",
+        "description": "Label for compose options"
+    },
+    "general_editor_type": {
+        "message": "انتخاب ویرایشگر ایمیل ",
+        "description": "Label for editor options."
+    },
+    "key_gen_pwd_unequal": {
+        "message": "رمز عبور برابر نیست",
+        "description": "Passphrase input field status"
+    },
+    "security_background_scaling": {
+        "message": "پیمایش",
+        "description": "Scaling"
+    },
+    "popup_active_off": {
+        "message": "خاموش ",
+        "description": "Activity status of the extension."
+    },
+    "watchlist_command_edit": {
+        "message": "ویرایش",
+        "description": "Edit entry in watchlist."
+    },
+    "editor_transfer_unencrypted": {
+        "message": "شما برای انتقال مطلب رمزگشایی نشده به ارائه دهنده ایمیل تلاش می کنید. ",
+        "description": "Warning for unencrypted content."
+    },
+    "decrypt_popup_title": {
+        "message": "رمزگشایی پیام",
+        "description": "Title of decrypt popup."
+    },
+    "form_close": {
+        "message": "Close",
+        "description": "Close form button."
+    },
+    "security_log_signature_modal_open": {
+        "message": "Click-event to open the signature dialog",
+        "description": ""
+    },
+    "security_log_backup_restore": {
+        "message": "Click-event for restore backup",
+        "description": ""
+    },
+    "keybackup_restore_dialog_description": {
+        "message": "ساخت یک نسخه پشتیبان جدید:",
+        "description": ""
+    },
+    "key_import_default_headline": {
+        "message": "Confirm the sender as a contact for encrypted communication?",
+        "description": "Key import dialog header"
+    },
+    "watchlist_command_save": {
+        "message": "ذخیره تغییرات ",
+        "description": "Save changes in watchlist."
+    },
+    "cleartext_read_error": {
+        "message": "نمی تواند این پیام نوشته ساده را بخواند:  $1",
+        "description": "Cleartext message read error message: $1: error message."
+    },
+    "editor_header": {
+        "message": "نوشتن ایمیل ",
+        "description": "Header of editor popup."
+    },
+    "form_ok": {
+        "message": "باشه ",
+        "description": "Ok form button."
+    },
+    "security_log_encrypt_dialog": {
+        "message": "Encrypt Dialog",
+        "description": "Encrypt dialog as an event source"
+    },
+    "key_import_private_update": {
+        "message": "کلید خصوصی  $1 کاربر  $2 به روز شده است ",
+        "description": "Import success message: $1: keyid, $2: userid."
+    },
+    "key_gen_pwd_empty": {
+        "message": "رمز عبور خالی است ",
+        "description": "Passphrase input field status"
+    },
+    "form_save": {
+        "message": "ذخیره",
+        "description": "Save form button."
+    },
+    "ext_name": {
+        "message": "Subutai Social E2E Plugin",
+        "description": "Name of the extension."
+    },
+    "restore_backup_dialog_button": {
+        "message": "تایید",
+        "description": ""
+    },
+    "key_gen_days": {
+        "message": "روزها",
+        "description": "Key expires after time range"
+    },
+    "keygrid_expiration_date": {
+        "message": "تاریخ انقضا",
+        "description": "Expiration date of a PGP key."
+    },
+    "restore_password_dialog_headline": {
+        "message": "Your key password:",
+        "description": ""
+    },
+    "keygen_waiting_description": {
+        "message": "لطفا صبر کنید",
+        "description": ""
+    },
+    "alert_header_error": {
+        "message": "خطا!",
+        "description": "Alert header of category error."
+    },
+    "security_log_source": {
+        "message": "منبع ",
+        "description": "Title of the source column of the security log table."
+    },
+    "editor_error_header": {
+        "message": "خطای هدر",
+        "description": ""
+    },
+    "editor_remove_upload": {
+        "message": "حذف کردن",
+        "description": "Remove uploaded attachment"
+    },
+    "decrypt_digital_signature_null": {
+        "message": "Digital signature not identified",
+        "description": "Caption digital signature"
+    },
+    "key_export_too_large": {
+        "message": "کلید بسیار طولانی است برای اینکه در URL جا بگیرد٬ به جای آن از کپی و برگرداندن استفاده کنید.",
+        "description": "Key export warning message."
+    },
+    "keygrid_no_subkeys": {
+        "message": "کلید های فرعی موجود نیستند",
+        "description": "No subkeys of a PGP key found."
+    },
+    "keygrid_keyid": {
+        "message": "ID اصلی",
+        "description": "Key ID of a PGP key."
+    },
+    "sign_dialog_header": {
+        "message": "پیام را با کلید امضا کن : ",
+        "description": "Header of sign dialog."
+    },
+    "key_import_private_read": {
+        "message": "قادر به خواندن یک کلید خصوصی نیست:  $1",
+        "description": "Import error message. $1: error message"
+    },
+    "popup_help_tooltip": {
+        "message": "صفحه مستندات را باز کن ",
+        "description": "Opens the help page on SS Browser Plugin.com."
+    },
+    "security_log_textarea_select": {
+        "message": " اونت- انتخابی  در نوشته ها ",
+        "description": "Selection of the text area as an event type"
+    },
+    "keygrid_signer_unknown": {
+        "message": "امضا کننده ناشناس ",
+        "description": "Key of signer not available."
+    },
+    "popup_add_page": {
+        "message": "اضافه کردن",
+        "description": "Add page to watchlist."
+    },
+    "security_log_dialog_sign": {
+        "message": "Click-event to sign on dialog",
+        "description": ""
+    },
+    "options_docu": {
+        "message": "مدارک",
+        "description": "Options navigation: Documentation."
+    },
+    "keyring_keypair": {
+        "message": "کلید اضافه",
+        "description": "key pair"
+    },
+    "options_about": {
+        "message": "درباره",
+        "description": "Options navigation: About."
+    },
+    "keygrid_primary_label": {
+        "message": "اصلی ",
+        "description": "Label for the primary key"
+    },
+    "upload_quota_warning_headline": {
+        "message": "Attachment size too big",
+        "description": ""
+    },
+    "key_gen_invalid_email": {
+        "message": "آدرس ایمیل اشتباه",
+        "description": "Error message."
+    },
+    "pwd_dialog_userid": {
+        "message": "ID کاربری:",
+        "description": "Label for user ID."
+    },
+    "decrypt_popup_copy": {
+        "message": "کپی به کلیپ بورد",
+        "description": "Copy decrypted message to clipboard."
+    },
+    "settings_backup": {
+        "message": "پشتیبان گیری ",
+        "description": "Tab allowing to backup and restore the settings."
+    },
+    "reload_webmail_tab": {
+        "message": "لطفا زبانه ارائه دهنده ایمیل را دوباره بارگذاری کنید (F5)  تا این تنظیمات اثر کند.",
+        "description": "Info message."
+    },
+    "form_yes": {
+        "message": "بله ",
+        "description": "Yes form button."
+    },
+    "keyring_setup_generate_key_explanation": {
+        "message": "اگر از این گسترش دهنده برای بار اول استفاده می کنید و هنوز کلید اضافی ندارید٬  نیاز به ساخت یک کلید دارید. ",
+        "description": "Generate key"
+    },
+    "keygrid_display_priv_key": {
+        "message": "کلیدهای خصوصی را نشان بده",
+        "description": "Export key menu."
+    },
+    "ext_description": {
+        "message": " ارائه دهنده ایمیلتان را بهبود ببخشید با رمزگزاری پایان-به-پایان. ارتباطات ایمیلی خود را بر اساس PGP باز استاندارد امن کنید. ",
+        "description": "Description of the extension."
+    },
+    "keybackup_setup_dialog_list_1": {
+        "message": "احیا شد بر اساس اطلاعات از دست رفته.",
+        "description": ""
+    },
+    "key_import_default_description": {
+        "message": "The setup for encrypted communication with this contact is ready after confirmation.",
+        "description": "Key import dialog description"
+    },
+    "key_gen_advanced_btn": {
+        "message": "پیشرفته ",
+        "description": "Advanced key generation settings."
+    },
+    "key_import_private_success": {
+        "message": "کلید خصوصی  $1 از کاربر  $2 وارد دسته کلید شده است ",
+        "description": "Import success message: $1: keyid, $2: userid."
+    },
+    "settings_security": {
+        "message": "امنیت ",
+        "description": "Tab of options to display security settings."
+    },
+    "settings_general": {
+        "message": "عمومی ",
+        "description": "Tab of options to display general settings."
+    },
+    "key_import_unable": {
+        "message": "بدلیل استثنا قادر به وارد کردن یک کلید نیست : $1 ",
+        "description": "Import error message: $1: error message."
+    },
+    "editor_sign_caption_long": {
+        "message": "ایمیل بصورت دیجیتالی امضا می شود",
+        "description": "Caption digital signature"
+    },
+    "keygrid_display_pub_key": {
+        "message": "کلید های عمومی را نشان بده ",
+        "description": "Export key menu."
+    },
+    "upload_quota_exceeded_warning": {
+        "message": "اندازه فایل حد مجاز رد کرده است:  ",
+        "description": "A warning shown when the attachments upload quota is exceeded."
+    },
+    "keyring_setup": {
+        "message": "نصب",
+        "description": "Setup keyring for mail provider."
+    },
+    "keygrid_creation_date": {
+        "message": "ایجاد تاریخ",
+        "description": "Creation date of a PGP key."
+    },
+    "key_export_download": {
+        "message": "کلید دانلود",
+        "description": "Download key link."
+    }
+}

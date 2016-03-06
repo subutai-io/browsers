@@ -1,0 +1,1254 @@
+{
+    "options_settings": {
+        "message": "Instellingen",
+        "description": "Options header: Settings."
+    },
+    "security_cache_help": {
+        "message": "Moet een cijfer tussen 1-999 zijn",
+        "description": "Help text for cache time."
+    },
+    "key_gen_wait_info": {
+        "message": "Even geduld, de sleutelgeneratie kan enkele minuten duren afhankelijk van bepaalde factoren zoals de sleutelgrootte.",
+        "description": "Wait dialog info message"
+    },
+    "security_log_attachment_added": {
+        "message": "Attachment uploaded",
+        "description": "Attachment added as an event type"
+    },
+    "message_read_error": {
+        "message": "Kon dit versleutelde bericht niet lezen: $1",
+        "description": "Message read error message: $1: error message."
+    },
+    "security_log_key_backup": {
+        "message": "Key Backup",
+        "description": "Key backup container as an event source"
+    },
+    "keygrid_all_keys": {
+        "message": "Alles",
+        "description": "Selection of key type."
+    },
+    "security_log_text_input": {
+        "message": "Input-event in text field",
+        "description": "A click in the text field as an event type"
+    },
+    "security_display_inline": {
+        "message": "Op de pagina van de e-mailprovider.",
+        "description": "Decrypted message display option"
+    },
+    "verify_result_error": {
+        "message": "Verkeerde handtekening van",
+        "description": "Verfiy signature error. Wrong signature of [userid]."
+    },
+    "pwd_dialog_header": {
+        "message": "Sleutelwachtwoord invoeren",
+        "description": "Header of the password dialog."
+    },
+    "waiting_dialog_prepare_email": {
+        "message": "Bezig met voorbereiden van je bericht...",
+        "description": "Message in the waiting dialog for quoting email"
+    },
+    "keygrid_creation_date_short": {
+        "message": "Aangemaakt",
+        "description": "Short creation date of a PGP key. Max. width: 90px"
+    },
+    "security_display_decrypted": {
+        "message": "Waar worden de ontsleutelde berichten weergegeven?",
+        "description": "Label for display options"
+    },
+    "general_primary_key_always": {
+        "message": "Primaire sleutel altijd aan lijst met ontvangers toevoegen (Dit maakt het ontsleutelen van verzonden e-mails mogelijk)",
+        "description": "Label for primary private key option."
+    },
+    "security_compose_webmail": {
+        "message": "In de tekstverwerker van de e-mailprovider.",
+        "description": "Mail compose option"
+    },
+    "security_background_header": {
+        "message": "Beveiligingsachtergrond",
+        "description": "Security background header"
+    },
+    "keygrid_user_email": {
+        "message": "E-mail",
+        "description": "Email address in User ID of a PGP key."
+    },
+    "key_import_extend_description": {
+        "message": "The PGP fingerprint is used to identify the key information of your communication.",
+        "description": ""
+    },
+    "form_confirm": {
+        "message": "Confirm",
+        "description": "Confirm form button."
+    },
+    "watchlist_delete_confirmation": {
+        "message": "Wil je echt deze site uit de lijst met e-mailproviders verwijderen?",
+        "description": "Mesage in the watchlist delete confirmation dialog."
+    },
+    "popup_last_activities": {
+        "message": "Laatste activiteiten:",
+        "description": "Title text for the last activities area"
+    },
+    "key_export_header": {
+        "message": "Sleutel exporteren",
+        "description": "Export key dialog header."
+    },
+    "key_import_private_exists": {
+        "message": "Openbare sleuteldeel van bestaande openbare sleutel $1 van gebruiker $2 geïmporteerd in sleutelbos",
+        "description": "Import success message: $1: keyid, $2: userid."
+    },
+    "upload_attachment": {
+        "message": "Bijlage toevoegen",
+        "description": "Text in the upload attachment button of the message editor dialog"
+    },
+    "keybackup_restore_dialog_button": {
+        "message": "Restore backup",
+        "description": ""
+    },
+    "decrypt_digital_signature_failure": {
+        "message": "Digital signature error",
+        "description": "Caption digital signature"
+    },
+    "verify_error": {
+        "message": "Kon dit bericht niet verificeren: $1",
+        "description": "Error during verification process."
+    },
+    "pwd_dialog_wrong_pwd": {
+        "message": "Verkeerd wachtwoord",
+        "description": "Password error message."
+    },
+    "key_import_extend_date": {
+        "message": "Created:",
+        "description": ""
+    },
+    "security_cache_header": {
+        "message": "Wachtwoorden onthouden voor browsersessie?",
+        "description": "Password cache header"
+    },
+    "popup_actived_checkbox_tooltip": {
+        "message": "Externe editor activeren/deactiveren",
+        "description": "Text of the checkbox for activating/deactivating the plugin"
+    },
+    "save_attachment_as_message": {
+        "message": "Kies de map waarin je de bijlage wil opslaan.",
+        "description": "Message in the attachment save dialog"
+    },
+    "pwd_dialog_keyid_tooltip": {
+        "message": "De ID van je sleutel",
+        "description": "Tooltip explaining the key id."
+    },
+    "alert_header_success": {
+        "message": "Gelukt!",
+        "description": "Alert header of category success."
+    },
+    "keygrid_public_keys": {
+        "message": "Openbare sleutels",
+        "description": "Selection of key type."
+    },
+    "editor_sign_button": {
+        "message": "Ondertekenen",
+        "description": "Sign button."
+    },
+    "security_log_remeber_click": {
+        "message": "Click-event in password dialog",
+        "description": ""
+    },
+    "key_gen_success": {
+        "message": "Nieuwe sleutel gegenereerd en geïmporteerd in sleutelbos",
+        "description": "Key generation success message"
+    },
+    "security_log_action": {
+        "message": "Action",
+        "description": "Title of the action column of the security log table."
+    },
+    "key_gen_never": {
+        "message": "nooit",
+        "description": "Key expires after time range"
+    },
+    "general_primary_key_label": {
+        "message": "Primaire privésleutel",
+        "description": "Label for primary private key option."
+    },
+    "clear_localstorage_confirm_title": {
+        "message": "Bevestigen",
+        "description": "The title of the confirmation dialog."
+    },
+    "key_import_file_select": {
+        "message": "Kies een sleuteltekstbestand om te importeren",
+        "description": "File selection button label."
+    },
+    "security_log_dialog_encrypt": {
+        "message": "Click-event to encrypt on dialog",
+        "description": ""
+    },
+    "watchlist_title_frame": {
+        "message": "Domeinpatroon",
+        "description": "Web domain URL match pattern of site in watchlist."
+    },
+    "keygrid_key_length": {
+        "message": "Lengte",
+        "description": "Key length of a PGP key."
+    },
+    "keygrid_private_keys": {
+        "message": "Privésleutels",
+        "description": "Selection of key type."
+    },
+    "keyring_display_keys": {
+        "message": "Sleutels weergeven",
+        "description": "Tab of keyring to display keys."
+    },
+    "security_background_preview": {
+        "message": "Voorbeeld",
+        "description": "Preview"
+    },
+    "security_log_content_copy": {
+        "message": "Copy-event in verify dialog",
+        "description": ""
+    },
+    "security_background_coloring": {
+        "message": "Color",
+        "description": "Coloring"
+    },
+    "popup_options": {
+        "message": "Opties",
+        "description": "Open options dialog."
+    },
+    "security_log_textarea_click": {
+        "message": "Click-event in text area",
+        "description": "A click in the text area as an event type"
+    },
+    "digital_signature_status_false": {
+        "message": "invalid",
+        "description": ""
+    },
+    "security_log_empty": {
+        "message": "No entries",
+        "description": "Message when the security log is empty"
+    },
+    "security_background_text": {
+        "message": "De beveiligingsachtergrond is je persoonlijke SS Browser Plugin-achtergrond en helpt bij het voorkomen van gebruikersinterfacemanipulatie door derde-partij websites en applicaties. Maak hier je persoonlijke achtergrond aan of verander ze om de veiligheid te verhogen.",
+        "description": "Security background text"
+    },
+    "keyring_generate_key": {
+        "message": "Sleutel genereren",
+        "description": "Tab of keyring to generate key."
+    },
+    "key_import_error": {
+        "message": "Fout bij importeren.",
+        "description": "Import error alert."
+    },
+    "key_import_extend_headline": {
+        "message": "Advanced information for encrypted communication:",
+        "description": "Key import dialog header"
+    },
+    "key_import_multiple_keys": {
+        "message": "Om meerdere sleutels te importeren, kunt u ze gewoon hier plakken. Extra tekst rond de sleutels wordt genegeerd.",
+        "description": "Info message."
+    },
+    "popup_help": {
+        "message": "Hulp",
+        "description": "Open help dialog."
+    },
+    "keygrid_subkeyid": {
+        "message": "ID",
+        "description": "Subkey ID of a PGP key."
+    },
+    "key_import_dialog_header": {
+        "message": "Sleutel toevoegen aan sleutelbos",
+        "description": "Key import dialog header."
+    },
+    "key_gen_pwd_match": {
+        "message": "Wachtwoorden komen overeen",
+        "description": "Passphrase input field status"
+    },
+    "security_log_dialog_undo": {
+        "message": "Click-event to undo on dialog",
+        "description": ""
+    },
+    "key_import_another": {
+        "message": "Een ander importeren...",
+        "description": "Import another key button."
+    },
+    "editor_no_sign_caption_long": {
+        "message": "Email won't be digitally signed",
+        "description": "Caption digital signature"
+    },
+    "pwd_dialog_reason_decrypt": {
+        "message": "Enter key password to decrypt this message.",
+        "description": ""
+    },
+    "keygrid_delete": {
+        "message": "Wissen",
+        "description": "Max. 6 characters."
+    },
+    "security_log_add_attachment": {
+        "message": "Add attachment button clicked",
+        "description": "A click on the attachment upload button as an event type"
+    },
+    "key_import_public_read": {
+        "message": "Niet in staat een openbare sleutel te lezen: $1",
+        "description": "Import error message. $1: error message"
+    },
+    "watchlist_title_active": {
+        "message": "Actief",
+        "description": "Entry in watchlist is active."
+    },
+    "key_gen_pwd": {
+        "message": "Wachtwoorden invoeren",
+        "description": "Label for passphrase input field"
+    },
+    "key_gen_error": {
+        "message": "Fout tijdens het genereren van sleutel.",
+        "description": "Key generation error message"
+    },
+    "form_busy": {
+        "message": "Bezig",
+        "description": "Form in busy state."
+    },
+    "keygrid_userid": {
+        "message": "ID",
+        "description": "User ID of a PGP key."
+    },
+    "keygrid_algorithm": {
+        "message": "Algoritme",
+        "description": "Public-key algorithm of a PGP key."
+    },
+    "keybackup_restore_dialog_list_1": {
+        "message": "When you lost the recovery sheet.",
+        "description": ""
+    },
+    "security_log_import_dialog": {
+        "message": "Import Dialog",
+        "description": "Import dialog popup as an event source"
+    },
+    "decrypt_digital_signature": {
+        "message": "Digitally signed",
+        "description": "Caption digital signature"
+    },
+    "watchlist_command_cancel": {
+        "message": "Wijzigingen annuleren",
+        "description": "Cancel changes in watchlist."
+    },
+    "security_compose_warn": {
+        "message": "Deze instelling verlaagt het beveilingsniveau van SS Browser Plugin. Je e-mailprovider krijgt mogelijk toegang tot je bericht.",
+        "description": "Mail compose options warning"
+    },
+    "popup_active_on": {
+        "message": "Aan",
+        "description": "Activity status of the extension."
+    },
+    "pwd_dialog_cancel": {
+        "message": "Sleutelontgrendeling geannuleerd.",
+        "description": "User canceled key unlock dialog."
+    },
+    "encrypt_dialog_header": {
+        "message": "Versleutelen voor:",
+        "description": "Header of encrypt dialog."
+    },
+    "keybackup_waiting_description": {
+        "message": "A document with your backup code is being prepared",
+        "description": ""
+    },
+    "keygrid_send_pub_key": {
+        "message": "Publieke sleutel per e-mail verzenden",
+        "description": "Export key menu."
+    },
+    "security_log_password_show": {
+        "message": "Click-event in password dialog",
+        "description": ""
+    },
+    "security_log_password_dialog": {
+        "message": "Password Dialog",
+        "description": "Password dialog popup as an event source"
+    },
+    "keygrid_export": {
+        "message": "Exporteren",
+        "description": "Export key."
+    },
+    "security_log_backup_code_input": {
+        "message": "Input-event in backup code",
+        "description": ""
+    },
+    "keyring_public": {
+        "message": "Openbaar",
+        "description": "public key type"
+    },
+    "keyring_header": {
+        "message": "Sleutelbeheer",
+        "description": "Header of the key ring."
+    },
+    "keygrid_userid_signatures": {
+        "message": "Handtekeningen",
+        "description": "Signatures on User ID of a PGP key."
+    },
+    "form_cancel": {
+        "message": "Annuleren",
+        "description": "Cancel form button."
+    },
+    "keygrid_invalid_userid": {
+        "message": "Ongeldige gebruikers-ID",
+        "description": "User ID invalid."
+    },
+    "popup_reload_tooltip": {
+        "message": "Alle SS Browser Plugin-elementen herladen",
+        "description": "Reload all SS Browser Plugin UI elements on page."
+    },
+    "keyring_setup_import_key": {
+        "message": "Sleutel importeren",
+        "description": "Import key"
+    },
+    "keyring_setup_no_keypair": {
+        "message": "Een sleutelpaar is vereist voor het versleutelen en ontsleutelen van berichten, en als je je contacten wil uitnodigen om end-to-end-versleutelde communicatie te gebruiken.",
+        "description": "Setup text if no keypair available"
+    },
+    "settings_security_log": {
+        "message": "Security Log",
+        "description": "Tab of options to display security log."
+    },
+    "keyring_private": {
+        "message": "Privé",
+        "description": "private key type"
+    },
+    "keybackup_setup_dialog_list_2": {
+        "message": "Transferred to other devices.",
+        "description": ""
+    },
+    "encrypt_dialog_no_recipient": {
+        "message": "Gelieve een ontvanger toe te voegen.",
+        "description": "Error message if no recipient selected."
+    },
+    "digital_signature_status_null": {
+        "message": "Signature can not be verified",
+        "description": ""
+    },
+    "popup_actived_checkbox": {
+        "message": "Geactiveerd",
+        "description": "Text of the checkbox for activating/deactivating the plugin"
+    },
+    "editor_sign_caption_short": {
+        "message": "Email is digitally signed",
+        "description": "Caption digital signature"
+    },
+    "general_editor_plain": {
+        "message": "Tekst zonder opmaak",
+        "description": "Editor option: plain text."
+    },
+    "key_import_invalidated_description": {
+        "message": "An encrypted communication with [CONTACT] is no longer possible. The contact must re-invite you.",
+        "description": "Key import dialog description"
+    },
+    "security_log_editor": {
+        "message": "PGP Editor",
+        "description": "Message editor container as an event source"
+    },
+    "clear_localstorage_confirm_message": {
+        "message": "Wil je alle PGP-sleutels van dit browserprofiel verwijderen?",
+        "description": "The message of the confirmation dialog."
+    },
+    "security_log_backup_dialog_cancel": {
+        "message": "Click-event to close on dialog",
+        "description": ""
+    },
+    "form_undo": {
+        "message": "Ongedaan maken",
+        "description": "Undo form button."
+    },
+    "keygrid_key_not_expire": {
+        "message": "Sleutels exporteren",
+        "description": "Expiration date of a PGP key not set."
+    },
+    "popup_reload": {
+        "message": "Herladen",
+        "description": "Reload all SS Browser Plugin elements on page."
+    },
+    "keygen_dialog_password_placeholder": {
+        "message": "min 4 characters",
+        "description": ""
+    },
+    "form_no": {
+        "message": "Nee",
+        "description": "No form button."
+    },
+    "options_title": {
+        "message": "Opties voor SS Browser Plugin",
+        "description": "Title of options page."
+    },
+    "keybackup_waiting_headline": {
+        "message": "Create backup!",
+        "description": ""
+    },
+    "form_continue": {
+        "message": "Doorgaan",
+        "description": "Continue form button."
+    },
+    "security_log_signature_modal_close": {
+        "message": "Click-event to close the signature dialog",
+        "description": ""
+    },
+    "decrypt_popup_header": {
+        "message": "Bericht",
+        "description": "Header of decrypt popup."
+    },
+    "security_log_backup_dialog_ok": {
+        "message": "Click-event to ok on dialog",
+        "description": ""
+    },
+    "keygrid_status_invalid": {
+        "message": "ongeldig",
+        "description": "Validity status of a PGP key."
+    },
+    "restore_password_dialog_button": {
+        "message": "Show",
+        "description": ""
+    },
+    "security_log_email_viewer": {
+        "message": "Decrypted PGP Mail",
+        "description": "Email decryption container as an event source"
+    },
+    "security_log_text": {
+        "message": "The security log shows user actions in integrated components of SS Browser Plugin.",
+        "description": "Text explaining the purpose of the security log"
+    },
+    "keyring_public_private": {
+        "message": "Sleutelparen",
+        "description": "public and private key types"
+    },
+    "keygen_dialog_confirm_error_unequal": {
+        "message": "Please check the inputs.",
+        "description": ""
+    },
+    "security_compose_external": {
+        "message": "In een apart teksteditorvenster van SS Browser Plugin.",
+        "description": "Mail compose option"
+    },
+    "keygrid_primary_key": {
+        "message": "Hoofdsleutel",
+        "description": "Main key in the PGP key."
+    },
+    "editor_no_sign_caption_short": {
+        "message": "Email is not digitally signed",
+        "description": "Caption digital signature"
+    },
+    "verify_result_success": {
+        "message": "Ondertekend door",
+        "description": "Verfiy signature succeeded."
+    },
+    "keygrid_user_ids": {
+        "message": "Gebruikers-ID's",
+        "description": "User IDs of a PGP key."
+    },
+    "security_background_button_title": {
+        "message": "The security background can be adjusted in the SS Browser Plugin-Options area",
+        "description": "The tooltip text for the keylock button"
+    },
+    "keyring_setup_no_keypair_heading": {
+        "message": "Deze sleutelbos bevat nog geen sleutelpaar.",
+        "description": "Setup heading if no keypair available"
+    },
+    "watchlist_title_scan": {
+        "message": "Status",
+        "description": "Scan status of site in watchlist."
+    },
+    "upload_aborting_warning": {
+        "message": "File upload will be aborted.",
+        "description": "A warning for the aborting of the file upload."
+    },
+    "waiting_dialog_decryption_failed": {
+        "message": "Ontsleuteling mislukt!",
+        "description": "Error message in the waiting dialog after failing to decrypt a message"
+    },
+    "keygen_dialog_confirm": {
+        "message": "Repeat",
+        "description": ""
+    },
+    "keybackup_setup_dialog_headline": {
+        "message": "Recommendation: Setup backup",
+        "description": ""
+    },
+    "key_import_textarea": {
+        "message": "Plak sleuteltekst hier:",
+        "description": "Key import box."
+    },
+    "watchlist_command_create": {
+        "message": "Nieuw record toevoegen",
+        "description": "Create entry in watchlist."
+    },
+    "security_log_password_input": {
+        "message": "Input-event in password input",
+        "description": "A click in the text area as an event type"
+    },
+    "key_gen_name_help": {
+        "message": "Volledige naam van de sleuteleigenaar",
+        "description": "Help text for name field."
+    },
+    "encrypt_error": {
+        "message": "Kon dit bericht niet versleutelen: $1",
+        "description": "Error during encryption process."
+    },
+    "popup_actions_current_page": {
+        "message": "Huidig tabblad:",
+        "description": "Title text for the reload and add buttons"
+    },
+    "key_gen_months": {
+        "message": "maaden",
+        "description": "Key expires after time range"
+    },
+    "encrypt_dialog_add": {
+        "message": "Toevoegen",
+        "description": "Max 6 character."
+    },
+    "alert_invalid_domainmatchpattern_warning": {
+        "message": "Overeenkomstpatroon van domein moet beginnen met *.",
+        "description": "Alert header of category warning."
+    },
+    "keygrid_status_valid": {
+        "message": "geldig",
+        "description": "Validity status of a PGP key."
+    },
+    "message_no_keys": {
+        "message": "Geen privésleutel gevonden voor dit bericht. Vereiste privésleutel-ID: $1",
+        "description": "Decrypt error message."
+    },
+    "security_cache_off": {
+        "message": "Nee.",
+        "description": "Don't store password."
+    },
+    "keyring_export_keys": {
+        "message": "Sleutels exporteren",
+        "description": "Tab of keyring to export keys."
+    },
+    "keygrid_signer_name": {
+        "message": "Ondertekenaar",
+        "description": "User ID of signer."
+    },
+    "security_log_verify_dialog": {
+        "message": "Verify Dialog",
+        "description": "Verify dialog as an event source"
+    },
+    "dialog_keyid_label": {
+        "message": "Sleut.-ID:",
+        "description": "Label for key ID."
+    },
+    "pwd_dialog_cache_pwd": {
+        "message": "Wachtwoord tijdelijk onthouden",
+        "description": "Checkbox label for remembering of the password."
+    },
+    "popup_remove_page_tooltip": {
+        "message": "Huidige pagina uit de lijst met e-mailproviders verwijderen",
+        "description": "Remove page from watchlist."
+    },
+    "form_import": {
+        "message": "Importeren",
+        "description": "Import form button."
+    },
+    "editor_encrypt_button": {
+        "message": "Versleutelen",
+        "description": "Encrypt button."
+    },
+    "digital_signature_dialog_header": {
+        "message": "Digital signature",
+        "description": "Header of digital signature dialog."
+    },
+    "key_gen_pwd_reenter": {
+        "message": "Wachtwoord opnieuw invoeren",
+        "description": "Label for passphrase input field"
+    },
+    "digital_signature_status_null_description": {
+        "message": "The contact of the digital signature has not yet been confirmed for encrypted communication. Ask the contact for an invite.",
+        "description": ""
+    },
+    "pwd_dialog_reason_create_backup": {
+        "message": "Enter key password to create the recovery sheet.",
+        "description": ""
+    },
+    "keygrid_user_name": {
+        "message": "Naam",
+        "description": "Name in User ID of a PGP key."
+    },
+    "pwd_dialog_pwd_please": {
+        "message": "Gelieve je wachtwoord in te voeren",
+        "description": "Placeholder for password."
+    },
+    "keybackup_restore_dialog_headline": {
+        "message": "Recommendation: Restore backup",
+        "description": ""
+    },
+    "security_log_timestamp": {
+        "message": "Timestamp",
+        "description": "Title of the timestamp column of the security log table."
+    },
+    "keyring_setup_import_key_explanation": {
+        "message": "Heb je al een sleutelpaar op een ander apparaat? Je kan je bestaande sleutels importeren. Exporteer gewoon het sleutelpaar op het andere apparaat en importeer het hier.",
+        "description": "Import key"
+    },
+    "key_import_extend_hint": {
+        "message": "Hint:",
+        "description": ""
+    },
+    "security_display_popup": {
+        "message": "In een aparte pop-up van SS Browser Plugin.",
+        "description": "Decrypted message display option"
+    },
+    "key_import_public_update": {
+        "message": "Openbare sleutel $1 van gebruiker $2 bijgewerkt",
+        "description": "Import success message: $1: keyid, $2: userid."
+    },
+    "form_submit": {
+        "message": "Verzenden",
+        "description": "Submit form button."
+    },
+    "restore_backup_dialog_headline": {
+        "message": "Enter restore code:",
+        "description": ""
+    },
+    "editor_no_primary_key_caption_short": {
+        "message": "Email cannot be digitally signed",
+        "description": "Caption digital signature"
+    },
+    "watchlist_record_title": {
+        "message": "E-mailprovider",
+        "description": "Title of the watchlist editor dialog."
+    },
+    "key_export_clipboard": {
+        "message": "Naar het klembord kopiëren",
+        "description": "Copy to clipboard button."
+    },
+    "dialog_popup_close": {
+        "message": "Sluiten",
+        "description": "Close decrypt popup."
+    },
+    "verify_result_warning": {
+        "message": "Ondertekend met onbekende sleutel",
+        "description": "Verfiy signature warning."
+    },
+    "alert_header_warning": {
+        "message": "Waarschuwing!",
+        "description": "Alert header of category warning."
+    },
+    "digital_signature_status_true": {
+        "message": "valid",
+        "description": ""
+    },
+    "key_gen_key_size": {
+        "message": "Sleutelgrootte",
+        "description": "Advanced key generation settings: Key size"
+    },
+    "keygen_waiting_headline": {
+        "message": "Setting up encrypted communication",
+        "description": ""
+    },
+    "security_log_textarea_input": {
+        "message": "Input-event in text area",
+        "description": "A click in the text area as an event type"
+    },
+    "key_gen_demail": {
+        "message": "De-mailadres",
+        "description": "De-Mail address name."
+    },
+    "keygrid_delete_confirmation": {
+        "message": "Weet je zeker dat je deze sleutel wil verwijderen?",
+        "description": "Delete confirmation dialog."
+    },
+    "pwd_dialog_title": {
+        "message": "Wachtwoordinvoer | SS Browser Plugin",
+        "description": "Title of the password dialog."
+    },
+    "security_log_backup_create": {
+        "message": "Click-event for create backup",
+        "description": ""
+    },
+    "keygrid_subkeys": {
+        "message": "Subsleutels",
+        "description": "Subkeys of a PGP key."
+    },
+    "form_clear": {
+        "message": "Wissen",
+        "description": "Clear form button."
+    },
+    "pwd_dialog_reason_sign": {
+        "message": "Enter key password to sign this message.",
+        "description": ""
+    },
+    "key_gen_another": {
+        "message": "Een ander genereren...",
+        "description": "Key import button"
+    },
+    "popup_remove_page": {
+        "message": "Verwijderen",
+        "description": "Remove page from watchlist."
+    },
+    "security_log_dialog_transfer": {
+        "message": "Click-event to transfer on dialog",
+        "description": ""
+    },
+    "key_gen_expiration": {
+        "message": "Verlooptijd",
+        "description": "Key expires after time range"
+    },
+    "security_log_sign_dialog": {
+        "message": "Sign Dialog",
+        "description": "Sign dialog as an event source"
+    },
+    "keygrid_validity_status": {
+        "message": "Status",
+        "description": "Validity status of a PGP key."
+    },
+    "keyring_import_keys": {
+        "message": "Sleutels importeren",
+        "description": "Tab of keyring to import keys."
+    },
+    "keygen_dialog_prolog": {
+        "message": "Assign password to protect your encrypted communication:",
+        "description": ""
+    },
+    "security_log_key_generator": {
+        "message": "Key Generator",
+        "description": "Key generator container as an event source"
+    },
+    "key_export_create_file": {
+        "message": "Downloaden",
+        "description": "Download file button."
+    },
+    "alert_no_domainmatchpattern_warning": {
+        "message": "Minstens één overeenkomstpatroon van domein is nodig.",
+        "description": "Alert header of category warning."
+    },
+    "key_import_public_success": {
+        "message": "Openbare sleutel $1 van gebruiker $2 geïmporteerd in sleutelbos",
+        "description": "Import success message: $1: keyid, $2: userid."
+    },
+    "pwd_dialog_reason_editor": {
+        "message": "Enter key password to update the settings for encrypted communication.",
+        "description": ""
+    },
+    "key_set_as_primary": {
+        "message": "Instellen als primair",
+        "description": "Set as primary key for the keyring button"
+    },
+    "keygrid_key_fingerprint": {
+        "message": "ongeldig",
+        "description": "Unique string identifier for a PGP key."
+    },
+    "editor_error_content": {
+        "message": "Error Content",
+        "description": ""
+    },
+    "keybackup_setup_dialog_button": {
+        "message": "Setting up backup",
+        "description": ""
+    },
+    "popup_add_page_tooltip": {
+        "message": "SS Browser Plugin aanzetten voor deze pagina",
+        "description": "Add page to watchlist."
+    },
+    "keygrid_sort_type": {
+        "message": "Sleuteltype",
+        "description": "Key grid sort selector."
+    },
+    "key_gen_years": {
+        "message": "jaren",
+        "description": "Key expires after time range"
+    },
+    "editor_blur_warn": {
+        "message": "Waarschuwing. Teksteditor heeft de focus verloren.",
+        "description": "Warning for lost focus."
+    },
+    "header_warning": {
+        "message": "Waarschuwing!",
+        "description": "Header warning."
+    },
+    "keygrid_key_type": {
+        "message": "Type",
+        "description": "The type of the key."
+    },
+    "editor_no_primary_key_caption_long": {
+        "message": "Email cannot be digitally signed because the primary key is missing",
+        "description": "Caption digital signature"
+    },
+    "keygen_dialog_confirm_success": {
+        "message": "Inputs are correct.",
+        "description": ""
+    },
+    "keyring_migration_error": {
+        "message": "Fout bij sleutelmigratie",
+        "description": "Tab of keyring to display migration errors."
+    },
+    "keybackup_restore_dialog_list_2": {
+        "message": "You need a new one for safety reason.",
+        "description": ""
+    },
+    "security_log_attachment_download": {
+        "message": "Attachment downloaded",
+        "description": "Attachment downloaded as an event source"
+    },
+    "security_background_angle": {
+        "message": "Hoek",
+        "description": "Angle"
+    },
+    "key_details_title": {
+        "message": "Sleuteldetails",
+        "description": "The title of the key details dialog."
+    },
+    "security_cache_time": {
+        "message": "minuten",
+        "description": "Store password in memory for $1 minutes."
+    },
+    "wrong_restore_code": {
+        "message": "Restore code is wrong",
+        "description": ""
+    },
+    "settings_watchlist": {
+        "message": "Lijst van e-mailproviders",
+        "description": "Tab of options to display list of supported mail providers."
+    },
+    "general_editor_rich": {
+        "message": "Editor voor tekst met opmaak",
+        "description": "Editor option: rich text."
+    },
+    "security_cache_on": {
+        "message": "Ja, in geheugen houden gedurende",
+        "description": "Store password in memory for $1 minutes."
+    },
+    "security_log_remove_attachment": {
+        "message": "Attachment removed",
+        "description": "A click on the attachment remove button as event type"
+    },
+    "options_home": {
+        "message": "Opties",
+        "description": "Options navigation: Home."
+    },
+    "keygen_dialog_password": {
+        "message": "Key Password",
+        "description": ""
+    },
+    "keybackup_setup_dialog_description": {
+        "message": "The backup is required to ensure your encrypted communication is:",
+        "description": ""
+    },
+    "key_gen_wait_header": {
+        "message": "Sleutel aan het genereren...",
+        "description": "Wait dialog header"
+    },
+    "watchlist_title_site": {
+        "message": "Site",
+        "description": "Site in watchlist."
+    },
+    "editor_transfer": {
+        "message": "Verplaatsen",
+        "description": "Transfer button of editor popup."
+    },
+    "keygrid_display_all_keys": {
+        "message": "Alle sleutels weergeven",
+        "description": "Export key menu."
+    },
+    "watchlist_expose_api": {
+        "message": "API",
+        "description": "Expose API to Webmailer."
+    },
+    "key_import_extend_fingerprint": {
+        "message": "PGP-Fingerprint:",
+        "description": ""
+    },
+    "key_export_warning_private": {
+        "message": "Dit bestand bevat ook privésleutels.",
+        "description": "Key export warning."
+    },
+    "key_import_invalid_text": {
+        "message": "Geen geldige sleuteltekst gevonden",
+        "description": "Import error alert."
+    },
+    "keyring_setup_generate_key": {
+        "message": "Sleutel aanmaken",
+        "description": "Generate key"
+    },
+    "word_or": {
+        "message": "of",
+        "description": "Separate list of elements."
+    },
+    "key_import_exception": {
+        "message": "Er is een uitzondering opgetreden bij het verwerken van de sleutels",
+        "description": "Import error alert."
+    },
+    "keygrid_display_key_pair": {
+        "message": "Sleutelpaar weergeven",
+        "description": "Export key menu."
+    },
+    "key_import_invalidated_headline": {
+        "message": "Warning! The existing data for encrypted communication is expired.",
+        "description": "Key import dialog header"
+    },
+    "security_compose_mail": {
+        "message": "Waar wil je je e-mail opstellen?",
+        "description": "Label for compose options"
+    },
+    "general_editor_type": {
+        "message": "E-maileditorselectie",
+        "description": "Label for editor options."
+    },
+    "key_gen_pwd_unequal": {
+        "message": "Wachtwoorden komen niet overeen",
+        "description": "Passphrase input field status"
+    },
+    "security_background_scaling": {
+        "message": "Scaling",
+        "description": "Scaling"
+    },
+    "popup_active_off": {
+        "message": "Uit",
+        "description": "Activity status of the extension."
+    },
+    "watchlist_command_edit": {
+        "message": "Bewerk",
+        "description": "Edit entry in watchlist."
+    },
+    "editor_transfer_unencrypted": {
+        "message": "Je probeert onversleutelde inhoud terug te sturen naar de e-mailprovider.",
+        "description": "Warning for unencrypted content."
+    },
+    "decrypt_popup_title": {
+        "message": "Ontsleuteld bericht",
+        "description": "Title of decrypt popup."
+    },
+    "form_close": {
+        "message": "Close",
+        "description": "Close form button."
+    },
+    "security_log_signature_modal_open": {
+        "message": "Click-event to open the signature dialog",
+        "description": ""
+    },
+    "security_log_backup_restore": {
+        "message": "Click-event for restore backup",
+        "description": ""
+    },
+    "keybackup_restore_dialog_description": {
+        "message": "Create a new backup:",
+        "description": ""
+    },
+    "key_import_default_headline": {
+        "message": "Confirm the sender as a contact for encrypted communication?",
+        "description": "Key import dialog header"
+    },
+    "watchlist_command_save": {
+        "message": "Wijzigingen opslaan",
+        "description": "Save changes in watchlist."
+    },
+    "cleartext_read_error": {
+        "message": "Kon dit niet-versleutelde tekstbericht niet lezen: $1",
+        "description": "Cleartext message read error message: $1: error message."
+    },
+    "editor_header": {
+        "message": "E-mail opstellen",
+        "description": "Header of editor popup."
+    },
+    "form_ok": {
+        "message": "OK",
+        "description": "Ok form button."
+    },
+    "security_log_encrypt_dialog": {
+        "message": "Encrypt Dialog",
+        "description": "Encrypt dialog as an event source"
+    },
+    "key_import_private_update": {
+        "message": "Privésleutel $1 van gebruiker $2 bijgewerkt",
+        "description": "Import success message: $1: keyid, $2: userid."
+    },
+    "key_gen_pwd_empty": {
+        "message": "Wachtwoord is leeg",
+        "description": "Passphrase input field status"
+    },
+    "form_save": {
+        "message": "Opslaan",
+        "description": "Save form button."
+    },
+    "ext_name": {
+        "message": "Subutai Social E2E Plugin",
+        "description": "Name of the extension."
+    },
+    "restore_backup_dialog_button": {
+        "message": "Confirm",
+        "description": ""
+    },
+    "key_gen_days": {
+        "message": "dagen",
+        "description": "Key expires after time range"
+    },
+    "keygrid_expiration_date": {
+        "message": "Verloopdatum",
+        "description": "Expiration date of a PGP key."
+    },
+    "restore_password_dialog_headline": {
+        "message": "Your key password:",
+        "description": ""
+    },
+    "keygen_waiting_description": {
+        "message": "Please be patient",
+        "description": ""
+    },
+    "alert_header_error": {
+        "message": "Fout!",
+        "description": "Alert header of category error."
+    },
+    "security_log_source": {
+        "message": "Source",
+        "description": "Title of the source column of the security log table."
+    },
+    "editor_error_header": {
+        "message": "Error Header",
+        "description": ""
+    },
+    "editor_remove_upload": {
+        "message": "Verwijderen",
+        "description": "Remove uploaded attachment"
+    },
+    "decrypt_digital_signature_null": {
+        "message": "Digital signature not identified",
+        "description": "Caption digital signature"
+    },
+    "key_export_too_large": {
+        "message": "Sleutel is te groot om in een URL te passen, gebruik kopiëren en plakken.",
+        "description": "Key export warning message."
+    },
+    "keygrid_no_subkeys": {
+        "message": "Geen subsleutels beschikbaar",
+        "description": "No subkeys of a PGP key found."
+    },
+    "keygrid_keyid": {
+        "message": "Sleut.-ID",
+        "description": "Key ID of a PGP key."
+    },
+    "sign_dialog_header": {
+        "message": "Bericht ondertekenen met sleutel:",
+        "description": "Header of sign dialog."
+    },
+    "key_import_private_read": {
+        "message": "Niet in staat een privésleutel te lezen: $1",
+        "description": "Import error message. $1: error message"
+    },
+    "popup_help_tooltip": {
+        "message": "Opent de documentatiepagina",
+        "description": "Opens the help page on SS Browser Plugin.com."
+    },
+    "security_log_textarea_select": {
+        "message": "Select-event in text area",
+        "description": "Selection of the text area as an event type"
+    },
+    "keygrid_signer_unknown": {
+        "message": "Ondertekenaar onbekend",
+        "description": "Key of signer not available."
+    },
+    "popup_add_page": {
+        "message": "Toevoegen",
+        "description": "Add page to watchlist."
+    },
+    "security_log_dialog_sign": {
+        "message": "Click-event to sign on dialog",
+        "description": ""
+    },
+    "options_docu": {
+        "message": "Documentatie",
+        "description": "Options navigation: Documentation."
+    },
+    "keyring_keypair": {
+        "message": "Sleutelpaar",
+        "description": "key pair"
+    },
+    "options_about": {
+        "message": "Over",
+        "description": "Options navigation: About."
+    },
+    "keygrid_primary_label": {
+        "message": "Primair",
+        "description": "Label for the primary key"
+    },
+    "upload_quota_warning_headline": {
+        "message": "Attachment size too big",
+        "description": ""
+    },
+    "key_gen_invalid_email": {
+        "message": "Ongeldig e-mailadres",
+        "description": "Error message."
+    },
+    "pwd_dialog_userid": {
+        "message": "Gebr.-ID:",
+        "description": "Label for user ID."
+    },
+    "decrypt_popup_copy": {
+        "message": "Naar het klembord kopiëren",
+        "description": "Copy decrypted message to clipboard."
+    },
+    "settings_backup": {
+        "message": "Back-up",
+        "description": "Tab allowing to backup and restore the settings."
+    },
+    "reload_webmail_tab": {
+        "message": "Laad je e-mailprovidertab opnieuw (F5) zodat de nieuwe instellingen toegepast kunnen worden.",
+        "description": "Info message."
+    },
+    "form_yes": {
+        "message": "Ja",
+        "description": "Yes form button."
+    },
+    "keyring_setup_generate_key_explanation": {
+        "message": "Als je deze extensie voor de eerste keer gebruikt en nog geen sleutelpaar hebt, moet je een sleutel aanmaken.",
+        "description": "Generate key"
+    },
+    "keygrid_display_priv_key": {
+        "message": "Privésleutel weergeven",
+        "description": "Export key menu."
+    },
+    "ext_description": {
+        "message": "Verbeter uw webmailprovider met end-to-end-versleuteling. Beveilig e-mailcommunicatie gebaseerd op de OpenPGP-standaard.",
+        "description": "Description of the extension."
+    },
+    "keybackup_setup_dialog_list_1": {
+        "message": "Restored on data loss.",
+        "description": ""
+    },
+    "key_import_default_description": {
+        "message": "The setup for encrypted communication with this contact is ready after confirmation.",
+        "description": "Key import dialog description"
+    },
+    "key_gen_advanced_btn": {
+        "message": "Geavanceerd",
+        "description": "Advanced key generation settings."
+    },
+    "key_import_private_success": {
+        "message": "Privésleutel $1 van gebruiker $2 geïmporteerd in sleutelbos",
+        "description": "Import success message: $1: keyid, $2: userid."
+    },
+    "settings_security": {
+        "message": "Beveiliging",
+        "description": "Tab of options to display security settings."
+    },
+    "settings_general": {
+        "message": "Algemeen",
+        "description": "Tab of options to display general settings."
+    },
+    "key_import_unable": {
+        "message": "Niet in staat een sleutel te importeren vanwege een uitzondering: $1",
+        "description": "Import error message: $1: error message."
+    },
+    "editor_sign_caption_long": {
+        "message": "Email will be digitally signed",
+        "description": "Caption digital signature"
+    },
+    "keygrid_display_pub_key": {
+        "message": "Publieke sleutel weergeven",
+        "description": "Export key menu."
+    },
+    "upload_quota_exceeded_warning": {
+        "message": "Attachment size exceeds the allowable limit:",
+        "description": "A warning shown when the attachments upload quota is exceeded."
+    },
+    "keyring_setup": {
+        "message": "Configuratie",
+        "description": "Setup keyring for mail provider."
+    },
+    "keygrid_creation_date": {
+        "message": "Datum van aanmaak",
+        "description": "Creation date of a PGP key."
+    },
+    "key_export_download": {
+        "message": "Sleutel downloaden",
+        "description": "Download key link."
+    }
+}

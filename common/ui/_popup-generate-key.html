@@ -1,0 +1,88 @@
+<div class="b-popup" id="js-popup-settings" style="text-align: left;">
+  <div class="b-popup__body">
+    <div class="b-popup__header g-center g-margin-bottom">
+      <div class="b-popup-header">
+        Generate key
+        <span class="bp-close-modal-button">
+          <img src="../assets/elements/buttons/b-icon-close.svg"
+               class="b-icon b-icon_close g-right"/>
+        </span>
+      </div>
+    </div>
+    <div class="b-form">
+      <div class="b-form-wrapper g-margin-bottom" style="display: none">
+        <label for="name" class="b-form-label g-margin-right">Enter key name</label>
+        <input id="name" type="text" class="b-form-input g-right" placeholder="Name">
+      </div>
+      <div class="b-form-wrapper g-margin-bottom">
+        <label for="email" class="b-form-label g-margin-right">Enter email</label>
+        <input id="email" type="email" class="b-form-input g-right" placeholder="E-mail">
+      </div>
+    </div>
+
+
+    <div class="g-margin-bottom-half">
+
+
+    </div>
+
+    <div>
+      <input type="checkbox" id="protectkey">
+      <label for="protectkey" class="b-form-label">Protect your key with password</label>
+    </div>
+    <div class="js-passwd-hide">
+      <div class="b-form-wrapper g-margin-bottom-half">
+        <label for="password" class="b-form-label g-margin-right">Enter password</label>
+        <input id="password" type="password" class="b-form-input g-right">
+      </div>
+      <div class="b-form-wrapper">
+        <label for="password-confirm" class="b-form-label g-margin-right">Confirm password</label>
+        <input id="password-confirm" type="password" class="b-form-input g-right">
+      </div>
+    </div>
+
+
+
+
+
+
+
+    <div>
+      <a href="#" class="b-btn b-btn_blue js-advanced-btn g-margin-bottom g-margin-right-half">Advanced</a>
+    </div>
+    <div class="js-advanced-hide">
+      <div class="b-form-wrapper g-margin-bottom">
+        <label for="algorythm" class="b-form-label g-margin-right">Algorithm</label>
+        <select id="algorythm" class="b-form-input g-right">
+          <option value="RSA/RSA">RSA/RSA</option>
+        </select>
+      </div>
+      <div class="b-form-wrapper g-margin-bottom">
+        <label for="keysize" class="b-form-label g-margin-right">Key size (bits)</label>
+        <select id="keysize" class="b-form-input g-right">
+          <option value="4096">4096</option>
+        </select>
+      </div>
+      <div class="b-form-wrapper g-margin-bottom">
+        <label for="expiration" class="b-form-label g-margin-right">Expiration</label>
+
+        <div class="b-form-group g-right">
+          <select id="expiration" class="b-form-input b-form-input_fix-size-3 g-right">
+            <option value="never">Never</option>
+          </select>
+          <input id="expiration2" type="text" value="0"
+                 class="b-form-input g-margin-right b-form-input_fix-size-4 ">
+        </div>
+      </div>
+    </div>
+
+    <div class="g-center">
+      <!--<button class="confirm b-btn_green bp-generate-key-btn">Submit</button>-->
+      <!--<button class="confirm bp-generate-key-btn"-->
+      <!--style="display: inline-block; border-left-color: rgb(221, 107, 85); border-right-color: rgb(221, 107, 85); background-color: rgb(221, 107, 85);">-->
+      <!--Submit-->
+      <!--</button>-->
+      <!--<button class="cancel">Cancel</button>-->
+    </div>
+  </div>
+</div>

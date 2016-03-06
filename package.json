@@ -1,0 +1,37 @@
+{
+  "name": "subutaisocial",
+  "version": "1.2.3-rc3",
+  "description": "Subutai Social E2E Plugin",
+  "scripts": {
+    "test": "grunt test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://stash.subutai.io/scm/ss_tooling/ss-pgp-plugin.git"
+  },
+  "keywords": [
+    "gpg"
+  ],
+  "license": "AGPL",
+  "readmeFilename": "Readme.md",
+  "dependencies": {
+    "mailreader": "~0.4.0",
+    "mailbuild": "~0.3.7",
+    "mimefuncs": "mailvelope/mimefuncs#v0.3.9m"
+  },
+  "devDependencies": {
+    "grunt": "~0.4.2",
+    "grunt-bump": "0.0.16",
+    "grunt-contrib-clean": "~0.5.0",
+    "grunt-contrib-compress": "~0.6.1",
+    "grunt-contrib-concat": "~0.3.0",
+    "grunt-contrib-copy": "~0.5.0",
+    "grunt-text-replace": "~0.3.11",
+    "grunt-contrib-jshint": "~0.10.0",
+    "grunt-contrib-watch": "~0.5.3",
+    "grunt-jscs": "~1.1.0",
+    "grunt-jsdoc": "^0.5.7",
+    "grunt-mozilla-addon-sdk": "~0.3.2"
+  },
+  "private": true
+}
