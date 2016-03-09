@@ -1,26 +1,27 @@
 <div class="b-popup" id="js-popup-settings">
   <div class="b-popup__header">
-    <div class="b-popup-header">
+    <div class="b-title">
       Import key
-      <span class="bp-close-modal-button">
-        <img src="../assets/elements/buttons/b-icon-close.svg" class="b-icon b-icon_close g-right"/>
-      </span>
+      <a href="#" class="bp-close-modal-button g-right">
+        <i class="fa fa-times"></i>
+      </a>
     </div>
   </div>
   <div class="b-popup__body">
-    <div class="b-form g-margin-bottom">
+    <div class="b-form-wrapper g-margin-bottom">
       <div class="b-form-wrapper">
                 <textarea id="name"
                           class="b-form-input b-form-input_full b-form-input_textarea bp-import-keys"
-                          style="width: 507px; height: 300px; font-family: monospace; resize: none">Paste key text here</textarea>
+                          style="height: 200px; font-family: monospace; resize: none">Paste key text here</textarea>
       </div>
     </div>
     <div>
       <div class="b-form-group">
-        <div class="b-upload-btn b-btn b-btn_blue g-left">
-          <span>Select a key text file to import</span>
+        <div class="b-upload-btn b-btn b-btn_blue">
+          <span>Select file...</span>
           <input id="uploadBtn" type="file" class="upload"/>
         </div>
+        <button class="b-btn b-btn_green confirm g-right"><i class="fa fa-arrow-down"></i> Import</button>
       </div>
     </div>
   </div>

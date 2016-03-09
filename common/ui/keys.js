@@ -32,7 +32,7 @@ var swal;
       console.log('toggle passwd');
     });
 
-    $('body').on('click', '.js-advanced-btn', function() {
+    $('body').on('change', '#advanced', function() {
       $(".js-advanced-hide").toggleClass("js-advanced-show");
     });
 
@@ -91,13 +91,12 @@ var swal;
     console.log('generate key modal');
     swal({
       html: $generateKeyTemplate.html(),
-      showCancelButton: true,
-      confirmButtonColor: "#009245",
-      confirmButtonText: "Submit",
-      cancelButtonText: "Cancel",
+      showCancelButton: false,
+      showConfirmButton: false,
       closeOnConfirm: false,
-      width: 390,
-      animation: false
+      width: 320,
+      animation: false,
+      buttonsStyling: false
     }, function(isConfirm) {
       if (isConfirm) {
         swal.disableButtons();
@@ -121,7 +120,7 @@ var swal;
                 title: "Generate key-pair",
                 text: "Key pair successfully generated!",
                 timer: 1500,
-                type: "success"
+                type: "success",
               }, function() {
                 options.keyring('getKeys').then(fillKeysTable);
                 $('#key-types').change();
@@ -345,7 +344,11 @@ var swal;
     console.log('key info clicked');
 
     swal({
-      html: $keyInfoTemplate.html(), showConfirmButton: false, animation: false
+      html: $keyInfoTemplate.html(),
+      showCloseButton: false,
+      showConfirmButton: false,
+      animation: false,
+      width: 400
     });
 
     options.keyring('getKeyDetails', [$keyData.attr('data-keyguid')])
@@ -475,12 +478,11 @@ var swal;
              var filename = $keyData.attr('data-keyname') + '_all.asc';
              swal({
                html: $keyExportTemplate.html(),
-               showCancelButton: true,
+               showCancelButton: false,
                animation: false,
-               width: 620,
-               confirmButtonColor: '#255fb5',
+               width: 320,
+               showConfirmButton: false,
                closeOnConfirm: false,
-               confirmButtonText: 'Export'
              }, function() {
                createFile($('.bp-export-filename').val(), keyPair);
              });
@@ -506,12 +508,11 @@ var swal;
         }, '');
         swal({
           html: $keyExportTemplate.html(),
-          showCancelButton: true,
+          showCancelButton: false,
           animation: false,
-          width: 620,
-          confirmButtonColor: '#255fb5',
+          width: 320,
+          showConfirmButton: false,
           closeOnConfirm: false,
-          confirmButtonText: 'Export'
         }, function() {
           createFile($('.bp-export-filename').val(), allKeys);
         });
@@ -533,11 +534,10 @@ var swal;
     console.log('key import dialog opened');
     swal({
       html: $keyImportTemplate.html(),
-      showCancelButton: true,
+      showCancelButton: false,
+      showConfirmButton: false,
       animation: false,
-      confirmButtonColor: '#39b54a',
-      confirmButtonText: 'Import',
-      width: 620,
+      width: 320,
       closeOnConfirm: false
     }, function() {
       swal.disableButtons();
