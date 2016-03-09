@@ -107,15 +107,9 @@ module.exports = function(grunt) {
           },
           {
             expand: true,
-            cwd: 'bower_components/dompurify/',
+            cwd: 'bower_components/dompurify/src',
             src: 'purify.js',
             dest: 'build/common/dep/'
-          },
-          {
-            expand: true,
-            cwd: 'bower_components/css-toggle-switch/dist/',
-            src: 'toggle-switch.css',
-            dest: 'build/common/dep/toggle-switch/'
           },
           {
             expand: true,
@@ -235,7 +229,7 @@ module.exports = function(grunt) {
         files: [{
           expand: true,
           flatten: true,
-          src: ['dep/chrome/openpgpjs/dist/openpgp.js', 'dep/chrome/openpgpjs/dist/openpgp.worker.js'],
+          src: ['dep/openpgp.js', 'dep/openpgp.worker.js'],
           dest: 'build/chrome/dep/'
         },
         {
@@ -244,33 +238,33 @@ module.exports = function(grunt) {
           cwd: 'node_modules/',
           src: [
             'mailreader/src/mailreader-parser.js',
-            'mailreader/node_modules/mimeparser/src/*.js',
-            'mailreader/node_modules/mimeparser/node_modules/wo-addressparser/src/*.js',
-            'mimefuncs/src/*.js'
+            'mailreader/node_modules/emailjs-mime-parser/src/*.js',
+            'mailreader/node_modules/emailjs-mime-parser/node_modules/emailjs-addressparser/src/*.js',
+            'emailjs-mime-codec/src/*.js',
+            'emailjs-mime-builder/src/*.js',
+            'emailjs-mime-builder/node_modules/emailjs-mime-types/src/*.js'
           ],
           dest: 'build/chrome/lib/'
         },
         {
           expand: true,
           flatten: true,
-          cwd: 'node_modules/',
-          src: [
-            'mailbuild/src/mailbuild.js',
-            'mailbuild/node_modules/mimetypes/src/*.js',
-            'mailbuild/node_modules/punycode/punycode.js'
-          ],
-          dest: 'build/chrome/lib/'
+          src: 'node_modules/emailjs-mime-builder/node_modules/punycode/*.js',
+          dest: 'build/chrome/lib/',
+          rename: function(dest) {
+            return dest + 'emailjs-punycode.js';
+          }
         },
-          {
-            expand: true,
-            flatten: true,
-            src: [
-              'dep/chrome/openpgpjs/dist/openpgp.js', 'dep/chrome/openpgpjs/dist/openpgp.worker.js',
-              'dep/chrome/openpgpjs/src/compression/rawdeflate.min.js',
-              'dep/chrome/openpgpjs/node_modules/zlibjs/bin/rawdeflate.min.js.map'
-            ],
-            dest: 'build/safari.safariextension/dep/'
-          },
+        {
+          expand: true,
+          flatten: true,
+          src: [
+            'dep/openpgp.js', 'dep/openpgp.worker.js',
+            'dep/rawdeflate.min.js',
+            'dep/rawdeflate.min.js.map'
+          ],
+          dest: 'build/safari.safariextension/dep/'
+        },
         {
           expand: true,
           flatten: true,
@@ -295,41 +289,62 @@ module.exports = function(grunt) {
           dest: 'build/safari.safariextension/lib/'
         },
         {
-          src: 'dep/firefox/openpgpjs/dist/openpgp.preload_dep.min.js',
-          dest: 'build/firefox/lib/openpgp.js'
-        },
-        {
           expand: true,
           flatten: true,
-          src: ['dep/firefox/openpgpjs/dist/openpgp.min.js', 'dep/firefox/openpgpjs/dist/openpgp.worker.min.js'],
+          src: ['dep/firefox/openpgp.js', 'dep/firefox/openpgp.worker.js'],
           dest: 'build/firefox/data/'
         },
         {
           expand: true,
           flatten: true,
-          cwd: 'node_modules/',
-          src: [
-            'mailreader/src/mailreader-parser.js',
-            'mailreader/node_modules/mimeparser/src/*.js',
-            'mimefuncs/src/*.js'
-          ],
-          dest: 'build/firefox/lib/'
-        },
-        {
-          src: 'node_modules/mailreader/node_modules/mimeparser/node_modules/wo-addressparser/src/addressparser.js',
-          dest: 'build/firefox/lib/wo-addressparser.js'
+          src: 'node_modules/mailreader/src/mailreader-parser.js',
+          dest: 'build/firefox/node_modules/mailreader-parser'
         },
         {
           expand: true,
           flatten: true,
-          cwd: 'node_modules/',
-          src: [
-            'mailbuild/src/mailbuild.js',
-            'mailbuild/node_modules/mimetypes/src/*.js',
-            'mailbuild/node_modules/punycode/punycode.js'
-          ],
-          dest: 'build/firefox/lib/'
+          src: 'node_modules/mailreader/node_modules/emailjs-mime-parser/src/*.js',
+          dest: 'build/firefox/node_modules/emailjs-mime-parser'
+        },
+        {
+          expand: true,
+          flatten: true,
+          src: 'node_modules/emailjs-mime-codec/src/*.js',
+          dest: 'build/firefox/node_modules/emailjs-mime-codec'
+        },
+        {
+          expand: true,
+          flatten: true,
+          src: 'node_modules/mailreader/node_modules/emailjs-mime-parser/node_modules/emailjs-addressparser/src/*.js',
+          dest: 'build/firefox/node_modules/emailjs-addressparser'
+        },
+        {
+          expand: true,
+          flatten: true,
+          src: 'node_modules/emailjs-mime-builder/src/*.js',
+          dest: 'build/firefox/node_modules/emailjs-mime-builder'
+        },
+        {
+          expand: true,
+          flatten: true,
+          src: 'node_modules/emailjs-mime-builder/node_modules/emailjs-mime-types/src/*.js',
+          dest: 'build/firefox/node_modules/emailjs-mime-types'
+        },
+        {
+          expand: true,
+          flatten: true,
+          src: 'node_modules/emailjs-mime-builder/node_modules/punycode/*.js',
+          dest: 'build/firefox/node_modules/emailjs-punycode'
         }]
+      },
+      xpi: {
+        expand: true,
+        flatten: true,
+        src: 'dist/*.xpi',
+        dest: 'dist/',
+        rename: function(dest) {
+          return dest + 'e2e-plugin.firefox.xpi';
+        }
       }
     },
 
@@ -347,7 +362,7 @@ module.exports = function(grunt) {
       chrome: {
         options: {
           mode: 'zip',
-          archive: 'dist/ss-pgp-plugin.chrome.zip',
+          archive: 'dist/e2e-plugin.chrome.zip',
           pretty: true
         },
         files: [{
@@ -390,35 +405,24 @@ module.exports = function(grunt) {
           from: /("version"\s:\s"[\d\.]+)/,
           to: '$1' + ' build: ' + (new Date()).toISOString().slice(0, 19)
         }]
+      },
+      openpgp_ff: {
+        src: ['dep/firefox/openpgp.min.js'],
+        dest: ['build/firefox/node_modules/openpgp/openpgp.js'],
+        replacements: [{
+          from: "*/",
+          to: "*/\nvar window = require('./window');\nvar atob = window.atob;"
+        }]
       }
     },
 
-    'mozilla-addon-sdk': {
-      '1_17': {
-        options: {
-          revision: '1.17'
-        }
+    jpm: {
+      options: {
+        src: "./build/firefox",
+        xpi: "./dist/"
       }
     },
-    'mozilla-cfx-xpi': {
-      stable: {
-        options: {
-          'mozilla-addon-sdk': '1_17',
-          extension_dir: 'build/firefox',
-          dist_dir: 'dist/',
-          arguments: '--output-file=ss-pgp-plugin.firefox.xpi'
-        }
-      }
-    },
-    'mozilla-cfx': {
-      'run_stable': {
-        options: {
-          "mozilla-addon-sdk": "1_17",
-          extension_dir: "build/firefox",
-          command: "run"
-        }
-      }
-    },
+
     bump: {
       options: {
         commit: true,
@@ -437,15 +441,18 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-text-replace');
   grunt.loadNpmTasks('grunt-contrib-watch');
   grunt.loadNpmTasks('grunt-contrib-compress');
-  grunt.loadNpmTasks('grunt-mozilla-addon-sdk');
   grunt.loadNpmTasks('grunt-bump');
   grunt.loadNpmTasks("grunt-jscs");
   grunt.loadNpmTasks('grunt-jsdoc');
+  grunt.loadNpmTasks('grunt-jpm');
+
   //custom tasks
   grunt.registerTask('dist-cr', ['compress:chrome']);
-  grunt.registerTask('dist-ff', ['mozilla-addon-sdk', 'mozilla-cfx-xpi']);
+  grunt.registerTask('dist-crx', function() {
+    grunt.util.spawn({cmd: '.travis/crxmake.sh', args: ['build/chrome', '.travis/crx_signing.pem'], opts: {stdio: 'ignore'}});
+  });
+  grunt.registerTask('dist-ff', ['jpm:xpi', 'copy:xpi']);
   grunt.registerTask('dist-doc', ['jsdoc', 'compress:doc']);
-  grunt.registerTask('start-ff-clean', ['mozilla-cfx:run_stable']);
 
   grunt.registerTask('copy_common', ['copy:vendor', 'copy:common', 'replace:bootstrap']);
   grunt.registerTask('final_assembly', ['copy:plugins', 'copy:common_browser', 'copy:locale_firefox', 'copy:dep']);

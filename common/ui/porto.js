@@ -1,12 +1,28 @@
 /* jshint strict: false */
 
 var porto = porto || {};
+porto.crx = false;
+porto.ffa = false;
+porto.sfx = false;
+
 // chrome extension
 porto.crx = typeof chrome === 'undefined' ? false : (chrome !== null);
-// firefox addon
-porto.ffa = porto.ffa || typeof self !== 'undefined' && typeof self.port !== 'undefined';
-// for firefox, porto.extension is exposed from a content script
-porto.sfx = !porto.ffa && !porto.crx && typeof safari !== 'undefined';
+if (porto.crx) {
+  porto.ffa = false;
+  porto.sfx = false;
+}
+else {
+  porto.sfx = !porto.ffa && !porto.crx && typeof safari !== 'undefined';
+  if (porto.sfx) {
+    porto.ffa = false;
+  }
+  else {
+    // firefox addon
+    porto.ffa = true;
+    //porto.ffa || typeof self !== 'undefined' && typeof self.port !== 'undefined';
+    // for firefox, porto.extension is exposed from a content script
+  }
+}
 
 /* constants */
 
@@ -541,160 +557,171 @@ if (porto.sfx) {
   };
 }
 
-if (porto.ffa) {
-  // expose porto.extension to page script
-  if (self.options && self.options.expose_messaging) {
-    porto = createObjectIn(unsafeWindow, {defineAs: "porto"});
-  }
-
-  (function() {
-
-    var eventIndex = 1;
-
-    porto.ffa = true;
-
-    if (!self.options) {
-      return;
+try {
+  if (porto.ffa) {
+    // expose porto.extension to page script
+    if (typeof self !== 'undefined' && self.options && self.options.expose_messaging) {
+      porto = createObjectIn(unsafeWindow, {defineAs: "porto"});
     }
 
-    var extension = {
-      _dataPath: self.options.data_path,
-      onMessage: {},
-      port: {}
-    };
+    (function() {
 
-    function sendMessage(message, response) {
-      //console.log('message adapter: sendMessage', message.event);
-      if (response !== undefined) {
-        message.response = 'resp' + eventIndex++;
-        self.port.once(message.response, response);
+      var eventIndex = 1;
+
+      porto.ffa = true;
+
+      if (typeof self === 'undefined' || !self.options) {
+        return;
       }
-      self.port.emit('message-event', message);
-    }
 
-    function addListener(listener) {
-      self.port.on('message-event', function(msg) {
-        listener(msg, null, msg.response && function(respMsg) {
-            self.port.emit(msg.response, respMsg);
+      var extension = {
+        _dataPath: self.options.data_path,
+        onMessage: {},
+        port: {}
+      };
+
+      function sendMessage(message, response) {
+        //console.log('message adapter: sendMessage', message.event);
+        if (response !== undefined) {
+          message.response = 'resp' + eventIndex++;
+          self.port.once(message.response, response);
+        }
+        self.port.emit('message-event', message);
+      }
+
+      function addListener(listener) {
+        self.port.on('message-event', function(msg) {
+          listener(msg, null, msg.response && function(respMsg) {
+              self.port.emit(msg.response, respMsg);
+            });
+        });
+      }
+
+      function _connect(obj) {
+        self.port.emit('connect', obj.name);
+      }
+
+      function getURL(path) {
+        return extension._dataPath + path;
+      }
+
+      function postMessage(message) {
+        console.log('postmessage', name, message.event);
+        self.port.emit('port-message', message);
+      }
+
+      function disconnect(obj) {
+        // remove events
+        for (var ev in obj.events) {
+          if (obj.events.hasOwnProperty(ev)) {
+            self.port.removeListener(ev, obj.events[ev]);
+          }
+        }
+        self.port.emit('disconnect', obj.name);
+      }
+
+      function addPortListener(obj, listener) {
+        var eventName = 'port-message' + '.' + obj.name;
+        self.port.on(eventName, listener);
+        obj.events[eventName] = listener;
+        console.log('addPortListener: ' + eventName);
+      }
+
+      function addPortDisconnectListener(listener) {
+        // currently deactivated, detach event is fired too late: Porto components are already
+        // detached from the DOM self.port.on('detach', listener);
+      }
+
+      var l10n = {};
+
+      function getMessages(ids, callback) {
+        porto.extension.sendMessage({
+          event: 'get-l10n-messages',
+          ids: ids
+        }, callback);
+      }
+
+      function localizeHTML(l10n) {
+        if (l10n) {
+          [].forEach.call(document.querySelectorAll('[data-l10n-id]'), function(element) {
+            element.textContent = l10n[element.dataset.l10nId];
           });
-      });
-    }
-
-    function _connect(obj) {
-      self.port.emit('connect', obj.name);
-    }
-
-    function getURL(path) {
-      return extension._dataPath + path;
-    }
-
-    function postMessage(message) {
-      //console.log('postmessage', name, message.event);
-      self.port.emit('port-message', message);
-    }
-
-    function disconnect(obj) {
-      // remove events
-      for (var ev in obj.events) {
-        if (obj.events.hasOwnProperty(ev)) {
-          self.port.removeListener(ev, obj.events[ev]);
+          [].forEach.call(document.querySelectorAll('[data-l10n-title-id]'), function(element) {
+            element.setAttribute("title", l10n[element.dataset.l10nTitleId]);
+          });
+        }
+        else {
+          l10n = [].map.call(document.querySelectorAll('[data-l10n-id]'), function(element) {
+            return element.dataset.l10nId;
+          });
+          [].map.call(document.querySelectorAll('[data-l10n-title-id]'), function(element) {
+            l10n.push(element.dataset.l10nTitleId);
+          });
+          getMessages(l10n, localizeHTML);
         }
       }
-      self.port.emit('disconnect', obj.name);
-    }
 
-    function addPortListener(obj, listener) {
-      var eventName = 'port-message' + '.' + obj.name;
-      self.port.on(eventName, listener);
-      obj.events[eventName] = listener;
-    }
+      var data = {};
 
-    function addPortDisconnectListener(listener) {
-      // currently deactivated, detach event is fired too late: Porto components are already
-      // detached from the DOM self.port.on('detach', listener);
-    }
+      function load(path, callback) {
+        porto.extension.sendMessage({
+          event: 'data-load',
+          path: path
+        }, callback);
+      }
 
-    var l10n = {};
-
-    function getMessages(ids, callback) {
-      porto.extension.sendMessage({
-        event: 'get-l10n-messages',
-        ids: ids
-      }, callback);
-    }
-
-    function localizeHTML(l10n) {
-      if (l10n) {
-        [].forEach.call(document.querySelectorAll('[data-l10n-id]'), function(element) {
-          element.textContent = l10n[element.dataset.l10nId];
-        });
-        [].forEach.call(document.querySelectorAll('[data-l10n-title-id]'), function(element) {
-          element.setAttribute("title", l10n[element.dataset.l10nTitleId]);
-        });
+      if (self.options.expose_messaging) {
+        porto.extension = cloneInto(extension, porto);
+        exportFunction(sendMessage, porto.extension,
+          {defineAs: "sendMessage", allowCallbacks: true});
+        exportFunction(addListener, porto.extension.onMessage,
+          {defineAs: "addListener", allowCallbacks: true});
+        exportFunction(_connect, porto.extension, {defineAs: "_connect"});
+        exportFunction(getURL, porto.extension, {defineAs: "getURL"});
+        exportFunction(postMessage, porto.extension.port, {defineAs: "postMessage"});
+        exportFunction(disconnect, porto.extension.port, {defineAs: "disconnect"});
+        exportFunction(addPortListener, porto.extension.port,
+          {defineAs: "addListener", allowCallbacks: true});
+        exportFunction(addPortDisconnectListener, porto.extension.port,
+          {defineAs: "addDisconnectListener", allowCallbacks: true});
+        porto.l10n = cloneInto(l10n, porto);
+        exportFunction(getMessages, porto.l10n, {defineAs: "getMessages", allowCallbacks: true});
+        exportFunction(localizeHTML, porto.l10n, {defineAs: "localizeHTML"});
+        porto.data = cloneInto(data, porto);
+        exportFunction(load, porto.data, {defineAs: "load", allowCallbacks: true});
       }
       else {
-        l10n = [].map.call(document.querySelectorAll('[data-l10n-id]'), function(element) {
-          return element.dataset.l10nId;
-        });
-        [].map.call(document.querySelectorAll('[data-l10n-title-id]'), function(element) {
-          l10n.push(element.dataset.l10nTitleId);
-        });
-        getMessages(l10n, localizeHTML);
+        porto.extension = extension;
+        porto.extension.sendMessage = sendMessage;
+        porto.extension.onMessage.addListener = addListener;
+        porto.extension._connect = _connect;
+        porto.extension.getURL = getURL;
+        porto.extension.port.postMessage = postMessage;
+        porto.extension.port.disconnect = disconnect;
+        porto.extension.port.addListener = addPortListener;
+        porto.extension.port.addDisconnectListener = addPortDisconnectListener;
+        porto.l10n = l10n;
+        porto.l10n.getMessages = getMessages;
+        porto.l10n.localizeHTML = localizeHTML;
+        porto.data = data;
+        porto.data.load = load;
       }
-    }
 
-    var data = {};
-
-    function load(path, callback) {
-      porto.extension.sendMessage({
-        event: 'data-load',
-        path: path
-      }, callback);
-    }
-
-    if (self.options.expose_messaging) {
-      porto.extension = cloneInto(extension, porto);
-      exportFunction(sendMessage, porto.extension, {defineAs: "sendMessage", allowCallbacks: true});
-      exportFunction(addListener, porto.extension.onMessage,
-        {defineAs: "addListener", allowCallbacks: true});
-      exportFunction(_connect, porto.extension, {defineAs: "_connect"});
-      exportFunction(getURL, porto.extension, {defineAs: "getURL"});
-      exportFunction(postMessage, porto.extension.port, {defineAs: "postMessage"});
-      exportFunction(disconnect, porto.extension.port, {defineAs: "disconnect"});
-      exportFunction(addPortListener, porto.extension.port,
-        {defineAs: "addListener", allowCallbacks: true});
-      exportFunction(addPortDisconnectListener, porto.extension.port,
-        {defineAs: "addDisconnectListener", allowCallbacks: true});
-      porto.l10n = cloneInto(l10n, porto);
-      exportFunction(getMessages, porto.l10n, {defineAs: "getMessages", allowCallbacks: true});
-      exportFunction(localizeHTML, porto.l10n, {defineAs: "localizeHTML"});
-      porto.data = cloneInto(data, porto);
-      exportFunction(load, porto.data, {defineAs: "load", allowCallbacks: true});
-    }
-    else {
-      porto.extension = extension;
-      porto.extension.sendMessage = sendMessage;
-      porto.extension.onMessage.addListener = addListener;
-      porto.extension._connect = _connect;
-      porto.extension.getURL = getURL;
-      porto.extension.port.postMessage = postMessage;
-      porto.extension.port.disconnect = disconnect;
-      porto.extension.port.addListener = addPortListener;
-      porto.extension.port.addDisconnectListener = addPortDisconnectListener;
-      porto.l10n = l10n;
-      porto.l10n.getMessages = getMessages;
-      porto.l10n.localizeHTML = localizeHTML;
-      porto.data = data;
-      porto.data.load = load;
-    }
-
-  }());
+    }());
+  }
+}
+catch (ex) {
+  console.error(ex);
 }
 
 porto.extension = porto.extension || porto.crx && chrome.runtime;
 // extension.connect shim for Firefox
 if (porto.ffa && porto.extension) {
+  if (window && window.origin) {
+    console.log(window.origin);
+  }
   porto.extension.connect = function(obj) {
+    console.log(obj);
     porto.extension._connect(obj);
     obj.events = {};
     var port = {
@@ -939,7 +966,7 @@ porto.util.showSecurityBackground = function(isEmbedded) {
 
     var secBgndIcon = porto.util.generateSecurityBackground(),
       secureStyle =                                                                               '.secureBackground {'                                                         +
-                    'background-color: '                                                          + porto.util.secBgnd.color + ';'                         +
+                    'background-color: '                                                          +                                                        porto.util.secBgnd.color +                             ';'                         +
                     'background-position: -20px -20px;'                                           +
                     'background-image: url(data:image/svg+xml;base64,' + btoa(secBgndIcon) + ');' +
                     '}';

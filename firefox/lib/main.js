@@ -11,8 +11,6 @@ var l10nGet = require("sdk/l10n").get;
 var ToggleButton = require("sdk/ui/button/toggle").ToggleButton;
 var Panel = require('sdk/panel').Panel;
 
-checkStaticArgs();
-
 var porto = require('./porto-lib.js').porto;
 var model = require('./common/pgpModel');
 var keyring = require('./common/keyring');
@@ -36,13 +34,6 @@ unload.when(function(reason) {
     }
   }
 });
-
-function checkStaticArgs() {
-  // call cfx run --static-args='{ "clear_storage": true }'
-  if (system.staticArgs.clear_storage) {
-    clearStorage();
-  }
-}
 
 function init() {
   controller.extend({
@@ -218,7 +209,7 @@ function onCsAttach(worker) {
         });
     }
   });
-  if (/^resource.*options\.html/.test(worker.url)) {
+  if (/^resource.*keys\.html/.test(worker.url)) {
     porto.tabs.worker[worker.tab.index] = worker;
   }
 }

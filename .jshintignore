@@ -1,2 +1,7 @@
+firefox/node_modules/openpgp/openpgp.js
 common/ui/d3.js
+/firefox/node_modules/openpgp/openpgp.preload_dep.min.js
+/firefox/node_modules/openpgp/openpgp.worker.js
+/firefox/node_modules/openpgp/openpgp.worker.min.js
 common/ui/d3.min.js
+/firefox/node_modules/openpgp/openpgp.min.js

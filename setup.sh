@@ -18,23 +18,26 @@
 #cd ss-pgp-plugin
 #git submodule update --init
 
-pushd dep/chrome/openpgpjs
-npm install && grunt --force
-popd
+#pushd dep/chrome/openpgpjs
+#npm install && grunt --force
+#popd
 
-pushd dep/firefox/openpgpjs
-npm install && grunt --force
-popd
+#pushd dep/firefox/openpgpjs
+#npm install && grunt --force
+#popd
 
 npm install && bower install && grunt --force
 
 pushd node_modules/mailreader && npm install
 popd
 
-pushd node_modules/mailreader/node_modules/mimeparser && npm install
+pushd node_modules/mailreader/node_modules/emailjs-mime-parser && npm install
 popd
 
-pushd node_modules/mailreader/node_modules/mimeparser/node_modules/wo-addressparser && npm install
+pushd node_modules/mailreader/node_modules/emailjs-mime-parser/node_modules/emailjs-addressparser && npm install
+popd
+
+pushd node_modules/emailjs-mime-builder && npm install
 popd
 
 pushd node_modules/mimefuncs && npm install

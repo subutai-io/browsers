@@ -649,10 +649,15 @@ define(function(require, exports, module) {
 
   Keyring.prototype.generateKey = function(options, callback) {
     var that = this;
+    if (!Array.isArray(options.userIds) || options.userIds.length === 0) {
+      callback({error: "User ids aren't supplied."});
+      return;
+    }
     options.userIds = options.userIds.map(function(userId) {
       return (new goog.format.EmailAddress(userId.email, userId.fullName)).toString();
     });
-    openpgp.generateKeyPair({numBits: parseInt(options.numBits), userId: options.userIds, passphrase: options.passphrase}).then(function(data) {
+    var userId = options.userIds[0];
+    openpgp.generateKeyPair({numBits: parseInt(options.numBits), userId: userId, passphrase: options.passphrase}).then(function(data) {
       if (data) {
         that.keyring.privateKeys.push(data.key);
         that.sync.add(data.key.primaryKey.getFingerprint(), keyringSync.INSERT);

@@ -11,7 +11,7 @@ var url = require('sdk/url');
 var l10nGet = require('sdk/l10n').get;
 
 var porto = require('./common/porto').porto;
-var CWorker = require('web-worker').Worker;
+var CWorker = require('./web-worker').Worker;
 
 porto.ffa = true;
 porto.crx = false;

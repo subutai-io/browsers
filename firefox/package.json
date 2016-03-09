@@ -1,16 +1,22 @@
 {
   "name": "e2e-plugin",
+  "title": "Subutai E2E Plugin",
   "version": "1.2.3-rc3",
   "fullName": "Subutai Social E2E Plugin",
-  "id": "jid1-AQqSMBYb0a8ADg",
+  "id": "jid1-nfgMqsyMM8BnHg@jetpack",
   "description": "Enhance operations with end-to-end encryption. Secure communication based on the OpenPGP standard.",
   "author": "Subutai Social Tooling",
-  "license": "AGPL 3",
+  "license": "ASL",
+  "main": "lib/main.js",
   "homepage": "https://subutai.io",
-  "icon": "data/common/img/icons/ss-icon48x48.png",
-  "icon64": "data/common/img/icons/ss-icon48x48.png",
+  "icon": "resource://jid1-nfgmqsymm8bnhg-at-jetpack/data/common/img/icons/ss-icon48x48.png",
+  "icon64": "resource://jid1-nfgmqsymm8bnhg-at-jetpack/data/common/img/icons/ss-icon128x128.png",
   "permissions": {
     "private-browsing": true,
-    "unsafe-content-script": true
+    "unsafe-content-script": true,
+    "multiprocess": true
+  },
+  "engines": {
+    "firefox": ">=38.0 || <=46.*"
   }
 }
