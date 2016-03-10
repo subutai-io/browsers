@@ -124,10 +124,6 @@ define(function(require, exports, module) {
     var id = parseViewName(msg.sender).id;
     var controller = getByID(id);
     controller.handlePortMessage(msg);
-
-    console.log("handlePortMessage: ");
-    console.log(msg);
-    console.log(controller);
   }
 
   function getByID(id) {

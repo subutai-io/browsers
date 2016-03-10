@@ -22,7 +22,8 @@ module.exports = function(grunt) {
           'common/lib/controller/*.js',
           'chrome/background.js',
           'chrome/lib/*.js',
-          'firefox/**/*.js',
+          'firefox/data/*.js',
+          'firefox/lib/*.js',
           'safari.safariextension/lib/*.js'
         ]
       }
@@ -42,7 +43,8 @@ module.exports = function(grunt) {
           'common/lib/controller/*.js',
           'chrome/background.js',
           'chrome/lib/*.js',
-          'firefox/**/*.js'
+          'firefox/data/*.js',
+          'firefox/lib/*.js'
         ]
       }
     },
@@ -229,7 +231,40 @@ module.exports = function(grunt) {
         files: [{
           expand: true,
           flatten: true,
-          src: ['dep/openpgp.js', 'dep/openpgp.worker.js'],
+          src: [
+            'dep/chrome/openpgpjs/openpgp.js', 'dep/chrome/openpgpjs/openpgp.worker.js',
+            'dep/rawdeflate.min.js',
+            'dep/rawdeflate.min.js.map'
+          ],
+          dest: 'build/safari.safariextension/dep/'
+        },
+        {
+          expand: true,
+          flatten: true,
+          cwd: 'node_modules/',
+          src: [
+            'mailreader/src/mailreader-parser.js',
+            'mailreader/node_modules/emailjs-mime-parser/src/*.js',
+            'mailreader/node_modules/emailjs-mime-parser/node_modules/emailjs-addressparser/src/*.js',
+            'emailjs-mime-codec/src/*.js',
+            'emailjs-mime-builder/src/*.js',
+            'emailjs-mime-builder/node_modules/emailjs-mime-types/src/*.js'
+          ],
+          dest: 'build/safari.safariextension/lib/'
+        },
+        {
+          expand: true,
+          flatten: true,
+          src: 'node_modules/emailjs-mime-builder/node_modules/punycode/*.js',
+          dest: 'build/safari.safariextension/lib/',
+          rename: function(dest) {
+            return dest + 'emailjs-punycode.js';
+          }
+        },
+        {
+          expand: true,
+          flatten: true,
+          src: ['dep/chrome/openpgpjs/openpgp.js', 'dep/chrome/openpgpjs/openpgp.worker.js'],
           dest: 'build/chrome/dep/'
         },
         {
@@ -258,40 +293,7 @@ module.exports = function(grunt) {
         {
           expand: true,
           flatten: true,
-          src: [
-            'dep/openpgp.js', 'dep/openpgp.worker.js',
-            'dep/rawdeflate.min.js',
-            'dep/rawdeflate.min.js.map'
-          ],
-          dest: 'build/safari.safariextension/dep/'
-        },
-        {
-          expand: true,
-          flatten: true,
-          cwd: 'node_modules/',
-          src: [
-            'mailreader/src/mailreader-parser.js',
-            'mailreader/node_modules/mimeparser/src/*.js',
-            'mailreader/node_modules/mimeparser/node_modules/wo-addressparser/src/*.js',
-            'mimefuncs/src/*.js'
-          ],
-          dest: 'build/safari.safariextension/lib/'
-        },
-        {
-          expand: true,
-          flatten: true,
-          cwd: 'node_modules/',
-          src: [
-            'mailbuild/src/mailbuild.js',
-            'mailbuild/node_modules/mimetypes/src/*.js',
-            'mailbuild/node_modules/punycode/punycode.js'
-          ],
-          dest: 'build/safari.safariextension/lib/'
-        },
-        {
-          expand: true,
-          flatten: true,
-          src: ['dep/firefox/openpgp.js', 'dep/firefox/openpgp.worker.js'],
+          src: ['dep/firefox/openpgpjs/openpgp.min.js', 'dep/firefox/openpgpjs/openpgp.worker.min.js'],
           dest: 'build/firefox/data/'
         },
         {
@@ -374,7 +376,7 @@ module.exports = function(grunt) {
       doc: {
         options: {
           mode: 'zip',
-          archive: 'dist/ss-pgp-plugin.client-api-documentation.zip',
+          archive: 'dist/e2e-plugin.client-api-documentation.zip',
           pretty: true
         },
         files: [{
@@ -407,11 +409,11 @@ module.exports = function(grunt) {
         }]
       },
       openpgp_ff: {
-        src: ['dep/firefox/openpgp.min.js'],
+        src: ['dep/firefox/openpgpjs/openpgp.min.js'],
         dest: ['build/firefox/node_modules/openpgp/openpgp.js'],
         replacements: [{
           from: "*/",
-          to: "*/\nvar window = require('./window');\nvar atob = window.atob;"
+          to: "*/\nvar window = require('./window');"
         }]
       }
     },
