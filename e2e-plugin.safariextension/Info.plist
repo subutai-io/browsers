@@ -5,9 +5,9 @@
 	<key>Builder Version</key>
 	<string>11601.4.4</string>
 	<key>CFBundleDisplayName</key>
-	<string>Subutai E2E Plugin</string>
+	<string>Subutai Social E2E Plugin</string>
 	<key>CFBundleIdentifier</key>
-	<string>io.subutai.tooling.sfr</string>
+	<string>io.subutai.tooling.e2eplugin.sfx</string>
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundleShortVersionString</key>

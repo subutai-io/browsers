@@ -24,7 +24,7 @@ module.exports = function(grunt) {
           'chrome/lib/*.js',
           'firefox/data/*.js',
           'firefox/lib/*.js',
-          'safari.safariextension/lib/*.js'
+          'e2e-plugin.safariextension/lib/*.js'
         ]
       }
     },
@@ -129,7 +129,7 @@ module.exports = function(grunt) {
             expand: true,
             cwd: 'bower_components/requirejs/',
             src: 'require.js',
-            dest: 'build/safari.safariextension/'
+            dest: 'build/e2e-plugin.safariextension/'
           }
         ]
       },
@@ -146,7 +146,7 @@ module.exports = function(grunt) {
       },
       plugins: {
         files: [{
-          src: ['chrome/**/*', 'firefox/**/*', 'safari.safariextension/**/*'],
+          src: ['chrome/**/*', 'firefox/**/*', 'e2e-plugin.safariextension/**/*'],
           dest: 'build/'
         }]
       },
@@ -193,19 +193,19 @@ module.exports = function(grunt) {
           expand: true,
           src: ['common/**/*', '!common/lib/**/*'],
           cwd: 'build/',
-          dest: 'build/safari.safariextension/'
+          dest: 'build/e2e-plugin.safariextension/'
         },
         {
           expand: true,
           src: '**/*',
           cwd: 'build/common/lib/',
-          dest: 'build/safari.safariextension/lib/common/'
+          dest: 'build/e2e-plugin.safariextension/lib/common/'
         },
         {
           expand: true,
           src: '**/*',
           cwd: 'locales',
-          dest: 'build/safari.safariextension/_locales'
+          dest: 'build/e2e-plugin.safariextension/_locales'
         }]
       },
       locale_firefox: {
@@ -236,7 +236,7 @@ module.exports = function(grunt) {
             'dep/safari/openpgpjs/compression/rawdeflate.min.js',
             'dep/safari/openpgpjs/compression/rawdeflate.min.js.map'
           ],
-          dest: 'build/safari.safariextension/dep/'
+          dest: 'build/e2e-plugin.safariextension/dep/'
         },
         {
           expand: true,
@@ -250,13 +250,13 @@ module.exports = function(grunt) {
             'emailjs-mime-builder/src/*.js',
             'emailjs-mime-builder/node_modules/emailjs-mime-types/src/*.js'
           ],
-          dest: 'build/safari.safariextension/lib/'
+          dest: 'build/e2e-plugin.safariextension/lib/'
         },
         {
           expand: true,
           flatten: true,
           src: 'node_modules/emailjs-mime-builder/node_modules/punycode/*.js',
-          dest: 'build/safari.safariextension/lib/',
+          dest: 'build/e2e-plugin.safariextension/lib/',
           rename: function(dest) {
             return dest + 'emailjs-punycode.js';
           }
@@ -352,7 +352,7 @@ module.exports = function(grunt) {
 
     watch: {
       scripts: {
-        files: ['Gruntfile.js', '{common,dep,chrome,firefox,safari.safariextension}/**/*.js'],
+        files: ['Gruntfile.js', '{common,dep,chrome,firefox,e2e-plugin.safariextension}/**/*.js'],
         tasks: ['default', 'dist-ff', 'dist-cr'],
         options: {
           spawn: false
@@ -456,7 +456,7 @@ module.exports = function(grunt) {
   grunt.registerTask('dist-ff', ['jpm:xpi', 'copy:xpi']);
   grunt.registerTask('dist-doc', ['jsdoc', 'compress:doc']);
 
-  grunt.registerTask('copy_common', ['copy:vendor', 'copy:common', 'replace:bootstrap']);
+  grunt.registerTask('copy_common', ['copy:vendor', 'copy:common', 'replace:bootstrap', 'replace:openpgp_ff']);
   grunt.registerTask('final_assembly', ['copy:plugins', 'copy:common_browser', 'copy:locale_firefox', 'copy:dep']);
 
   grunt.registerTask('default', ['clean', 'jshint', 'jscs', 'copy:jquery', 'concat', 'copy_common', 'final_assembly']);
