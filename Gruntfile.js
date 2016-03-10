@@ -232,9 +232,9 @@ module.exports = function(grunt) {
           expand: true,
           flatten: true,
           src: [
-            'dep/chrome/openpgpjs/openpgp.js', 'dep/chrome/openpgpjs/openpgp.worker.js',
-            'dep/rawdeflate.min.js',
-            'dep/rawdeflate.min.js.map'
+            'dep/safari/openpgpjs/openpgp.js', 'dep/safari/openpgpjs/openpgp.worker.js',
+            'dep/safari/openpgpjs/compression/rawdeflate.min.js',
+            'dep/safari/openpgpjs/compression/rawdeflate.min.js.map'
           ],
           dest: 'build/safari.safariextension/dep/'
         },
