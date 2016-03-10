@@ -26,11 +26,12 @@
     cancelButtonText: 'Cancel',
     cancelButtonColor: '#aaa',
     cancelButtonClass: null,
+    buttonsStyling: false,
     imageUrl: null,
     imageSize: null,
     timer: null,
     width: 500,
-    padding: 20,
+    padding: 0,
     background: '#fff'
   };
 
