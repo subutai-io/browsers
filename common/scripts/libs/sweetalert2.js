@@ -579,9 +579,17 @@
       }
     }
 
-    //Custom Class
+    /*
+     * Custom class
+     */
     if (params.customClass) {
       addClass(modal, params.customClass);
+      modal.setAttribute('data-custom-class', params.customClass);
+    } else {
+      // Find previously set classes and remove them
+      var customClass = modal.getAttribute('data-custom-class');
+      removeClass(modal, customClass);
+      modal.setAttribute('data-custom-class', '');
     }
 
     // Icon
@@ -744,6 +752,7 @@
     addClass(modal, 'hideSweetAlert');
     removeClass(modal, 'visible');
 
+
     // Reset icon animations
 
     var $successIcon = modal.querySelector('.icon.success');
@@ -768,6 +777,12 @@
     if (mediaquery) {
       head.removeChild(mediaquery);
     }
+
+    // Reset custom class (delay so that UI changes aren't visible)
+    setTimeout(function() {
+      var customClass = modal.getAttribute('data-custom-class');
+      removeClass(modal, customClass);
+    }, 300);
   }
 
   // Reset the page to its previous state
