@@ -21,6 +21,7 @@ body {
   font-family: 'Ubuntu', sans-serif;
   background-color: #f8fbfd;
   position: relative;
+  color: #04346E;
 }
 
 .clear {
@@ -186,7 +187,12 @@ body {
 .b-btn i {
   margin-left: -5px;
   font-size: 12px;
-
+}
+.b-btn_wide {
+  min-width: 150px;
+}
+.b-btn_mid {
+  min-width: 75px;
 }
 .b-btn_light-grey {
   background-color: #f8fbfd;
@@ -440,6 +446,7 @@ body {
   color: #04346E;
   padding: 15px 18px;
   text-align: left;
+  word-break: break-all;
 }
 
 .b-main-table_white-header td {
@@ -835,8 +842,13 @@ body {
   /*width: 610px;*/
   background-color: #fff;
   border: 1px solid #ccceee;
+  position: relative;
 }
-
+.b-popup_error,
+.b-popup_success {
+  text-align: center;
+  padding: 15px;
+}
 .b-popup_wide {
   width: 790px;
 }
@@ -858,6 +870,7 @@ body {
   line-height: 51px;
   height: 52px;
   border-bottom: 1px solid #CCCEEE;
+  background-color: #f8fbfd;
 }
 
 .b-popup_min .b-popup__header {
@@ -1436,7 +1449,7 @@ td.b-main-table__status-col {
 }
 
 .b-form-input_fix-size-2 {
-  width: 144px;
+  width: 200px;
 }
 
 .b-form-input_fix-size-3 {
@@ -2298,13 +2311,16 @@ td.b-main-table__status-col {
 .b-tabs .b-tabs__label {
   display: inline-block;
   margin: 0 0 -2px;
-  padding: 15px 25px;
+  padding: 0 15px;
   text-align: center;
   cursor: pointer;
   font-size: 16px;
   color: #04346E;
+  line-height: 51px;
 }
-
+.b-tabs .b-tabs__label:hover {
+  background-color: #fbfbfb;
+}
 .b-tabs .b-tabs__input:checked + .b-tabs__label {
   color: #04346E;
   border-bottom: 1px solid #fff;
@@ -2386,3 +2402,32 @@ td.b-main-table__status-col {
   z-index: 2;
 }
 
+.b-popup-error_svg,
+.b-popup-success_svg{
+  width: 50px;
+  height: 50px;
+  margin-bottom: 5px;
+}
+.b-popup-error_text {
+  font-size: 16px;
+  color: #ef3f61;
+}
+.b-popup-success_text {
+  font-size: 16px;
+  color: #4bbc6e;
+}
+.b-popup_error_close {
+  position: absolute;
+  right: 15px;
+  top: 15px;
+  font-size: 16px;
+  float: right;
+  color: #ef3f61;
+}
+.b-popup_success_close {
+  position: absolute;
+  right: 15px;
+  top: 15px;
+  font-size: 16px;
+  color: #4bbc6e;
+}

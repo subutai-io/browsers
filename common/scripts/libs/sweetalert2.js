@@ -30,7 +30,7 @@
     imageUrl: null,
     imageSize: null,
     timer: null,
-    width: 500,
+    width: 300,
     padding: 0,
     background: '#fff'
   };

@@ -15,6 +15,9 @@ var swal;
   var $keyInfoTemplate = $('<div></div>');
   var $keyImportTemplate = $('<div></div>');
   var $keyExportTemplate = $('<div></div>');
+  var $keyConfirmationTemplate = $('<div></div>');
+  var $keyErrorTemplate = $('<div></div>');
+  var $keySuccessTemplate = $('<div></div>');
   var keyringId = null;
   var keyFile = null;
   var peersMetadata = [];
@@ -52,12 +55,13 @@ var swal;
 
     var qs = jQuery.parseQuerystring();
 
-    porto.appendTpl($generateKeyTemplate,
-      porto.extension.getURL('common/ui/_popup-generate-key.html'));
-    porto.appendTpl($keyInfoTemplate,
-      porto.extension.getURL('common/ui/_popup-keys-information.html'));
+    porto.appendTpl($generateKeyTemplate, porto.extension.getURL('common/ui/_popup-generate-key.html'));
+    porto.appendTpl($keyInfoTemplate, porto.extension.getURL('common/ui/_popup-keys-information.html'));
     porto.appendTpl($keyImportTemplate, porto.extension.getURL('common/ui/_popup-import-key.html'));
     porto.appendTpl($keyExportTemplate, porto.extension.getURL('common/ui/_popup-export-key.html'));
+    porto.appendTpl($keyConfirmationTemplate, porto.extension.getURL('common/ui/_popup-confirmation.html'));
+    porto.appendTpl($keyErrorTemplate, porto.extension.getURL('common/ui/_popup-error.html'));
+    porto.appendTpl($keySuccessTemplate, porto.extension.getURL('common/ui/_popup-success.html'));
 
     $('.bp-generate-key-modal').on('click', generateKeyModal);
     $('.bp-import-key-modal').on('click', showImportKeyModal);
@@ -119,8 +123,10 @@ var swal;
               swal({
                 title: "Generate key-pair",
                 text: "Key pair successfully generated!",
-                timer: 1500,
                 type: "success",
+                customClass: "b-success",
+                timer: 1500
+
               }, function() {
                 options.keyring('getKeys').then(fillKeysTable);
                 $('#key-types').change();
@@ -132,7 +138,7 @@ var swal;
               console.error('generateKey() options.keyring(generateKey)', error);
               console.error(error);
               swal({
-                title: "Oh, snap", text: error.message, type: "error"
+                title: "Oh, snap", text: error.message, type: "error", customClass: "b-warning", timer: 1500
               });
             })
             .then(function() {
@@ -141,7 +147,7 @@ var swal;
         }
         catch (error) {
           swal({
-            title: "Oh, snap", text: error.message, type: "error", showConfirmButton: true
+            title: "Oh, snap", text: error.message, type: "error", customClass: "b-warning", timer: 1500
           });
         }
       }
@@ -246,8 +252,13 @@ var swal;
 
   function fillKeysTable(keys, filter) {
     var $tableBody = $('.b-main-table .b-main-table-body');
-    $tableBody.empty();
+    $tableBody.empty(
+      $('.js-empty-table').css({'display':'none'}),
+      $('.b-main-table .b-main-table-body').css({'display':'table-row-group'})
+  );
     if (keys && keys.length <= 0) {
+      $('.js-empty-table').css({'display':'table-row'});
+      $('.b-main-table .b-main-table-body').css({'display':'none'});
       generateKeyModal();
     }
     keys.forEach(function(key) {
@@ -317,18 +328,18 @@ var swal;
         console.log($entryForRemove.attr('data-keyguid'));
 
         swal({
-          title: "Are you sure?",
-          text: "You will not be able to recover key!",
-          type: "warning",
-          showCancelButton: true,
-          confirmButtonColor: "#DD6B55",
-          confirmButtonText: "Yes, delete it!",
-          closeOnConfirm: false
+          html: $keyConfirmationTemplate.html(),
+          showCancelButton: false,
+          showConfirmButton: false,
+          closeOnConfirm: false,
+          width: 250,
+          animation: false,
+          buttonsStyling: false
         }, function() {
           options.keyring('removeKey',
             [$entryForRemove.attr('data-keyguid'), $entryForRemove.attr('data-keytype')]);
           swal({
-            title: "Deleted.", text: "Key successfully deleted!", timer: 1500, type: "success"
+            title: "Deleted.", text: "Key successfully deleted!", timer: 1500, type: "success", customClass: "b-success"
           }, function() {
             options.keyring('getKeys').then(fillKeysTable);
           });
@@ -348,7 +359,7 @@ var swal;
       showCloseButton: false,
       showConfirmButton: false,
       animation: false,
-      width: 400
+      width: 350
     });
 
     options.keyring('getKeyDetails', [$keyData.attr('data-keyguid')])
@@ -544,12 +555,12 @@ var swal;
       onImportKey(function(result) {
         if (result.type === 'error') {
           swal({
-            title: "Oh, snap", text: "Couldn't import key", type: "error"
+            title: "Oh, snap", text: "Couldn't import key", type: "error", customClass: "b-warning"
           });
         }
         else {
           swal({
-            title: "Success", text: "Successfully imported key!", timer: 1500, type: "success"
+            title: "Success", text: "Successfully imported key!", timer: 1500, type: "success", customClass: "b-success"
           }, function() {
             options.keyring('getKeys').then(fillKeysTable);
           });
