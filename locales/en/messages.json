@@ -1,73 +1,26 @@
 {
-	"ID": {
-		"message": "ID",
-		"description": "ID"
-	},
-	"actions": {
-		"message": "actions",
-		"description": "actions"
-	},
-	"reload": {
-		"message": "Reload",
-		"description": "Reload"
-	},
-	"add": {
-		"message": "Add",
-		"description": "Add"
-	},
-	"no_hosts": {
-		"message": "No hosts",
-		"description": "No hosts"
-	},
-	"name": {
-		"message": "Name",
-		"description": "name"
-	},
-	"hosts_manager": {
-		"message": "Managements",
-		"description": "Managements"
-	},
-	"ip_adress": {
-	
-		"message": "IP adress",
-		"description": "IP adress"
-	
-	},
-	"keygrid_trust": {
-		"message": "Web of trust",
-		"description": "Web of trust"
-	},
-	"main_key": {
-		"message": "Main Info",
-		"description": "Main info"
-	
-	},
-	"mh_add": {
-		"message": "Add management",
-		"description": "Add management host"
-	},
-	"mh_setup": {
-		"message": "Manage Hosts",
-		"description": "Manage Hosts"
-	},
-	"mh_search": {
-		"message": "Search",
-		"description": "Search"
-	},
-	"mh_encrypt": {
-		"message": "Encrypt",
-		"description": "Encrypt"
-	},
-	"mh_decrypt": {
-		"message": "Decrypt",
-		"description": "Decrypt"
-	},
+  "ID": {
+    "message": "ID",
+    "description": "ID"
+  },
+  "actions": {
+    "message": "actions",
+    "description": "actions"
+  },
+  "keygrid_trust": {
+    "message": "Web of trust",
+    "description": "Web of trust"
+  },
+  "main_key": {
+    "message": "Main Info",
+    "description": "Main info"
+  },
   "ext_name": {
     "message": "Subutai Social E2E Plugin",
     "description": "Name of the extension."
   },
   "ext_description": {
-    "message": "Enhance your webmail provider with end-to-end encryption. Secure communication based on the OpenPGP standard.",
+    "message": "Secure your identity with end-to-end encryption, and still manage your cloud with ease.",
     "description": "Description of the extension."
   },
   "popup_actived_checkbox": {
@@ -88,11 +41,11 @@
   },
   "popup_reload": {
     "message": "Reload",
-    "description": "Reload all SS Browser Plugin elements on page."
+    "description": "Reload all E2E Plugin elements on page."
   },
   "popup_reload_tooltip": {
-    "message": "Reload all SS Browser Plugin elements",
-    "description": "Reload all SS Browser Plugin UI elements on page."
+    "message": "Reload all E2E Plugin elements",
+    "description": "Reload all E2E Plugin UI elements on page."
   },
   "popup_actions_current_page": {
     "message": "Current tab:",
@@ -107,7 +60,7 @@
     "description": "Add page to watchlist."
   },
   "popup_add_page_tooltip": {
-    "message": "Enable SS Browser Plugin for this page",
+    "message": "Enable E2E Plugin for this page",
     "description": "Add page to watchlist."
   },
   "popup_remove_page": {
@@ -131,7 +84,7 @@
     "description": "Opens the help page on subutai.io."
   },
   "options_title": {
-    "message": "SS Browser Plugin Options",
+    "message": "E2E Plugin Options",
     "description": "Title of options page."
   },
   "decrypt_popup_title": {
@@ -179,7 +132,7 @@
     "description": "Sign button."
   },
   "pwd_dialog_title": {
-    "message": "Password entry | SS Browser Plugin",
+    "message": "Password entry | SS E2E Plugin",
     "description": "Title of the password dialog."
   },
   "pwd_dialog_header": {
@@ -351,7 +304,7 @@
     "description": "Title of the source column of the security log table."
   },
   "security_log_text": {
-    "message": "The security log shows user actions in integrated components of SS Browser Plugin.",
+    "message": "The security log shows user actions in integrated components of E2E Plugin.",
     "description": "Text explaining the purpose of the security log"
   },
   "security_log_editor": {
@@ -915,11 +868,11 @@
     "description": "Decrypted message display option"
   },
   "security_display_popup": {
-    "message": "In a separate popup from SS Browser Plugin.",
+    "message": "In a separate popup from E2E Plugin.",
     "description": "Decrypted message display option"
   },
   "security_background_button_title": {
-    "message": "The security background can be adjusted in the SS Browser Plugin-Options area",
+    "message": "The security background can be adjusted in the E2E Plugin-Options area",
     "description": "The tooltip text for the keylock button"
   },
   "security_background_header": {
@@ -927,7 +880,7 @@
     "description": "Security background header"
   },
   "security_background_text": {
-    "message": "The security background is your personal SS Browser Plugin background and it helps to prevent user interface manipulation by third-party websites and applications. To increase security, create and change your personal background here.",
+    "message": "The security background is your personal E2E Plugin background and it helps to prevent user interface manipulation by third-party websites and applications. To increase security, create and change your personal background here.",
     "description": "Security background text"
   },
   "security_background_preview": {
@@ -951,7 +904,7 @@
     "description": "Label for compose options"
   },
   "security_compose_external": {
-    "message": "In a separate text editor window belonging to SS Browser Plugin.",
+    "message": "In a separate text editor window belonging to E2E Plugin.",
     "description": "Mail compose option"
   },
   "security_compose_webmail": {
@@ -959,7 +912,7 @@
     "description": "Mail compose option"
   },
   "security_compose_warn": {
-    "message": "This setting degrades the security level of SS Browser Plugin. Your mail provider can potentially get access to your message.",
+    "message": "This setting degrades the security level of E2E Plugin. Your mail provider can potentially get access to your message.",
     "description": "Mail compose options warning"
   },
   "security_cache_header": {

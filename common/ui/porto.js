@@ -606,7 +606,6 @@ try {
       }
 
       function postMessage(message) {
-        console.log('postmessage', name, message.event);
         self.port.emit('port-message', message);
       }
 
@@ -624,7 +623,6 @@ try {
         var eventName = 'port-message' + '.' + obj.name;
         self.port.on(eventName, listener);
         obj.events[eventName] = listener;
-        console.log('addPortListener: ' + eventName);
       }
 
       function addPortDisconnectListener(listener) {
@@ -717,11 +715,7 @@ catch (ex) {
 porto.extension = porto.extension || porto.crx && chrome.runtime;
 // extension.connect shim for Firefox
 if (porto.ffa && porto.extension) {
-  if (window && window.origin) {
-    console.log(window.origin);
-  }
   porto.extension.connect = function(obj) {
-    console.log(obj);
     porto.extension._connect(obj);
     obj.events = {};
     var port = {
