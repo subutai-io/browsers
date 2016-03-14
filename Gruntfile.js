@@ -451,7 +451,7 @@ module.exports = function(grunt) {
   //custom tasks
   grunt.registerTask('dist-cr', ['compress:chrome']);
   grunt.registerTask('dist-crx', function() {
-    grunt.util.spawn({cmd: '.travis/crxmake.sh', args: ['build/chrome', '.travis/crx_signing.pem'], opts: {stdio: 'ignore'}});
+    grunt.util.spawn({cmd: 'sign-dist/crxmake.sh', args: ['build/chrome', 'cert/crx_signing.pem'], opts: {stdio: 'ignore'}});
   });
   grunt.registerTask('dist-ff', ['jpm:xpi', 'copy:xpi']);
   grunt.registerTask('dist-doc', ['jsdoc', 'compress:doc']);
