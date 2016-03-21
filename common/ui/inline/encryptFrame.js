@@ -291,10 +291,10 @@ porto.EncryptFrame.prototype._html2text = function(html) {
   html = $('<div/>').html(html);
   // replace anchors
   html = html.find('a').replaceWith(function() {
-      return $(this).text() + ' (' + $(this).attr('href') + ')';
-    })
-    .end()
-    .html();
+               return $(this).text() + ' (' + $(this).attr('href') + ')';
+             })
+             .end()
+             .html();
   html = html.replace(/(<(br|ul|ol)>)/g, '\n'); // replace <br>,<ol>,<ul> with new line
   html = html.replace(/<\/(div|p|li)>/g, '\n'); // replace </div>, </p> or </li> tags with new line
   html = html.replace(/<li>/g, '- ');
@@ -372,13 +372,21 @@ porto.EncryptFrame.prototype._setMessage = function(msg, type, fingerprint) {
     // decode HTML entities for type text due to previous HTML parsing
     msg = porto.util.decodeHTML(msg);
     this._emailTextElement.val(msg);
+    $(this._emailTextElement).text(msg);
+    //console.log(msg);
     //this._emailTextElement.removeClass('bp-set-pub-key');
 
     var signTargets = document.getElementsByClassName('bp-sign-target');
-    if (signTargets.length > 0 ) {
-      var changeEvent = new Event('change');
-      signTargets[0].dispatchEvent(changeEvent);
+    if (signTargets.length > 0) {
+      try {
+        var changeEvent = new Event('change');
+        signTargets[0].dispatchEvent(changeEvent);
+      }
+      catch (err) {
+        //console.error(err);
+      }
     }
+    $(this._emailTextElement).removeClass('bp-sign-target');
 
     var loadingScreenDelegateScreen = document.getElementsByClassName('js-loading-screen');
     if (loadingScreenDelegateScreen.length > 0) {

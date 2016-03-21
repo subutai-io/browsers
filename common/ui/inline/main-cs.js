@@ -160,6 +160,7 @@ porto.main.findEditable = function() {
   editable = editable.filter(function() {
     return $(this).height() > porto.main.minEditHeight && ($(this).hasClass('bp-sign-target') || $(this).hasClass('bp-set-pub-key'));
   });
+  //console.log(editable);
   return editable;
 };
 
