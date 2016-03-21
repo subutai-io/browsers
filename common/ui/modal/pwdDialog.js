@@ -32,6 +32,13 @@ var porto = porto || null;
       logUserInput('security_log_remember_click');
     });
 
+    $('#password').keypress(function(e) {
+      if (e.which == 13) {
+        onOk();
+        return false;
+      }
+    });
+
     porto.l10n.localizeHTML();
     porto.l10n.getMessages([
       'pwd_dialog_pwd_please',
@@ -55,8 +62,6 @@ var porto = porto || null;
     var pwd = $('#password').val();
     var cache = $('#remember').prop('checked');
     $('body').addClass('busy'); // https://bugs.webkit.org/show_bug.cgi?id=101857
-    $('#spinner').show();
-    $('.modal-body').css('opacity', '0.4');
     port.postMessage({event: 'pwd-dialog-ok', sender: name, password: pwd, cache: cache});
     $('#okBtn').prop('disabled', true);
     return false;

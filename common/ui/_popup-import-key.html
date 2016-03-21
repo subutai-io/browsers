@@ -10,7 +10,7 @@
   <div class="b-popup__body">
     <div class="b-form-wrapper g-margin-bottom">
       <div class="b-form-wrapper">
-                <textarea id="name"
+                <textarea id="keyContent" tabindex="0"
                           class="b-form-input b-form-input_full b-form-input_textarea bp-import-keys"
                           style="height: 200px; font-family: monospace; resize: none">Paste key text here</textarea>
       </div>
@@ -19,9 +19,9 @@
       <div class="b-form-group">
         <div class="b-upload-btn b-btn b-btn_blue">
           <span>Select file...</span>
-          <input id="uploadBtn" type="file" class="upload"/>
+          <input id="uploadBtn" type="file" class="upload" tabindex="1"/>
         </div>
-        <button class="b-btn b-btn_green confirm g-right"><i class="fa fa-arrow-down"></i> Import</button>
+        <button class="b-btn b-btn_green confirm g-right" tabindex="1"><i class="fa fa-arrow-down"></i> Import</button>
       </div>
     </div>
   </div>

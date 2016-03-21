@@ -43,7 +43,7 @@ var swal;
       swal.closeModal();
     });
 
-    swal.setDefaults({allowEscapeKey: false, allowOutsideClick: false});
+    swal.setDefaults({allowEscapeKey: true, allowOutsideClick: false});
   }
 
   function initRebirthUI() {
@@ -55,11 +55,14 @@ var swal;
 
     var qs = jQuery.parseQuerystring();
 
-    porto.appendTpl($generateKeyTemplate, porto.extension.getURL('common/ui/_popup-generate-key.html'));
-    porto.appendTpl($keyInfoTemplate, porto.extension.getURL('common/ui/_popup-keys-information.html'));
+    porto.appendTpl($generateKeyTemplate,
+      porto.extension.getURL('common/ui/_popup-generate-key.html'));
+    porto.appendTpl($keyInfoTemplate,
+      porto.extension.getURL('common/ui/_popup-keys-information.html'));
     porto.appendTpl($keyImportTemplate, porto.extension.getURL('common/ui/_popup-import-key.html'));
     porto.appendTpl($keyExportTemplate, porto.extension.getURL('common/ui/_popup-export-key.html'));
-    porto.appendTpl($keyConfirmationTemplate, porto.extension.getURL('common/ui/_popup-confirmation.html'));
+    porto.appendTpl($keyConfirmationTemplate,
+      porto.extension.getURL('common/ui/_popup-confirmation.html'));
     porto.appendTpl($keyErrorTemplate, porto.extension.getURL('common/ui/_popup-error.html'));
     porto.appendTpl($keySuccessTemplate, porto.extension.getURL('common/ui/_popup-success.html'));
 
@@ -68,11 +71,15 @@ var swal;
     $('.bp-export-keys-modal').on('click', showExportKeysModal);
 
     options.registerL10nMessages(
-      ['keygrid_key_not_expire', 'keygrid_delete_confirmation', 'keygrid_primary_label',
-        'key_set_as_primary']);
+      [
+        'keygrid_key_not_expire', 'keygrid_delete_confirmation', 'keygrid_primary_label',
+        'key_set_as_primary'
+      ]);
     options.registerL10nMessages(
-      ["key_import_error", "key_import_invalid_text", "key_import_exception",
-        "alert_header_warning", "alert_header_success"]);
+      [
+        "key_import_error", "key_import_invalid_text", "key_import_exception",
+        "alert_header_warning", "alert_header_success"
+      ]);
 
     porto.extension.sendMessage({
       event: 'get-active-keyring'
@@ -104,54 +111,77 @@ var swal;
     }, function(isConfirm) {
       if (isConfirm) {
         swal.disableButtons();
-        var parameters = {};
-        parameters.algorithm = $('#algorythm').val();
-        parameters.numBits = $('#keysize').val();
-        parameters.userIds = [{
-          fullName: $('#name').val(), email: $('#email').val()
-        }];
-        parameters.passphrase = $('#password').val();
-        parameters.confirm = $('#password-confirm').val();
-
-        try {
-          validateFields(parameters);
-          generateKey(parameters)
-            .then(function(result) {
-              //success
-              swal.enableButtons();
-              options.event.triggerHandler('keygrid-reload');
-              swal({
-                title: "Generate key-pair",
-                text: "Key pair successfully generated!",
-                type: "success",
-                customClass: "b-success",
-                timer: 1500
-
-              }, function() {
-                options.keyring('getKeys').then(fillKeysTable);
-                $('#key-types').change();
-                //populatePeerList(peersMetadata);
-              });
-            })
-            .catch(function(error) {
-              //failed
-              console.error('generateKey() options.keyring(generateKey)', error);
-              console.error(error);
-              swal({
-                title: "Oh, snap", text: error.message, type: "error", customClass: "b-warning", timer: 1500
-              });
-            })
-            .then(function() {
-              console.log('Generation completed!');
-            });
-        }
-        catch (error) {
-          swal({
-            title: "Oh, snap", text: error.message, type: "error", customClass: "b-warning", timer: 1500
-          });
-        }
+        triggerGenerate();
       }
     });
+
+    var triggerAction = function(e) {
+      if (e.which == 13) {
+        $('#email').unbind("keypress", triggerAction);
+        swal.disableButtons();
+        triggerGenerate();
+        return false;
+      }
+    };
+
+    var $emailField = $('#email');
+    $emailField.focus();
+    $emailField.bind('keypress', triggerAction);
+  }
+
+  function triggerGenerate() {
+    var parameters = {};
+    parameters.algorithm = $('#algorythm').val();
+    parameters.numBits = $('#keysize').val();
+    parameters.userIds = [
+      {
+        fullName: $('#name').val(), email: $('#email').val()
+      }
+    ];
+    parameters.passphrase = $('#password').val();
+    parameters.confirm = $('#password-confirm').val();
+
+    try {
+      validateFields(parameters);
+      generateKey(parameters)
+        .then(function(result) {
+          //success
+          swal.enableButtons();
+          options.event.triggerHandler('keygrid-reload');
+          swal({
+            title: "Generate key-pair",
+            text: "Key pair successfully generated!",
+            type: "success",
+            customClass: "b-success",
+            timer: 1500
+
+          }, function() {
+            options.keyring('getKeys').then(fillKeysTable);
+            $('#key-types').change();
+            //populatePeerList(peersMetadata);
+          });
+        })
+        .catch(function(error) {
+          //failed
+          console.error('generateKey() options.keyring(generateKey)', error);
+          console.error(error);
+          swal({
+            title: "Oh, snap",
+            text: error.message,
+            type: "error",
+            customClass: "b-warning",
+            timer: 1500
+          });
+        })
+        .then(function() {
+          console.log('Generation completed!');
+        });
+    }
+    catch (error) {
+      swal({
+        title: "Oh, snap", text: error.message, type: "error", customClass: "b-warning", timer: 1500
+      });
+    }
   }
 
   function validateFields(parameters) {
@@ -253,12 +283,12 @@ var swal;
   function fillKeysTable(keys, filter) {
     var $tableBody = $('.b-main-table .b-main-table-body');
     $tableBody.empty(
-      $('.js-empty-table').css({'display':'none'}),
-      $('.b-main-table .b-main-table-body').css({'display':'table-row-group'})
-  );
+      $('.js-empty-table').css({'display': 'none'}),
+      $('.b-main-table .b-main-table-body').css({'display': 'table-row-group'})
+    );
     if (keys && keys.length <= 0) {
-      $('.js-empty-table').css({'display':'table-row'});
-      $('.b-main-table .b-main-table-body').css({'display':'none'});
+      $('.js-empty-table').css({'display': 'table-row'});
+      $('.b-main-table .b-main-table-body').css({'display': 'none'});
       generateKeyModal();
     }
     keys.forEach(function(key) {
@@ -302,11 +332,11 @@ var swal;
       var mgmts = null;
       if (keyPeerMap[key.fingerprint]) {
         mgmts = $('<a href="managements.html?fp=' +
-          key.fingerprint +
-          '"><span class="b-tags b-tags_blue" ' +
-          '>Peers: ' +
-          keyPeerMap[key.fingerprint].length +
-          '</span></a>');
+                  key.fingerprint +
+                  '"><span class="b-tags b-tags_blue" ' +
+                  '>Peers: ' +
+                  keyPeerMap[key.fingerprint].length +
+                  '</span></a>');
       }
       else {
         mgmts = $('<span class="b-tags b-tags_blue"' + style + '>Peers: 0</span>');
@@ -339,7 +369,11 @@ var swal;
           options.keyring('removeKey',
             [$entryForRemove.attr('data-keyguid'), $entryForRemove.attr('data-keytype')]);
           swal({
-            title: "Deleted.", text: "Key successfully deleted!", timer: 1500, type: "success", customClass: "b-success"
+            title: "Deleted.",
+            text: "Key successfully deleted!",
+            timer: 1500,
+            type: "success",
+            customClass: "b-success"
           }, function() {
             options.keyring('getKeys').then(fillKeysTable);
           });
@@ -493,12 +527,14 @@ var swal;
                animation: false,
                width: 320,
                showConfirmButton: false,
-               closeOnConfirm: false,
+               closeOnConfirm: false
              }, function() {
                createFile($('.bp-export-filename').val(), keyPair);
              });
              $('.bp-export-clipboard').text(keyPair);
-             $('.bp-export-filename').val(filename);
+             var $filename = $('.bp-export-filename');
+             $filename.val(filename);
+             $filename.focus();
            });
   }
 
@@ -523,12 +559,14 @@ var swal;
           animation: false,
           width: 320,
           showConfirmButton: false,
-          closeOnConfirm: false,
+          closeOnConfirm: false
         }, function() {
           createFile($('.bp-export-filename').val(), allKeys);
         });
         $('.bp-export-clipboard').text(allKeys);
-        $('.bp-export-filename').val('all.asc');
+        var $filename = $('.bp-export-filename');
+        $filename.val('all.asc');
+        $filename.focus();
       });
   }
 
@@ -560,7 +598,11 @@ var swal;
         }
         else {
           swal({
-            title: "Success", text: "Successfully imported key!", timer: 1500, type: "success", customClass: "b-success"
+            title: "Success",
+            text: "Successfully imported key!",
+            timer: 1500,
+            type: "success",
+            customClass: "b-success"
           }, function() {
             options.keyring('getKeys').then(fillKeysTable);
           });
@@ -568,6 +610,7 @@ var swal;
       });
     });
     $('#uploadBtn').change(onChangeFile);
+    $('#keyContent').focus();
   }
 
   function onImportKey(callback) {

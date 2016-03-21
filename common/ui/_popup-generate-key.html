@@ -15,63 +15,65 @@
       </div>
       <div class="b-form-wrapper g-margin-bottom">
         <label for="email" class="b-form-label g-margin-right">Enter email</label>
-        <input id="email" type="email" class="b-form-input g-right" placeholder="Enter e-mail">
+        <input id="email" type="email" class="b-form-input g-right" placeholder="Enter e-mail" tabindex="2">
       </div>
     </div>
 
     <div class="b-toggle-wrapper">
-      <div class="toggle">
+      <a href class="toggle">
         <input type="checkbox" class="check" id="protectkey">
         <div class="toggle-bg"></div>
         <b class="b switch"></b>
-      </div>
+      </a>
+
       <label for="protectkey" class="b-form-label">Protect your key with password</label>
-    </div>
-    <div class="js-passwd-hide">
-      <div class="b-form-wrapper g-margin-bottom-half">
-        <label for="password" class="b-form-label g-margin-right">Enter password</label>
-        <input id="password" type="password" class="b-form-input g-right" placeholder="Enter password">
-      </div>
-      <div class="b-form-wrapper g-margin-bottom-half">
-        <label for="password-confirm" class="b-form-label g-margin-right">Confirm password</label>
-        <input id="password-confirm" type="password" class="b-form-input g-right" placeholder="Confirm password">
+
+      <div class="js-passwd-hide">
+        <div class="b-form-wrapper g-margin-bottom-half">
+          <label for="password" class="b-form-label g-margin-right">Enter password</label>
+          <input id="password" type="password" class="b-form-input g-right" placeholder="Enter password">
+        </div>
+        <div class="b-form-wrapper g-margin-bottom-half">
+          <label for="password-confirm" class="b-form-label g-margin-right">Confirm password</label>
+          <input id="password-confirm" type="password" class="b-form-input g-right" placeholder="Confirm password">
+        </div>
       </div>
     </div>
 
     <div class="b-toggle-wrapper">
-      <div class="toggle">
+      <a href class="toggle">
         <input type="checkbox" class="check" id="advanced">
         <div class="toggle-bg"></div>
         <b class="b switch"></b>
-      </div>
-      <label for="advanced" class="b-form-label">Advanced</label>
-    </div>
-    <div class="js-advanced-hide ">
-      <div class="b-form-wrapper g-margin-bottom-half">
-        <label for="algorythm" class="b-form-label g-margin-right">Algorithm</label>
-        <select id="algorythm" class="b-form-input g-right">
-          <option value="RSA/RSA">RSA/RSA</option>
-        </select>
-      </div>
-      <div class="b-form-wrapper g-margin-bottom-half">
-        <label for="keysize" class="b-form-label g-margin-right">Key size (bits)</label>
-        <select id="keysize" class="b-form-input g-right">
-          <option value="4096">4096</option>
-        </select>
-      </div>
-      <div class="b-form-wrapper g-margin-bottom">
-        <label for="expiration" class="b-form-label g-margin-right">Expiration</label>
+      </a>
 
-        <div class="b-form-group g-right">
-          <select id="expiration" class="b-form-input b-form-input_fix-size-3 g-right">
-            <option value="never">Never</option>
+      <label for="advanced" class="b-form-label">Advanced</label>
+
+      <div class="js-advanced-hide ">
+        <div class="b-form-wrapper g-margin-bottom-half">
+          <label for="algorythm" class="b-form-label g-margin-right">Algorithm</label>
+          <select id="algorythm" class="b-form-input g-right">
+            <option value="RSA/RSA">RSA/RSA</option>
           </select>
-          <input id="expiration2" type="text" value="0"
-                 class="b-form-input g-margin-right b-form-input_fix-size-4 ">
+        </div>
+        <div class="b-form-wrapper g-margin-bottom-half">
+          <label for="keysize" class="b-form-label g-margin-right">Key size (bits)</label>
+          <select id="keysize" class="b-form-input g-right">
+            <option value="4096">4096</option>
+          </select>
+        </div>
+        <div class="b-form-wrapper g-margin-bottom">
+          <label for="expiration" class="b-form-label g-margin-right">Expiration</label>
+
+          <div class="b-form-group g-right">
+            <select id="expiration" class="b-form-input b-form-input_fix-size-3 g-right">
+              <option value="never">Never</option>
+            </select>
+          </div>
         </div>
       </div>
     </div>
-  <button class="b-btn b-btn_green confirm g-right">Generate</button>
+  <button class="b-btn b-btn_green confirm g-right" tabindex="1">Generate</button>
   <div class="clear"></div>
   </div>
 </div>
