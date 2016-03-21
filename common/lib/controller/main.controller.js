@@ -136,6 +136,12 @@ define(function(require, exports, module) {
       case 'associate-peer-key':
         associatePeerWithKey(request);
         break;
+      case 'port-data-to-tray':
+        console.log(request.data);
+        porto.request.send('https://192.168.1.112:8443/rest/v1/security/keyman/getpublickey').then(function(response) {
+          console.log(response);
+        });
+        break;
       default:
         console.log('unknown event:', request);
     }

@@ -18,16 +18,25 @@ var porto = porto || {};
 
   var cookie = getCookie('su_fingerprint');
 
-  porto.extension.sendMessage({event: "get-version"}, function(version) {
-    var input = $('#bp-plugin-version');
-    if (input) {
-      input.val(version);
-    }
-  });
+  if (cookie) {
+    porto.extension.sendMessage({event: "get-version"}, function(version) {
+      var input = $('#bp-plugin-version');
+      if (input) {
+        input.val(version);
+      }
+    });
 
-  porto.extension.sendMessage({
-    event: "associate-peer-key", su_fingerprint: cookie, url: document.location.origin
-  });
+    porto.extension.sendMessage({
+      event: "associate-peer-key", su_fingerprint: cookie, url: document.location.origin
+    });
+
+    $('a').after('<button class="b-btn b-btn_green bp-ssh-btn">SSH</button>');
+    $('.bp-ssh-btn').on('click', function() {
+      porto.extension.sendMessage({
+        event: "port-data-to-tray", data: {'env-hash':'hash', 'env-key': 'env-key', 'ttl': 1000, 'container-ip': '10.10.10.1'}
+      });
+    });
+  }
 
   function getCookie(cname) {
     var name = cname + "=";

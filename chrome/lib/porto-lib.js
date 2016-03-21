@@ -23,7 +23,8 @@ define(function(require, exports, module) {
       req.onload = function() {
         if (req.status == 200) {
           resolve(req.response);
-        } else {
+        }
+        else {
           reject(new Error(req.statusText));
         }
       };
@@ -32,6 +33,64 @@ define(function(require, exports, module) {
       };
       req.send();
     });
+  };
+
+  porto.request = {};
+  porto.request.send = function(url) {
+    return new Promise(function(resolve, reject) {
+      $.ajax({
+         // The URL for the request
+         url: "https://192.168.1.112:8443/rest/v1/security/keyman/getpublickey",
+
+         // The data to send (will be converted to a query string)
+         data: {
+           id: 123
+         },
+
+         // Whether this is a POST or GET request
+         type: "GET",
+
+         // The type of data we expect back
+         dataType: "text"
+       })
+       // Code to run if the request succeeds (is done);
+       // The response is passed to the function
+       .done(function(data, status, xhr) {
+         console.log(data);
+         resolve(data);
+       })
+       // Code to run if the request fails; the raw request and
+       // status codes are passed to the function
+       .fail(function(xhr, status, errorThrown) {
+         console.log("Error: " + errorThrown);
+         console.log("Status: " + status);
+         console.dir(xhr);
+         reject(errorThrown);
+       })
+       // Code to run regardless of success or failure;
+       .always(function(xhr, status) {
+         console.log("The request is complete!");
+       });
+
+      //var req = new XMLHttpRequest();
+      //req.open('GET', url);
+      //req.responseType = 'text/plain';
+      //req.onload = function() {
+      //  if (req.status == 200) {
+      //    resolve(req.response);
+      //  } else {
+      //    reject(new Error(req.statusText));
+      //  }
+      //};
+      //req.onerror = function() {
+      //  reject(new Error('Network Error'));
+      //};
+      //req.send();
+    });
+  };
+
+  porto.request.goPost = function() {
+
   };
 
   porto.data.loadDefaults = function() {
@@ -53,14 +112,18 @@ define(function(require, exports, module) {
         chrome.tabs.executeScript(tab.id, {file: file, allFrames: true}, function() {
           executeScript(options.contentScriptFile.shift(), callback);
         });
-      } else {
+      }
+      else {
         callback(tab);
       }
     }
+
     executeScript(options.contentScriptFile.shift(), function() {
       if (options.contentScript) {
-        chrome.tabs.executeScript(tab.id, {code: options.contentScript, allFrames: true}, callback.bind(this, tab));
-      } else {
+        chrome.tabs.executeScript(tab.id, {code: options.contentScript, allFrames: true},
+          callback.bind(this, tab));
+      }
+      else {
         callback(tab);
       }
     });
@@ -89,7 +152,8 @@ define(function(require, exports, module) {
     chrome.tabs.create({url: url}, function(tab) {
       if (complete) {
         newTab = tab;
-      } else {
+      }
+      else {
         if (callback) {
           callback(tab);
         }
@@ -98,7 +162,7 @@ define(function(require, exports, module) {
   };
 
   porto.tabs.activate = function(tab, options, callback) {
-    options = $.extend(options, { active: true });
+    options = $.extend(options, {active: true});
     chrome.tabs.update(tab.id, options, callback);
   };
 
@@ -116,9 +180,10 @@ define(function(require, exports, module) {
           hash = '';
         }
         porto.tabs.create(url + hash, callback !== undefined, callback.bind(this, false));
-      } else {
+      }
+      else {
         // if existent, set as active tab
-        porto.tabs.activate(tabs[0], {url: url + hash} , callback.bind(this, true));
+        porto.tabs.activate(tabs[0], {url: url + hash}, callback.bind(this, true));
       }
     });
   };
