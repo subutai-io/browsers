@@ -136,12 +136,24 @@ define(function(require, exports, module) {
       case 'associate-peer-key':
         associatePeerWithKey(request);
         break;
-      case 'port-data-to-tray':
-        console.log(request.data);
-        porto.request.send('https://192.168.1.112:8443/rest/v1/security/keyman/getpublickey').then(function(response) {
+      case 'porto-send-request':
+        porto.request.send(request.url).then(function(response) {
           console.log(response);
+          sendResponse(response);
         });
+        return true;
+      case 'porto-socket-init':
+        porto.request.ws.init(request.url, request.protocol);
+        porto.request.ws.connect();
         break;
+      case 'porto-socket-disconnect':
+        porto.request.ws.disconnect();
+        break;
+      case 'porto-socket-send':
+        porto.request.ws.send(request.msg, function(response) {
+          sendResponse(response.data);
+        });
+        return true;
       default:
         console.log('unknown event:', request);
     }

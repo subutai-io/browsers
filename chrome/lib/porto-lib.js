@@ -6,6 +6,7 @@ define(function(require, exports, module) {
 
   porto.crx = true;
   porto.ffa = false;
+  porto.sfx = false;
 
   var dompurify = require('dompurify');
 
@@ -71,26 +72,94 @@ define(function(require, exports, module) {
        .always(function(xhr, status) {
          console.log("The request is complete!");
        });
-
-      //var req = new XMLHttpRequest();
-      //req.open('GET', url);
-      //req.responseType = 'text/plain';
-      //req.onload = function() {
-      //  if (req.status == 200) {
-      //    resolve(req.response);
-      //  } else {
-      //    reject(new Error(req.statusText));
-      //  }
-      //};
-      //req.onerror = function() {
-      //  reject(new Error('Network Error'));
-      //};
-      //req.send();
     });
   };
 
-  porto.request.goPost = function() {
+  var that = this;
+  that.ws = null;
+  var connected = false;
 
+  var serverUrl = null;
+  var protocol = null;
+  var connectionStatus = '';
+
+  var openWs = function() {
+    if (!serverUrl) {
+      throw new Error("cannot connect to null url");
+    }
+    if (protocol) {
+      that.ws = new WebSocket(serverUrl, protocol);
+    }
+    else {
+      that.ws = new WebSocket(serverUrl);
+    }
+    that.ws.onopen = onOpen;
+    that.ws.onclose = onClose;
+    that.ws.onmessage = onMessage;
+    that.ws.onerror = onError;
+
+    connectionStatus = 'OPENING ...';
+  };
+
+  var sendWs = function(msg, callback) {
+    console.log('sending message: ' + serverUrl);
+    console.log(msg);
+    if (that.ws) {
+      that.ws.onmessage = callback;
+      that.ws.send(msg.cmd);
+    }
+    else {
+      openWs();
+      that.ws.onmessage = callback;
+      that.ws.send(msg.cmd);
+    }
+  };
+
+  var closeWs = function() {
+    if (that.ws) {
+      console.log('CLOSING ...');
+      that.ws.close();
+    }
+    connected = false;
+    connectionStatus = 'CLOSED';
+  };
+
+  var onOpen = function() {
+    console.log('OPENED: ' + serverUrl + ':' + protocol);
+    connected = true;
+    connectionStatus = 'OPENED';
+  };
+
+  var onClose = function() {
+    console.log('CLOSED: ' + serverUrl + ':' + protocol);
+    that.ws = null;
+  };
+
+  var onMessage = function(event) {
+    var data = event.data;
+    console.log('message received: ' + data);
+  };
+
+  var onError = function(event) {
+    console.error(event.data);
+  };
+
+  porto.request.ws = {
+    init: function(url, options) {
+      serverUrl = url;
+      protocol = options;
+    },
+    connect: function() {
+      closeWs();
+      openWs();
+    },
+    disconnect: function() {
+      closeWs();
+    },
+    send: function(msg, callback) {
+      console.log(msg);
+      sendWs(msg, callback);
+    }
   };
 
   porto.data.loadDefaults = function() {
