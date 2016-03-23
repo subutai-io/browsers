@@ -37,6 +37,132 @@ define(function(require, exports, module) {
     });
   };
 
+  porto.request = {};
+  porto.request.send = function(url) {
+    return new Promise(function(resolve, reject) {
+      $.ajax({
+         // The URL for the request
+         url: "https://192.168.1.112:8443/rest/v1/security/keyman/getpublickey",
+
+         // The data to send (will be converted to a query string)
+         data: {
+           id: 123
+         },
+
+         // Whether this is a POST or GET request
+         type: "GET",
+
+         // The type of data we expect back
+         dataType: "text"
+       })
+       // Code to run if the request succeeds (is done);
+       // The response is passed to the function
+       .done(function(data, status, xhr) {
+         console.log(data);
+         resolve(data);
+       })
+       // Code to run if the request fails; the raw request and
+       // status codes are passed to the function
+       .fail(function(xhr, status, errorThrown) {
+         console.log("Error: " + errorThrown);
+         console.log("Status: " + status);
+         console.dir(xhr);
+         reject(errorThrown);
+       })
+       // Code to run regardless of success or failure;
+       .always(function(xhr, status) {
+         console.log("The request is complete!");
+       });
+    });
+  };
+
+  var that = this;
+  that.ws = null;
+  var connected = false;
+
+  var serverUrl = null;
+  var protocol = null;
+  var connectionStatus = '';
+
+  var openWs = function() {
+    if (!serverUrl) {
+      throw new Error("cannot connect to null url");
+    }
+    if (protocol) {
+      that.ws = new WebSocket(serverUrl, protocol);
+    }
+    else {
+      that.ws = new WebSocket(serverUrl);
+    }
+    that.ws.onopen = onOpen;
+    that.ws.onclose = onClose;
+    that.ws.onmessage = onMessage;
+    that.ws.onerror = onError;
+
+    connectionStatus = 'OPENING ...';
+  };
+
+  var sendWs = function(msg, callback) {
+    console.log('sending message: ' + serverUrl);
+    console.log(msg);
+    if (that.ws) {
+      that.ws.onmessage = callback;
+      that.ws.send(msg.cmd);
+    }
+    else {
+      openWs();
+      that.ws.onmessage = callback;
+      that.ws.send(msg.cmd);
+    }
+  };
+
+  var closeWs = function() {
+    if (that.ws) {
+      console.log('CLOSING ...');
+      that.ws.close();
+    }
+    connected = false;
+    connectionStatus = 'CLOSED';
+  };
+
+  var onOpen = function() {
+    console.log('OPENED: ' + serverUrl + ':' + protocol);
+    connected = true;
+    connectionStatus = 'OPENED';
+  };
+
+  var onClose = function() {
+    console.log('CLOSED: ' + serverUrl + ':' + protocol);
+    that.ws = null;
+  };
+
+  var onMessage = function(event) {
+    var data = event.data;
+    console.log('message received: ' + data);
+  };
+
+  var onError = function(event) {
+    console.error(event.data);
+  };
+
+  porto.request.ws = {
+    init: function(url, options) {
+      serverUrl = url;
+      protocol = options;
+    },
+    connect: function() {
+      closeWs();
+      openWs();
+    },
+    disconnect: function() {
+      closeWs();
+    },
+    send: function(msg, callback) {
+      console.log(msg);
+      sendWs(msg, callback);
+    }
+  };
+
   porto.data.loadDefaults = function() {
     return require('../lib/json-loader!common/res/defaults.json');
   };
