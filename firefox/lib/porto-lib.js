@@ -316,11 +316,7 @@ porto.request.ws = {
     console.log(msg);
 
     var token = porto.util.getHash();
-    console.log('waiting response for: ' + token);
-    console.log(pageWorker);
     pageWorker.port.once(token, function(data) {
-      console.log('porto-lib:received message');
-      console.log(data);
       callback(data);
     });
 

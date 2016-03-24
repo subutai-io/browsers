@@ -70,7 +70,6 @@ porto.headerChecker.intervalID = 0;
       var $container = $(containers[i]);
       if ($container.attr('data-dirty') !== 'true') {
         // 1: name, 2: template, 3: size, 4: status, 5: ip
-        var containerName = $container.find('td:nth-child(1)').text().trim();
         var $ip = $container.find('td:nth-child(5)')
                             .append('<button class="b-btn b-btn_blue">SSH</button>');
         var $btn = $ip.find('button');
@@ -86,9 +85,6 @@ porto.headerChecker.intervalID = 0;
           }, function(response) {
             console.log(response);
             if (username === response) {
-              console.log(username);
-              console.log(response);
-
               var row = $(that.closest('tr'));
               var cmd = 'cmd:ssh%%%' +
                         $('.b-sidebar-profile-header-name').text().trim() +

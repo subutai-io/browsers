@@ -58,9 +58,6 @@
 
   var onMessage = function(event) {
     var data = event.data;
-    console.error('page-worker:message-received');
-    console.error(event);
-    console.error(data);
   };
 
   var onError = function(event) {
@@ -70,18 +67,11 @@
   self.port.on('open-ws', openWs.bind(this));
   self.port.on('close-ws', closeWs.bind(this));
   self.port.on('send-ws-msg', function(msg) {
-    console.log('page-worker: ');
-    console.log(msg);
     sendWs(msg, function(response) {
-      console.log('page-worker:received message');
-      console.log(response);
-      console.log(response.data);
       self.port.emit(msg.token, {data: response.data});
     });
   });
   self.port.on('init-ws', function(params) {
-    console.error('page-worker initialized');
-    console.log(params);
     serverUrl = params.url;
     protocol = params.protocol;
   });

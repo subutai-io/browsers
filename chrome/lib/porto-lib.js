@@ -104,15 +104,11 @@ define(function(require, exports, module) {
   var sendWs = function(msg, callback) {
     console.log('sending message: ' + serverUrl);
     console.log(msg);
-    if (that.ws) {
-      that.ws.onmessage = callback;
-      that.ws.send(msg.cmd);
-    }
-    else {
+    if (!that.ws) {
       openWs();
-      that.ws.onmessage = callback;
-      that.ws.send(msg.cmd);
     }
+    that.ws.onmessage = callback;
+    that.ws.send(msg.cmd);
   };
 
   var closeWs = function() {
