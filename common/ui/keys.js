@@ -43,7 +43,7 @@ var swal;
       swal.closeModal();
     });
 
-    swal.setDefaults({allowEscapeKey: true, allowOutsideClick: false});
+    swal.setDefaults({allowEscapeKey: true, allowOutsideClick: false, width: 492});
   }
 
   function initRebirthUI() {
@@ -105,7 +105,7 @@ var swal;
       showCancelButton: false,
       showConfirmButton: false,
       closeOnConfirm: false,
-      width: 320,
+      //width: 320,
       animation: false,
       buttonsStyling: false
     }, function(isConfirm) {
@@ -393,7 +393,7 @@ var swal;
       showCloseButton: false,
       showConfirmButton: false,
       animation: false,
-      width: 350
+      //width: 350
     });
 
     options.keyring('getKeyDetails', [$keyData.attr('data-keyguid')])
@@ -525,7 +525,7 @@ var swal;
                html: $keyExportTemplate.html(),
                showCancelButton: false,
                animation: false,
-               width: 320,
+               //width: 320,
                showConfirmButton: false,
                closeOnConfirm: false
              }, function() {
@@ -557,7 +557,7 @@ var swal;
           html: $keyExportTemplate.html(),
           showCancelButton: false,
           animation: false,
-          width: 320,
+          //width: 320,
           showConfirmButton: false,
           closeOnConfirm: false
         }, function() {
@@ -586,7 +586,7 @@ var swal;
       showCancelButton: false,
       showConfirmButton: false,
       animation: false,
-      width: 320,
+      //width: 320,
       closeOnConfirm: false
     }, function() {
       swal.disableButtons();
