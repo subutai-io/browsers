@@ -21,8 +21,10 @@ define(function(require, exports, module) {
   sub.factory.register('keyGenDialog', require('./privateKey.controller').PrivateKeyController);
   sub.factory.register('keyBackupCont', require('./privateKey.controller').PrivateKeyController);
   sub.factory.register('keyBackupDialog', require('./privateKey.controller').PrivateKeyController);
-  sub.factory.register('restoreBackupCont', require('./privateKey.controller').PrivateKeyController);
-  sub.factory.register('restoreBackupDialog', require('./privateKey.controller').PrivateKeyController);
+  sub.factory.register('restoreBackupCont',
+    require('./privateKey.controller').PrivateKeyController);
+  sub.factory.register('restoreBackupDialog',
+    require('./privateKey.controller').PrivateKeyController);
 
   // recipients of encrypted mail
   var scannedHosts = [];
@@ -66,7 +68,8 @@ define(function(require, exports, module) {
       case 'get-all-keyring-attr':
         try {
           sendResponse({result: keyring.getAllKeyringAttr()});
-        } catch (e) {
+        }
+        catch (e) {
           sendResponse({error: e});
         }
         break;
@@ -80,7 +83,8 @@ define(function(require, exports, module) {
         if (request.keyringId !== porto.LOCAL_KEYRING_ID) {
           keyring.deleteKeyring(request.keyringId);
           sub.setActiveKeyringId(porto.LOCAL_KEYRING_ID);
-        } else {
+        }
+        else {
           console.log('Keyring could not be deleted');
         }
         break;
@@ -137,9 +141,10 @@ define(function(require, exports, module) {
         associatePeerWithKey(request);
         break;
       case 'porto-send-request':
-        porto.request.send(request.url).then(function(response) {
-          console.log(response);
-          sendResponse(response);
+        porto.request.send(request.params).then(function(response) {
+          sendResponse({response: response});
+        }).catch(function(err) {
+          sendResponse({error: err});
         });
         return true;
       case 'porto-socket-init':
@@ -172,13 +177,15 @@ define(function(require, exports, module) {
     request.args.push(callback);
     try {
       response.result = thisArg[request.method].apply(thisArg, request.args);
-    } catch (e) {
+    }
+    catch (e) {
       console.log('error in method ' + request.method + ': ', e);
       response.error = e;
     }
     if (response.result !== undefined || response.error) {
       sendResponse({error: response.error, result: response.result});
-    } else {
+    }
+    else {
       // important to return true for async calls, otherwise Chrome does not handle sendResponse
       return true;
     }
@@ -294,11 +301,13 @@ define(function(require, exports, module) {
       if (labels.length <= 3) {
         if (/www.*/.test(labels[0])) {
           labels[0] = '*';
-        } else {
+        }
+        else {
           labels.unshift('*');
         }
         reduced.push(labels.join('.'));
-      } else {
+      }
+      else {
         reduced.push('*.' + labels.slice(-3).join('.'));
       }
     });

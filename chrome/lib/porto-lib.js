@@ -37,36 +37,33 @@ define(function(require, exports, module) {
   };
 
   porto.request = {};
-  porto.request.send = function(url) {
+  porto.request.send = function(params) {
     return new Promise(function(resolve, reject) {
       $.ajax({
          // The URL for the request
-         url: "https://192.168.1.112:8443/rest/v1/security/keyman/getpublickey",
+         url: params.url,
 
          // The data to send (will be converted to a query string)
          data: {
-           id: 123
+           id: params.data
          },
 
          // Whether this is a POST or GET request
-         type: "GET",
+         type: params.method,
 
          // The type of data we expect back
-         dataType: "text"
+         dataType: params.dataType
        })
        // Code to run if the request succeeds (is done);
        // The response is passed to the function
        .done(function(data, status, xhr) {
          console.log(data);
-         resolve(data);
+         resolve({data: data, status: xhr.status, statusText: xhr.statusText});
        })
        // Code to run if the request fails; the raw request and
        // status codes are passed to the function
        .fail(function(xhr, status, errorThrown) {
-         console.log("Error: " + errorThrown);
-         console.log("Status: " + status);
-         console.dir(xhr);
-         reject(errorThrown);
+         reject({responseText: xhr.responseText, status: xhr.status, statusText: xhr.statusText});
        })
        // Code to run regardless of success or failure;
        .always(function(xhr, status) {

@@ -8,6 +8,9 @@ porto.headerChecker = {};
 
 porto.headerChecker.interval = 2500; // ms
 porto.headerChecker.intervalID = 0;
+porto.headerChecker.kurjunInterval = 15550;
+porto.headerChecker.kurjunIntervalID = 0;
+
 (function(window, document, undefined) {
 
   var parser = document.createElement('a');
@@ -33,6 +36,58 @@ porto.headerChecker.intervalID = 0;
     porto.extension.sendMessage({
       event: "associate-peer-key", su_fingerprint: cookie, url: document.location.origin
     });
+
+    porto.headerChecker.signingAgent = function() {
+      console.log('signing agent starting...');
+      porto.extension.sendMessage(
+        {
+          event: 'porto-send-request',
+          params: {
+            url: parser.origin + '/rest/v1/kurjun-manager/authid',
+            method: 'GET',
+            dataType: 'text'
+          }
+        },
+        function(event) {
+          if (event.error) {
+            //console.error('error signing kurjun message');
+            //console.error(event.error);
+          }
+          else {
+            try {
+              window.clearInterval(porto.headerChecker.kurjunIntervalID);
+            }
+            catch (err) {}
+
+            if ($('textarea.bp-kurjun-signed-message').length === 0) {
+              var response = event.response;
+              var $body = $('body').append(
+                '<div style="display: none">'                                                +
+                '<textarea class="bp-sign-target bp-kurjun-signed-message">' + response.data +
+                '</textarea>'                                                                +
+                '</div>');
+              var $signedMessage = $body.find('textarea.bp-kurjun-signed-message');
+              $signedMessage.on('change', function(e) {
+                var signed = $(this).text();
+                signed = encodeURIComponent(signed);
+                porto.extension.sendMessage({
+                  event: 'porto-send-request',
+                  params: {
+                    url: parser.origin + '/rest/v1/kurjun-manager/signed-msg',
+                    method: 'POST',
+                    data: 'signedMsg=' + signed
+                  }
+                }, function(ev) {
+                  console.log(ev);
+                });
+              });
+            }
+          }
+        });
+    };
+    porto.headerChecker.kurjunIntervalID = window.setInterval(function() {
+      porto.headerChecker.signingAgent();
+    }, porto.headerChecker.kurjunInterval);
   }
 
   porto.extension.sendMessage(

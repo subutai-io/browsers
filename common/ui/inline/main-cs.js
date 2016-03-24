@@ -158,7 +158,7 @@ porto.main.findEditable = function() {
   editable = editable.add(editableBody);
   // filter out elements below a certain height limit
   editable = editable.filter(function() {
-    return $(this).height() > porto.main.minEditHeight && ($(this).hasClass('bp-sign-target') || $(this).hasClass('bp-set-pub-key'));
+    return ($(this).hasClass('bp-sign-target') || $(this).hasClass('bp-set-pub-key'));
   });
   //console.log(editable);
   return editable;
