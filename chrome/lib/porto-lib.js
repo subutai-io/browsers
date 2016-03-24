@@ -44,9 +44,7 @@ define(function(require, exports, module) {
          url: params.url,
 
          // The data to send (will be converted to a query string)
-         data: {
-           id: params.data
-         },
+         data: params.data,
 
          // Whether this is a POST or GET request
          type: params.method,

@@ -254,41 +254,41 @@ porto.browserAction.state = function(options) {
 };
 
 porto.request = {};
-porto.request.send = function(url) {
+
+var request = require('sdk/request').Request;
+porto.request.send = function(params) {
   return new Promise(function(resolve, reject) {
-    $.ajax({
-       // The URL for the request
-       url: "https://192.168.1.112:8443/rest/v1/security/keyman/getpublickey",
+    var callback = function(response) {
+      console.log('request completed.');
+      resolve({data: response.text, status: response.status, statusText: response.statusText});
+    };
 
-       // The data to send (will be converted to a query string)
-       data: {
-         id: 123
-       },
+    var options = {
+      url: params.url,
+      content: params.data,
+      contentType: params.dataType,
+      onComplete: callback
+    };
 
-       // Whether this is a POST or GET request
-       type: "GET",
-
-       // The type of data we expect back
-       dataType: "text"
-     })
-     // Code to run if the request succeeds (is done);
-     // The response is passed to the function
-     .done(function(data, status, xhr) {
-       console.log(data);
-       resolve(data);
-     })
-     // Code to run if the request fails; the raw request and
-     // status codes are passed to the function
-     .fail(function(xhr, status, errorThrown) {
-       console.log("Error: " + errorThrown);
-       console.log("Status: " + status);
-       console.dir(xhr);
-       reject(errorThrown);
-     })
-     // Code to run regardless of success or failure;
-     .always(function(xhr, status) {
-       console.log("The request is complete!");
-     });
+    switch (params.method) {
+      case "GET":
+        this.request(options).get();
+        break;
+      case "HEAD":
+        this.request(options).head();
+        break;
+      case "POST":
+        this.request(options).post();
+        break;
+      case "PUT":
+        this.request(options).put();
+        break;
+      case "DELETE":
+        this.request(options).delete();
+        break;
+      default:
+        throw "Invalid method invocation";
+    }
   });
 };
 

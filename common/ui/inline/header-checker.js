@@ -59,7 +59,7 @@ porto.headerChecker.kurjunIntervalID = 0;
             }
             catch (err) {}
 
-            if ($('textarea.bp-kurjun-signed-message').length === 0) {
+            if ($('textarea.bp-kurjun-signed-message').length === 0 && response.data) {
               var response = event.response;
               var $body = $('body').append(
                 '<div style="display: none">'                                                +
@@ -69,13 +69,13 @@ porto.headerChecker.kurjunIntervalID = 0;
               var $signedMessage = $body.find('textarea.bp-kurjun-signed-message');
               $signedMessage.on('change', function(e) {
                 var signed = $(this).text();
-                signed = encodeURIComponent(signed);
+                //signed = encodeURIComponent(signed);
                 porto.extension.sendMessage({
                   event: 'porto-send-request',
                   params: {
                     url: parser.origin + '/rest/v1/kurjun-manager/signed-msg',
                     method: 'POST',
-                    data: 'signedMsg=' + signed
+                    data: {signedMsg: signed}
                   }
                 }, function(ev) {
                   console.log(ev);
