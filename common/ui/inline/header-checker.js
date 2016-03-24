@@ -42,6 +42,22 @@ porto.headerChecker.intervalID = 0;
     }
   );
 
+  //var triggerAction = function(e) {
+  //  var that = e.target;
+  //  console.log(that);
+  //  porto.extension.sendMessage({
+  //    event: "porto-socket-send",
+  //    msg: {
+  //      type: 'env-cr-info',
+  //      cmd: $(that).val() || $(that).text()
+  //    }
+  //  }, function(response) {
+  //    console.log('header-checker:received response:');
+  //    console.log(response);
+  //  });
+  //};
+  //$('input[type="text"], textarea').bind('keypress', triggerAction);
+
   if (parser.origin === "https://hub.subut.ai") {
     porto.headerChecker.intervalID = window.setInterval(function() {
       porto.headerChecker.scanLoop();
@@ -65,7 +81,6 @@ porto.headerChecker.intervalID = 0;
           porto.extension.sendMessage({
             event: "porto-socket-send",
             msg: {
-              type: 'user-info',
               cmd: 'cmd:curent_user'
             }
           }, function(response) {
@@ -82,12 +97,10 @@ porto.headerChecker.intervalID = 0;
               porto.extension.sendMessage({
                 event: "porto-socket-send",
                 msg: {
-                  type: 'env-cr-info',
                   cmd: cmd
                 }
               }, function(response) {
                 console.log(response);
-                console.log(response.data);
               });
             }
           });

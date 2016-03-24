@@ -44,9 +44,10 @@ porto.tabs.getActive = function(callback) {
 porto.tabs.attach = function(tab, options, callback) {
   var lopt = {};
   if (options) {
-    lopt.contentScriptFile = options.contentScriptFile && options.contentScriptFile.map(function(file) {
-      return data.url(file);
-    });
+    lopt.contentScriptFile =
+      options.contentScriptFile && options.contentScriptFile.map(function(file) {
+        return data.url(file);
+      });
     lopt.contentScript = options.contentScript;
     lopt.contentScriptOptions = options.contentScriptOptions;
   }
@@ -117,7 +118,8 @@ porto.tabs.loadOptionsTab = function(hash, callback) {
         hash = '';
       }
       porto.tabs.create(url + hash, true, callback.bind(this, false));
-    } else {
+    }
+    else {
       // if existent, set as active tab
       porto.tabs.activate(tabs[0], {url: url + hash}, callback.bind(this, true));
     }
@@ -237,7 +239,8 @@ porto.l10n = porto.l10n || {};
 porto.l10n.get = function(id, substitutions) {
   if (substitutions) {
     return l10nGet.apply(null, [id].concat(substitutions));
-  } else {
+  }
+  else {
     return l10nGet(id);
   }
 };
@@ -248,6 +251,82 @@ porto.browserAction.toggleButton = null;
 
 porto.browserAction.state = function(options) {
   this.toggleButton.state('window', options);
+};
+
+porto.request = {};
+porto.request.send = function(url) {
+  return new Promise(function(resolve, reject) {
+    $.ajax({
+       // The URL for the request
+       url: "https://192.168.1.112:8443/rest/v1/security/keyman/getpublickey",
+
+       // The data to send (will be converted to a query string)
+       data: {
+         id: 123
+       },
+
+       // Whether this is a POST or GET request
+       type: "GET",
+
+       // The type of data we expect back
+       dataType: "text"
+     })
+     // Code to run if the request succeeds (is done);
+     // The response is passed to the function
+     .done(function(data, status, xhr) {
+       console.log(data);
+       resolve(data);
+     })
+     // Code to run if the request fails; the raw request and
+     // status codes are passed to the function
+     .fail(function(xhr, status, errorThrown) {
+       console.log("Error: " + errorThrown);
+       console.log("Status: " + status);
+       console.dir(xhr);
+       reject(errorThrown);
+     })
+     // Code to run regardless of success or failure;
+     .always(function(xhr, status) {
+       console.log("The request is complete!");
+     });
+  });
+};
+
+var pageWorker = require("sdk/page-worker").Page({
+  contentScriptFile: data.url('ws-client.js'),
+  contentURL: data.url('ws-client.html')
+});
+console.error(data.url('ws-client.html'));
+porto.request.ws = {
+  init: function(url, options) {
+    console.log(url);
+    pageWorker.port.emit('init-ws', {
+      url: url,
+      protocol: options
+    });
+  },
+  connect: function() {
+    pageWorker.port.emit('close-ws');
+    pageWorker.port.emit('open-ws');
+  },
+  disconnect: function() {
+    pageWorker.port.emit('close-ws');
+  },
+  send: function(msg, callback) {
+    console.log(msg);
+
+    var token = porto.util.getHash();
+    console.log('waiting response for: ' + token);
+    console.log(pageWorker);
+    pageWorker.port.once(token, function(data) {
+      console.log('porto-lib:received message');
+      console.log(data);
+      callback(data);
+    });
+
+    msg.token = token;
+    pageWorker.port.emit('send-ws-msg', msg);
+  }
 };
 
 exports.porto = porto;
