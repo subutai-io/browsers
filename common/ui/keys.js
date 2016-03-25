@@ -105,7 +105,7 @@ var swal;
       showCancelButton: false,
       showConfirmButton: false,
       closeOnConfirm: false,
-      //width: 320,
+      width: 320,
       animation: false,
       buttonsStyling: false
     }, function(isConfirm) {

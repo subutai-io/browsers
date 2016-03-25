@@ -142,7 +142,7 @@ define(function(require, exports, module) {
         break;
       case 'porto-send-request':
         porto.request.send(request.params).then(function(response) {
-          sendResponse({response: response});
+          sendResponse(response);
         }).catch(function(err) {
           sendResponse({error: err});
         });
