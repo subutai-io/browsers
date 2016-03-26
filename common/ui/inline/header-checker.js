@@ -51,7 +51,7 @@ porto.headerChecker.kurjunIntervalID = 0;
                    '</g>' +
                    '</svg>' +
                    '</div>' +
-                   '<div class="ssh-key-button_title">Set System Owner</div>' +
+                   '<div class="ssh-key-button_title">Register</div>' +
                    '</button>');
 
     var $setOwnerBtn = $('.bp-set-owner');
@@ -69,9 +69,63 @@ porto.headerChecker.kurjunIntervalID = 0;
           animation: false,
           showConfirmButton: false,
           width: 492,
+          //buttonsStyling: false,
           closeOnConfirm: false
         }, function() {
-          console.log('content download');
+          swal.disableButtons();
+
+          var $publicKey = $('#keyContent');
+          var stage = $publicKey.data('stage');
+          if (stage === 'set-key') {
+            porto.extension.sendMessage({
+              event: 'porto-send-request',
+              params: {
+                url: parser.origin + '/kurjun/rest/identity/user/add',
+                method: 'POST',
+                data: {key: $publicKey.text()}
+              }
+            }, function(response) {
+              $publicKey.removeData(porto.FRAME_STATUS);
+              $publicKey.text(response.data);
+              $publicKey.val(response.data);
+              $publicKey.removeClass('bp-set-pub-key');
+              $publicKey.addClass('bp-sign-target');
+              $publicKey.data('stage', 'sign-authid');
+              $publicKey.on('change', function() {
+                swal.enableButtons();
+              });
+            });
+          }
+          else if (stage === 'sign-authid') {
+
+            $.ajax({
+               url: parser.origin + '/kurjun/rest/identity/user/auth',
+               data: {fingerprint: getCookie('su_fingerprint'), message: $publicKey.val()},
+               type: 'POST'
+             })
+             .done(function(data, status, xhr) {
+               swal.enableButtons();
+               swal({
+                 title: "Logged in",
+                 showConfirmButton: true,
+                 text: "Your identity was successfully verified by Kurjun!",
+                 type: "success",
+                 customClass: "b-success"
+               });
+             })
+             .fail(function(xhr, status, errorThrown) {
+               swal.enableButtons();
+               swal({
+                 title: "Oh, snap",
+                 text: errorThrown,
+                 type: "error",
+                 customClass: "b-warning"
+               });
+             })
+             .always(function(xhr, status) {
+               console.log("The request is complete!");
+             });
+          }
         });
       });
     });
