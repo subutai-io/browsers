@@ -159,6 +159,11 @@ define(function(require, exports, module) {
           sendResponse(response.data);
         });
         return true;
+      case 'load-local-content':
+        porto.data.load(request.path).then(function(content) {
+          sendResponse(content);
+        });
+        return true;
       default:
         console.log('unknown event:', request);
     }

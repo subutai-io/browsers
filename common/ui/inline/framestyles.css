@@ -2,11 +2,11 @@
   background-position: center center, center center;
   background-image: none, none;
   transition: background-position 0.5s ease, background-image 0.5s ease;
-  background-color: rgba(254,251,243,.8);
+  background-color: rgba(254, 251, 243, .8);
   background-repeat: no-repeat;
-  border: 1px solid rgba(0,0,0,.2);
+  border: 1px solid rgba(0, 0, 0, .2);
   border-radius: 3px;
-  box-shadow: 0 1px 2px rgba(0,0,0,.1);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, .1);
   position: absolute;
   top: 0;
   z-index: 1;
@@ -64,13 +64,11 @@
   background-position: 20px 140px, center 156px;
 }
 
-
-
 :root div.m-encrypt-frame[id^="eFrame"] {
-  background: rgba(254,251,243,.8);
-  border: 1px solid rgba(0,0,0,.2);
+  background: rgba(254, 251, 243, .8);
+  border: 1px solid rgba(0, 0, 0, .2);
   border-radius: 3px;
-  box-shadow: 0 1px 2px rgba(0,0,0,.1);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, .1);
   position: absolute;
   top: 5px;
   white-space: nowrap;
@@ -138,7 +136,7 @@
   width: 100%;
 }
 
-:root .m-frame-close {
+:root .m-frame-close, .bp-close-modal {
   float: right;
   font-size: 20px;
   font-weight: bold;
@@ -153,7 +151,7 @@
   font-family: arial, sans-serif;
 }
 
-:root .m-frame-close:hover {
+:root .m-frame-close:hover, .bp-close-modal:hover{
   color: #000000;
   opacity: 0.4;
   cursor: pointer !important;
@@ -168,7 +166,6 @@
   float: right;
   width: 4px;
 }
-
 
 /*!
  * Bootstrap v2.1.1
@@ -253,4 +250,98 @@
   -webkit-box-shadow: none;
   -moz-box-shadow: none;
   box-shadow: none;
+}
+
+.ssh-button {
+  width: 110px;
+}
+
+.ssh-key-button_block {
+  float: left;
+  height: 29px;
+}
+
+.ssh-key-button_block .ssh-key-button {
+  width: 13px;
+  height: 13px;
+}
+
+svg.ssh-key-button {
+  margin: 8px 7px 0 0;
+}
+
+.ssh-key-button_title {
+  float: right;
+  height: 29px;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+}
+
+.ssh-info_block {
+  height: 30px;
+  float: right;
+}
+
+span.ssh-info-button {
+  margin-left: 10px;
+  width: 15px;
+  height: 15px;
+  text-align: center;
+  vertical-align: middle;
+  cursor: pointer;
+  display: inline-block;
+  border-radius: 50%;
+  border: 2px solid #cbcbcb;
+  font-weight: bold;
+  color: #cbcbcb;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+}
+
+.ssh-info-button .ssh-plugin-info-tooltip {
+  cursor: default;
+  display: none;
+  width: 150px;
+  height: 80px;
+  position: absolute;
+  margin: 15px 0 0 -75px;
+  border: 1px solid #B8B8B8;
+  background-color: #FFFFFF;
+  border-radius: 8px 8px 5px 5px;
+  padding: 8px;
+  font-weight: normal;
+  color: #3d3d3d;
+  -webkit-user-select: text;
+  -moz-user-select: text;
+  -ms-user-select: text;
+}
+
+.ssh-info-button .ssh-plugin-info-tooltip:after {
+  position: absolute;
+  top: -8px;
+  left: 0;
+  right: 0;
+  margin: 0 auto;
+  content: '';
+  width: 0;
+  height: 0;
+  border-bottom: solid 8px #FFFFFF;
+  border-left: solid 8px transparent;
+  border-right: solid 8px transparent;
+}
+
+.ssh-info-button .ssh-plugin-info-tooltip:before {
+  position: absolute;
+  top: -8px;
+  left: 0;
+  right: 0;
+  margin: 0 auto;
+  content: '';
+  width: 0;
+  height: 0;
+  border-bottom: solid 8px black;
+  border-left: solid 8px transparent;
+  border-right: solid 8px transparent;
 }
