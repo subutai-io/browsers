@@ -79,6 +79,10 @@ define(function(require, exports, module) {
   var connectionStatus = '';
 
   var openWs = function() {
+    if (that.ws) {
+      return;
+    }
+
     if (!serverUrl) {
       throw new Error("cannot connect to null url");
     }
@@ -141,7 +145,6 @@ define(function(require, exports, module) {
       protocol = options;
     },
     connect: function() {
-      closeWs();
       openWs();
     },
     disconnect: function() {

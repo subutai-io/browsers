@@ -97,22 +97,6 @@ porto.headerChecker.kurjunIntervalID = 0;
     }
   );
 
-  //var triggerAction = function(e) {
-  //  var that = e.target;
-  //  console.log(that);
-  //  porto.extension.sendMessage({
-  //    event: "porto-socket-send",
-  //    msg: {
-  //      type: 'env-cr-info',
-  //      cmd: $(that).val() || $(that).text()
-  //    }
-  //  }, function(response) {
-  //    console.log('header-checker:received response:');
-  //    console.log(response);
-  //  });
-  //};
-  //$('input[type="text"], textarea').bind('keypress', triggerAction);
-
   if (parser.origin === "https://hub.subut.ai") {
     porto.headerChecker.intervalID = window.setInterval(function() {
       porto.headerChecker.scanLoop();
@@ -126,33 +110,28 @@ porto.headerChecker.kurjunIntervalID = 0;
       console.log(response);
       var pathParams = parser.pathname;
       var userId = pathParams.split('/');
-      if (userId[1] === 'users') {
-        console.log(parser.origin + '/users/' + userId[2]);
-        porto.extension.sendMessage({
-            event: 'porto-send-request',
-            params: {
-              url: parser.origin + '/users/' + userId[2] + '/edit',
-              method: 'GET'
+      var email = $(
+        'body > div.b-content.b-content_minus-header.g-full-height > div.b-sidebar.b-sidebar_border-right.g-left.g-full-height > div > div > div.b-sidebar-profile__header.g-padding > div > div.b-sidebar-profile-header__info.g-margin-bottom > div > div.b-sidebar-profile-header-info__location > ul > li > a');
+      email = $(email).attr('data-email');
+      if (email) {
+        console.log('email: ' + email);
+        if (email === response) {
+          var row = $(that.closest('tr'));
+          var envName = $('.b-sidebar-profile-header-name').text().trim();
+
+          if (userId[3] === 'environments') {
+            envName = userId[4];
+          }
+          var cmd = 'cmd:ssh%%%' + envName + '%%%' + row.attr('data-container-id');
+          porto.extension.sendMessage({
+            event: "porto-socket-send",
+            msg: {
+              cmd: cmd
             }
-          },
-          function(result) {
-            var page = result.data;
-            var email = $(page).find('#email').val();
-            console.log('email: ' + email);
-            if (email === response) {
-              var row = $(that.closest('tr'));
-              var envName = $('.b-sidebar-profile-header-name').text().trim();
-              var cmd = 'cmd:ssh%%%' + envName + '%%%' + row.find('td:nth-child(1)').text().trim();
-              porto.extension.sendMessage({
-                event: "porto-socket-send",
-                msg: {
-                  cmd: cmd
-                }
-              }, function(response) {
-                console.log(response);
-              });
-            }
+          }, function(response) {
+            console.log(response);
           });
+        }
       }
     };
 
@@ -165,8 +144,6 @@ porto.headerChecker.kurjunIntervalID = 0;
         $btn.attr('disabled', false);
         $btn.on('click', function() {
           var that = this;
-          var username = $(
-            'body > div.b-content.b-content_minus-header.g-full-height > div.b-sidebar.b-sidebar_border-right.g-left.g-full-height > div > div > div.b-sidebar-profile__header.g-padding > div > div.b-sidebar-profile-header__info.g-margin-bottom > div > div.b-sidebar-profile-header-info__location > ul > li > a').text().trim();
           porto.extension.sendMessage({
             event: "porto-socket-send",
             msg: {
