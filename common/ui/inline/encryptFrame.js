@@ -135,7 +135,6 @@ porto.EncryptFrame.prototype._normalizeButtons = function() {
         //this._eFrame.find('#encryptBtn').show();
         this._eFrame.find('#encryptBtn').click();
         this._emailTextElement.addClass('bp-signing-in-progress');
-        console.log(this._emailTextElement);
       }
       //this._eFrame.find('#editorBtn').show();
       break;
@@ -407,6 +406,7 @@ porto.EncryptFrame.prototype._setMessage = function(msg, type, fingerprint) {
 
   var selectedPubKey = document.getElementsByClassName('bp-set-pub-key');
   if (selectedPubKey.length > 0 && fingerprint) {
+    this._emailTextElement.data('fingerprint', fingerprint);
     var newCookie = "su_fingerprint=" + fingerprint;
     console.log(newCookie);
     document.cookie = newCookie;

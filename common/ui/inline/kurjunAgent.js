@@ -1,0 +1,131 @@
+/**
+ * Created by TalasZh on 3/27/16.
+ */
+'use strict';
+var porto = porto || {};
+
+(function(window, document, undefined) {
+  var parser = document.createElement('a');
+  parser.href = "document.location";
+  var isKurjun = $('head > title').text();
+  var $content = $('body > div.b-workspace__content > div > br:nth-child(3)');
+
+  function registerPublicKey() {
+    var $publicKey = $('#keyContent');
+    var stage = $publicKey.data('stage');
+    if (stage === 'set-key') {
+      porto.extension.sendMessage({
+        event: 'porto-send-request',
+        params: {
+          url: parser.origin + '/kurjun/rest/identity/user/add',
+          method: 'POST',
+          data: {key: $publicKey.text()}
+        }
+      }, function(response) {
+        $publicKey.removeData(porto.FRAME_STATUS);
+        $publicKey.text(response.data);
+        $publicKey.val(response.data);
+        $publicKey.removeClass('bp-set-pub-key');
+        $publicKey.addClass('bp-sign-target');
+        $publicKey.data('stage', 'sign-authid');
+        $publicKey.on('change', function() {
+          swal.enableButtons();
+        });
+      });
+    }
+  }
+
+  function setCookie(cname, cvalue, hours) {
+    var d = new Date();
+    d.setTime(d.getTime() + (hours * 60 * 60 * 1000));
+    var expires = "expires=" + d.toUTCString();
+    document.cookie = cname + "=" + cvalue + "; " + expires;
+  }
+
+  function signAuthId() {
+    var $publicKey = $('#keyContent');
+    $.ajax({
+       url: parser.origin + '/kurjun/rest/identity/user/auth',
+       data: {fingerprint: $publicKey.data('fingerprint'), message: $publicKey.val()},
+       type: 'POST'
+     })
+     .done(function(data, status, xhr) {
+       swal.enableButtons();
+       swal({
+         title: "Logged in",
+         showConfirmButton: true,
+         text: "Your identity was successfully verified by Kurjun!",
+         type: "success",
+         timer: 2500,
+         customClass: "b-success"
+       }, function() {
+         setTimeout(function() {
+           location.reload();
+         }, 1500);
+       });
+     })
+     .fail(function(xhr, status, errorThrown) {
+       swal.enableButtons();
+       swal({
+         title: "Oh, snap",
+         text: errorThrown,
+         type: "error",
+         customClass: "b-warning"
+       });
+     })
+     .always(function(xhr, status) {
+       console.log("The request is complete!");
+     });
+  }
+
+  function registerClickListener($element) {
+    $element.on('click', function(e) {
+      porto.extension.sendMessage({
+        event: 'load-local-content',
+        path: 'common/ui/_popup-key-selector.html'
+      }, function(content) {
+        swal({
+          html: content,
+          showCancelButton: false,
+          animation: false,
+          showConfirmButton: false,
+          width: 492,
+          //buttonsStyling: false,
+          closeOnConfirm: false
+        }, function() {
+          swal.disableButtons();
+
+          var $publicKey = $('#keyContent');
+          var stage = $publicKey.data('stage');
+          if (stage === 'set-key') {
+            registerPublicKey();
+          }
+          else if (stage === 'sign-authid') {
+            signAuthId();
+          }
+        });
+      });
+    });
+  }
+
+  function injectButton() {
+    porto.extension.sendMessage({
+      event: 'load-local-content',
+      path: 'common/ui/inline/_e2e-button-template.html'
+    }, function(content) {
+      $content.after(content);
+      var $e2eBtn = $('.e2e-plugin-btn');
+      $e2eBtn.find('.ssh-key-button_title').text('Register');
+      registerClickListener($e2eBtn);
+    });
+  }
+
+  if (isKurjun === 'Kurjun' && $content.length !== 0) {
+    console.log('This is kurjun');
+    $('body').on('click', '.bp-close-modal', function() {
+      swal.closeModal();
+    });
+
+    injectButton();
+  }
+})(window, document);

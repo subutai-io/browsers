@@ -6,7 +6,6 @@
 
 var porto = porto || null;
 var options = options || null;
-var swal;
 
 (function(options) {
   // event controller
