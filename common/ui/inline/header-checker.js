@@ -104,13 +104,26 @@ porto.headerChecker.kurjunIntervalID = 0;
                type: 'POST'
              })
              .done(function(data, status, xhr) {
+               function setCookie(cname, cvalue, hours) {
+                 var d = new Date();
+                 d.setTime(d.getTime() + (hours * 60 * 60 * 1000));
+                 var expires = "expires=" + d.toUTCString();
+                 document.cookie = cname + "=" + cvalue + "; " + expires;
+               }
+
+               //setCookie('sptoken', data);
                swal.enableButtons();
                swal({
                  title: "Logged in",
                  showConfirmButton: true,
                  text: "Your identity was successfully verified by Kurjun!",
                  type: "success",
+                 timer: 2500,
                  customClass: "b-success"
+               }, function() {
+                 setTimeout(function() {
+                   location.reload();
+                 }, 1500);
                });
              })
              .fail(function(xhr, status, errorThrown) {
