@@ -38,36 +38,31 @@ define(function(require, exports, module) {
   };
 
   porto.request = {};
-  porto.request.send = function(url) {
+  porto.request.send = function(params) {
     return new Promise(function(resolve, reject) {
       $.ajax({
          // The URL for the request
-         url: "https://192.168.1.112:8443/rest/v1/security/keyman/getpublickey",
+         url: params.url,
 
          // The data to send (will be converted to a query string)
-         data: {
-           id: 123
-         },
+         data: params.data,
 
          // Whether this is a POST or GET request
-         type: "GET",
+         type: params.method,
 
          // The type of data we expect back
-         dataType: "text"
+         dataType: params.dataType
        })
        // Code to run if the request succeeds (is done);
        // The response is passed to the function
        .done(function(data, status, xhr) {
          console.log(data);
-         resolve(data);
+         resolve({data: data, status: xhr.status, statusText: xhr.statusText});
        })
        // Code to run if the request fails; the raw request and
        // status codes are passed to the function
        .fail(function(xhr, status, errorThrown) {
-         console.log("Error: " + errorThrown);
-         console.log("Status: " + status);
-         console.dir(xhr);
-         reject(errorThrown);
+         reject({responseText: xhr.responseText, status: xhr.status, statusText: xhr.statusText});
        })
        // Code to run regardless of success or failure;
        .always(function(xhr, status) {
@@ -85,6 +80,10 @@ define(function(require, exports, module) {
   var connectionStatus = '';
 
   var openWs = function() {
+    if (that.ws) {
+      return;
+    }
+
     if (!serverUrl) {
       throw new Error("cannot connect to null url");
     }
@@ -105,15 +104,11 @@ define(function(require, exports, module) {
   var sendWs = function(msg, callback) {
     console.log('sending message: ' + serverUrl);
     console.log(msg);
-    if (that.ws) {
-      that.ws.onmessage = callback;
-      that.ws.send(msg.cmd);
-    }
-    else {
+    if (!that.ws) {
       openWs();
-      that.ws.onmessage = callback;
-      that.ws.send(msg.cmd);
     }
+    that.ws.onmessage = callback;
+    that.ws.send(msg.cmd);
   };
 
   var closeWs = function() {
@@ -151,7 +146,6 @@ define(function(require, exports, module) {
       protocol = options;
     },
     connect: function() {
-      closeWs();
       openWs();
     },
     disconnect: function() {

@@ -39,10 +39,10 @@ var options = options || null;
     });
 
     $('body').on('click', '.bp-close-modal-button', function() {
-      swal.closeModal();
+      swal2.closeModal();
     });
 
-    swal.setDefaults({allowEscapeKey: true, allowOutsideClick: false, width: 492});
+    swal2.setDefaults({allowEscapeKey: true, allowOutsideClick: false, width: 492});
   }
 
   function initRebirthUI() {
@@ -99,7 +99,7 @@ var options = options || null;
 
   function generateKeyModal() {
     console.log('generate key modal');
-    swal({
+    swal2({
       html: $generateKeyTemplate.html(),
       showCancelButton: false,
       showConfirmButton: false,
@@ -109,7 +109,7 @@ var options = options || null;
       buttonsStyling: false
     }, function(isConfirm) {
       if (isConfirm) {
-        swal.disableButtons();
+        swal2.disableButtons();
         triggerGenerate();
       }
     });
@@ -117,7 +117,7 @@ var options = options || null;
     var triggerAction = function(e) {
       if (e.which == 13) {
         $('#email').unbind("keypress", triggerAction);
-        swal.disableButtons();
+        swal2.disableButtons();
         triggerGenerate();
         return false;
       }
@@ -145,9 +145,9 @@ var options = options || null;
       generateKey(parameters)
         .then(function(result) {
           //success
-          swal.enableButtons();
+          swal2.enableButtons();
           options.event.triggerHandler('keygrid-reload');
-          swal({
+          swal2({
             title: "Generate key-pair",
             text: "Key pair successfully generated!",
             type: "success",
@@ -164,7 +164,7 @@ var options = options || null;
           //failed
           console.error('generateKey() options.keyring(generateKey)', error);
           console.error(error);
-          swal({
+          swal2({
             title: "Oh, snap",
             text: error.message,
             type: "error",
@@ -177,7 +177,7 @@ var options = options || null;
         });
     }
     catch (error) {
-      swal({
+      swal2({
         title: "Oh, snap", text: error.message, type: "error", customClass: "b-warning", timer: 1500
       });
     }
@@ -356,7 +356,7 @@ var options = options || null;
         var $entryForRemove = $(this).parent();
         console.log($entryForRemove.attr('data-keyguid'));
 
-        swal({
+        swal2({
           html: $keyConfirmationTemplate.html(),
           showCancelButton: false,
           showConfirmButton: false,
@@ -367,7 +367,7 @@ var options = options || null;
         }, function() {
           options.keyring('removeKey',
             [$entryForRemove.attr('data-keyguid'), $entryForRemove.attr('data-keytype')]);
-          swal({
+          swal2({
             title: "Deleted.",
             text: "Key successfully deleted!",
             timer: 1500,
@@ -387,7 +387,7 @@ var options = options || null;
     var $keyData = $(this).parent();
     console.log('key info clicked');
 
-    swal({
+    swal2({
       html: $keyInfoTemplate.html(),
       showCloseButton: false,
       showConfirmButton: false,
@@ -520,7 +520,7 @@ var options = options || null;
            .then(function(result) {
              var keyPair = result[0].armoredPublic + '\n' + result[0].armoredPrivate;
              var filename = $keyData.attr('data-keyname') + '_all.asc';
-             swal({
+             swal2({
                html: $keyExportTemplate.html(),
                showCancelButton: false,
                animation: false,
@@ -552,7 +552,7 @@ var options = options || null;
           }
           return prev;
         }, '');
-        swal({
+        swal2({
           html: $keyExportTemplate.html(),
           showCancelButton: false,
           animation: false,
@@ -580,7 +580,7 @@ var options = options || null;
 
   function showImportKeyModal() {
     console.log('key import dialog opened');
-    swal({
+    swal2({
       html: $keyImportTemplate.html(),
       showCancelButton: false,
       showConfirmButton: false,
@@ -588,15 +588,15 @@ var options = options || null;
       //width: 320,
       closeOnConfirm: false
     }, function() {
-      swal.disableButtons();
+      swal2.disableButtons();
       onImportKey(function(result) {
         if (result.type === 'error') {
-          swal({
+          swal2({
             title: "Oh, snap", text: "Couldn't import key", type: "error", customClass: "b-warning"
           });
         }
         else {
-          swal({
+          swal2({
             title: "Success",
             text: "Successfully imported key!",
             timer: 1500,

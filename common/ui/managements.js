@@ -28,7 +28,7 @@ var options = options || null;
     });
 
     $('body').on('click', '.bp-close-modal-button', function() {
-      swal.closeModal();
+      swal2.closeModal();
     });
   }
 
@@ -193,7 +193,7 @@ var options = options || null;
         console.log($entryForRemove.attr('data-site'));
         var site = $entryForRemove.attr('data-site');
 
-        swal({
+        swal2({
           title: "Are you sure?",
           type: "warning",
           showCancelButton: true,

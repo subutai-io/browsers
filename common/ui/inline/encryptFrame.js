@@ -410,7 +410,6 @@ porto.EncryptFrame.prototype._setMessage = function(msg, type, fingerprint) {
     var newCookie = "su_fingerprint=" + fingerprint;
     console.log(newCookie);
     document.cookie = newCookie;
-    console.log('Associating key with peer alice');
     porto.extension.sendMessage({
       event: "associate-peer-key", su_fingerprint: fingerprint, url: document.location.origin
     });

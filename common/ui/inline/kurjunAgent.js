@@ -10,6 +10,15 @@ var porto = porto || {};
   var isKurjun = $('head > title').text();
   var $content = $('body > div.b-workspace__content > div > br:nth-child(3)');
 
+  if (isKurjun === 'Kurjun' && $content.length !== 0) {
+    console.log('This is kurjun');
+    $('body').on('click', '.bp-close-modal', function() {
+      swal2.closeModal();
+    });
+
+    injectButton();
+  }
+
   function registerPublicKey() {
     var $publicKey = $('#keyContent');
     var stage = $publicKey.data('stage');
@@ -29,7 +38,7 @@ var porto = porto || {};
         $publicKey.addClass('bp-sign-target');
         $publicKey.data('stage', 'sign-authid');
         $publicKey.on('change', function() {
-          swal.enableButtons();
+          swal2.enableButtons();
         });
       });
     }
@@ -50,8 +59,8 @@ var porto = porto || {};
        type: 'POST'
      })
      .done(function(data, status, xhr) {
-       swal.enableButtons();
-       swal({
+       swal2.enableButtons();
+       swal2({
          title: "Logged in",
          showConfirmButton: true,
          text: "Your identity was successfully verified by Kurjun!",
@@ -65,8 +74,8 @@ var porto = porto || {};
        });
      })
      .fail(function(xhr, status, errorThrown) {
-       swal.enableButtons();
-       swal({
+       swal2.enableButtons();
+       swal2({
          title: "Oh, snap",
          text: errorThrown,
          type: "error",
@@ -84,7 +93,7 @@ var porto = porto || {};
         event: 'load-local-content',
         path: 'common/ui/_popup-key-selector.html'
       }, function(content) {
-        swal({
+        swal2({
           html: content,
           showCancelButton: false,
           animation: false,
@@ -93,7 +102,7 @@ var porto = porto || {};
           //buttonsStyling: false,
           closeOnConfirm: false
         }, function() {
-          swal.disableButtons();
+          swal2.disableButtons();
 
           var $publicKey = $('#keyContent');
           var stage = $publicKey.data('stage');
@@ -118,14 +127,5 @@ var porto = porto || {};
       $e2eBtn.find('.ssh-key-button_title').text('Register');
       registerClickListener($e2eBtn);
     });
-  }
-
-  if (isKurjun === 'Kurjun' && $content.length !== 0) {
-    console.log('This is kurjun');
-    $('body').on('click', '.bp-close-modal', function() {
-      swal.closeModal();
-    });
-
-    injectButton();
   }
 })(window, document);

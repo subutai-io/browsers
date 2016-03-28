@@ -7,9 +7,8 @@ var porto = porto || {};
 porto.headerChecker = {};
 
 porto.headerChecker.interval = 2500; // ms
-porto.headerChecker.intervalID = 0;
-porto.headerChecker.kurjunInterval = 15550;
-porto.headerChecker.kurjunIntervalID = 0;
+porto.headerChecker.intervalHubID = 0;
+porto.headerChecker.intervalSSID = 0;
 
 (function(window, document, undefined) {
 
@@ -24,6 +23,7 @@ porto.headerChecker.kurjunIntervalID = 0;
   //parser.host;     // => "example.com:3000"
 
   var cookie = getCookie('su_fingerprint');
+  var isSubutaiSocial = $('head > title').text();
 
   porto.extension.sendMessage({event: "get-version"}, function(version) {
     var input = $('#bp-plugin-version');
@@ -32,59 +32,155 @@ porto.headerChecker.kurjunIntervalID = 0;
     }
   });
 
-  if (cookie) {
+  function registerPublicKey() {
+    console.log('register public key');
+    var $publicKey = $('#keyContent');
+    var stage = $publicKey.data('stage');
+    if (stage === 'set-key') {
+      porto.extension.sendMessage({
+        event: 'porto-send-request',
+        params: {
+          url: parser.origin + '/rest/ui/identity/set-public-key',
+          method: 'POST',
+          data: {publicKey: $publicKey.text()}
+        }
+      }, function(response) {
+        $publicKey.removeData(porto.FRAME_STATUS);
+        issueDelegateDocument();
+      });
+    }
+  }
+
+  function issueDelegateDocument() {
+    console.log('create delegate document');
+    porto.extension.sendMessage({
+      event: 'porto-send-request',
+      params: {
+        url: parser.origin + '/rest/ui/identity/delegate-identity',
+        method: 'POST'
+      }
+    }, function(response) {
+      getDelegateDocument();
+    });
+  }
+
+  function getDelegateDocument() {
+    console.log('get delegate document');
+    var $publicKey = $('#keyContent');
+    porto.extension.sendMessage({
+      event: 'porto-send-request',
+      params: {
+        url: parser.origin + '/rest/ui/identity/delegate-identity',
+        method: 'GET'
+      }
+    }, function(response) {
+      $publicKey.text(response.data);
+      $publicKey.val(response.data);
+      $publicKey.removeClass('bp-set-pub-key');
+      $publicKey.addClass('bp-sign-target');
+      $publicKey.data('stage', 'sign-authid');
+      $publicKey.on('change', function() {
+        delegateUserPermissions();
+      });
+    });
+  }
+
+  function delegateUserPermissions() {
+    console.log('delegate permissions');
+    var $publicKey = $('#keyContent');
+    $.ajax({
+       url: parser.origin + '/rest/ui/identity/approve-delegate', type: 'POST',
+       data: {signedDocument: $publicKey.val()}
+     })
+     .done(function(data, status, xhr) {
+       swal2.enableButtons();
+       swal2({
+         title: "Success!",
+         showConfirmButton: true,
+         text: "System permissions were successfully delegated!",
+         type: "success",
+         timer: 2500,
+         customClass: "b-success"
+       }, function() {
+       });
+     })
+     .fail(function(xhr, status, errorThrown) {
+       swal2.enableButtons();
+       swal2({
+         title: "Oh, snap",
+         text: errorThrown,
+         type: "error",
+         customClass: "b-warning"
+       });
+     })
+     .always(function(xhr, status) {
+     });
+  }
+
+  function registerClickListener($element) {
+    console.log('register click listener');
+    $element.on('click', function(e) {
+      porto.extension.sendMessage({
+        event: 'load-local-content',
+        path: 'common/ui/_popup-key-selector.html'
+      }, function(content) {
+        swal2({
+          html: content,
+          showCancelButton: false,
+          animation: false,
+          showConfirmButton: false,
+          width: 520,
+          //buttonsStyling: false,
+          closeOnConfirm: false
+        }, function() {
+          swal2.disableButtons();
+
+          var $publicKey = $('#keyContent');
+          var stage = $publicKey.data('stage');
+          if (stage === 'set-key') {
+            registerPublicKey();
+          }
+        });
+      });
+    });
+  }
+
+  function injectSetPublicKeyButton() {
+    var e2eButtons = $('.e2e-plugin-btn');
+
+    if (e2eButtons.length === 0) {
+      console.log('inject set public key button');
+      porto.extension.sendMessage({
+        event: 'load-local-content',
+        path: 'common/ui/inline/_e2e-button-template.html'
+      }, function(content) {
+        var $content = $('.e2e-plugin_action_set-pub-key');
+        $content.append(content);
+        var $e2eBtn = $('.e2e-plugin-btn');
+        $e2eBtn.find('.ssh-key-button_title').text('Set Public Key');
+        registerClickListener($e2eBtn);
+      });
+    }
+  }
+
+  if (cookie && isSubutaiSocial === 'Subutai Social') {
 
     porto.extension.sendMessage({
       event: "associate-peer-key", su_fingerprint: cookie, url: document.location.origin
     });
 
-    porto.headerChecker.signingAgent = function() {
-      console.log('signing agent starting...');
-      porto.extension.sendMessage(
-        {
-          event: 'porto-send-request',
-          params: {
-            url: parser.origin + '/rest/v1/kurjun-manager/authid',
-            method: 'GET',
-            dataType: 'text'
-          }
-        },
-        function(response) {
-          if (response.error) {
-            //console.error('error signing kurjun message');
-            //console.error(event.error);
-          }
-          else {
-            try {
-              window.clearInterval(porto.headerChecker.kurjunIntervalID);
-            }
-            catch (err) {}
+    porto.headerChecker.subutaiSocial = {};
 
-            if ($('textarea.bp-kurjun-signed-message').length === 0 && response.data) {
-              var $body = $('body').append(
-                '<div style="display: none">'                                                +
-                '<textarea class="bp-sign-target bp-kurjun-signed-message">' + response.data +
-                '</textarea>'                                                                +
-                '</div>');
-              var $signedMessage = $body.find('textarea.bp-kurjun-signed-message');
-              $signedMessage.on('change', function(e) {
-                var signed = $(this).text();
-                //signed = encodeURIComponent(signed);
-                porto.extension.sendMessage({
-                  event: 'porto-send-request',
-                  params: {
-                    url: parser.origin + '/rest/v1/kurjun-manager/signed-msg',
-                    method: 'POST',
-                    data: {signedMsg: signed}
-                  }
-                }, function(ev) {
-                  console.log(ev);
-                });
-              });
-            }
-          }
-        });
+    porto.headerChecker.subutaiSocial.scanAgent = function() {
+      injectSetPublicKeyButton();
     };
+
+    porto.headerChecker.subutaiSocial.scanAgent();
+
+    porto.headerChecker.subutaiSocial.intervalSSID = window.setInterval(function() {
+      porto.headerChecker.subutaiSocial.scanAgent();
+    }, porto.headerChecker.interval);
+
   }
 
   porto.extension.sendMessage(
@@ -95,7 +191,7 @@ porto.headerChecker.kurjunIntervalID = 0;
   );
 
   if (parser.origin === "https://hub.subut.ai") {
-    porto.headerChecker.intervalID = window.setInterval(function() {
+    porto.headerChecker.intervalHubID = window.setInterval(function() {
       porto.headerChecker.scanLoop();
     }, porto.headerChecker.interval);
   }

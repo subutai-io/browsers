@@ -40,7 +40,7 @@
         "self": false,
         "chrome": false,
         "addon": false,
-        "swal": false,
+        "swal2": false,
         "safari": false,
         "performance": false,
         "File": false

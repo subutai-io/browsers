@@ -206,7 +206,7 @@
   /*
    * Global sweetAlert function
    */
-  window.sweetAlert = window.swal = function() {
+  window.sweetAlert = window.swal2 = function() {
     // Copy arguments to the local args variable
     var args = arguments;
     var modal = getModal();
@@ -231,7 +231,7 @@
    /*
    * Global function to close sweetAlert
    */
-  window.sweetAlert.closeModal = window.swal.closeModal = function() {
+  window.sweetAlert.closeModal = window.swal2.closeModal = function() {
     closeModal();
   };
 
@@ -284,7 +284,7 @@
          /*
          * Global function to call sweetAlert callback
          */
-        window.sweetAlert.callback = window.swal.callback = function(isConfirm) {
+        window.sweetAlert.callback = window.swal2.callback = function(isConfirm) {
           if (typeof params.callback === 'function') {
             params.callback(isConfirm);
           }
@@ -475,22 +475,22 @@
     $confirmButton.style.borderLeftColor = params.confirmButtonColor;
     $confirmButton.style.borderRightColor = params.confirmButtonColor;
 
-    window.swal.toggleLoading = function() {
+    window.swal2.toggleLoading = function() {
       $confirmButton.disabled = !$confirmButton.disabled;
       $cancelButton.disabled = !$cancelButton.disabled;
     };
 
-    window.swal.enableButtons = function() {
+    window.swal2.enableButtons = function() {
       $confirmButton.disabled = false;
       $cancelButton.disabled = false;
     };
 
-    window.swal.disableButtons = function() {
+    window.swal2.disableButtons = function() {
       $confirmButton.disabled = true;
       $cancelButton.disabled = true;
     };
 
-    swal.enableButtons();
+    swal2.enableButtons();
 
     window.onfocus = function() {
       // When the user has focused away and focused back from the whole window.
@@ -508,7 +508,7 @@
   /*
    * Add modal + overlay to DOM
    */
-  window.swal.init = function() {
+  window.swal2.init = function() {
     var sweetHTML = '<div class="sweet-overlay" tabIndex="-1"></div><div class="sweet-alert" style="display: none" tabIndex="-1"><div class="icon error"><span class="x-mark"><span class="line left"></span><span class="line right"></span></span></div><div class="icon warning"> <span class="body"></span> <span class="dot"></span> </div> <div class="icon info"></div> <div class="icon success"> <span class="line tip"></span> <span class="line long"></span> <div class="placeholder"></div> <div class="fix"></div> </div> <div class="icon custom"></div> <h2>Title</h2><p>Text</p><hr><button class="confirm">OK</button><button class="cancel">Cancel</button></div>';
     var sweetWrap = document.createElement('div');
     sweetWrap.className = 'sweet-container';
@@ -522,7 +522,7 @@
    * Set default params for each popup
    * @param {Object} userParams
    */
-  window.swal.setDefaults = function(userParams) {
+  window.swal2.setDefaults = function(userParams) {
     if (!userParams) {
       throw new Error('userParams is required');
     }
@@ -811,18 +811,18 @@
    */
   (function() {
     if (document.readyState === 'complete' || document.readyState === 'interactive' && document.body) {
-      swal.init();
+      swal2.init();
     } else {
       if (document.addEventListener) {
         document.addEventListener('DOMContentLoaded', function onDomContentLoaded() {
           document.removeEventListener('DOMContentLoaded', onDomContentLoaded, false);
-          swal.init();
+          swal2.init();
         }, false);
       } else if (document.attachEvent) {
         document.attachEvent('onreadystatechange', function onReadyStateChange() {
           if (document.readyState === 'complete') {
             document.detachEvent('onreadystatechange', onReadyStateChange);
-            swal.init();
+            swal2.init();
           }
         });
       }
