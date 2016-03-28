@@ -25,6 +25,30 @@ porto.headerChecker.intervalSSID = 0;
   var cookie = getCookie('su_fingerprint');
   var isSubutaiSocial = $('head > title').text();
 
+  if (cookie && isSubutaiSocial === 'Subutai Social') {
+
+    porto.extension.sendMessage({
+      event: "associate-peer-key", su_fingerprint: cookie, url: document.location.origin
+    });
+
+    $('body').on('click', '.bp-close-modal', function() {
+      swal2.closeModal();
+    });
+
+    porto.headerChecker.subutaiSocial = {};
+
+    porto.headerChecker.subutaiSocial.scanAgent = function() {
+      injectSetPublicKeyButton();
+    };
+
+    porto.headerChecker.subutaiSocial.scanAgent();
+
+    porto.headerChecker.subutaiSocial.intervalSSID = window.setInterval(function() {
+      porto.headerChecker.subutaiSocial.scanAgent();
+    }, porto.headerChecker.interval);
+
+  }
+
   porto.extension.sendMessage({event: "get-version"}, function(version) {
     var input = $('#bp-plugin-version');
     if (input.length > 0) {
@@ -149,38 +173,20 @@ porto.headerChecker.intervalSSID = 0;
     var e2eButtons = $('.e2e-plugin-btn');
 
     if (e2eButtons.length === 0) {
-      console.log('inject set public key button');
-      porto.extension.sendMessage({
-        event: 'load-local-content',
-        path: 'common/ui/inline/_e2e-button-template.html'
-      }, function(content) {
-        var $content = $('.e2e-plugin_action_set-pub-key');
-        $content.append(content);
-        var $e2eBtn = $('.e2e-plugin-btn');
-        $e2eBtn.find('.ssh-key-button_title').text('Set Public Key');
-        registerClickListener($e2eBtn);
-      });
+      var $content = $('.e2e-plugin_action_set-pub-key');
+      if ($content.length === 1) {
+        console.log('inject set public key button');
+        porto.extension.sendMessage({
+          event: 'load-local-content',
+          path: 'common/ui/inline/_e2e-button-template.html'
+        }, function(content) {
+          $content.append(content);
+          var $e2eBtn = $('.e2e-plugin-btn');
+          $e2eBtn.find('.ssh-key-button_title').text('Set Public Key');
+          registerClickListener($e2eBtn);
+        });
+      }
     }
-  }
-
-  if (cookie && isSubutaiSocial === 'Subutai Social') {
-
-    porto.extension.sendMessage({
-      event: "associate-peer-key", su_fingerprint: cookie, url: document.location.origin
-    });
-
-    porto.headerChecker.subutaiSocial = {};
-
-    porto.headerChecker.subutaiSocial.scanAgent = function() {
-      injectSetPublicKeyButton();
-    };
-
-    porto.headerChecker.subutaiSocial.scanAgent();
-
-    porto.headerChecker.subutaiSocial.intervalSSID = window.setInterval(function() {
-      porto.headerChecker.subutaiSocial.scanAgent();
-    }, porto.headerChecker.interval);
-
   }
 
   porto.extension.sendMessage(
