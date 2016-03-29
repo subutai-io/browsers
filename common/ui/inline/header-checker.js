@@ -238,8 +238,8 @@ porto.headerChecker.intervalSSID = 0;
       var $container = $(containers[i]);
       if ($container.attr('data-dirty') !== 'true') {
         // 1: name, 2: template, 3: size, 4: status, 5: ip
-        var $action = $container.find('td:nth-child(6)');
-        var $btn = $action.find('button');
+        var $action = $container.find('td:nth-child(7)');
+        var $btn = $action.find('button:nth-child(2)');
         $btn.attr('disabled', false);
         $btn.on('click', function() {
           var that = this;
