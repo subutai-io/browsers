@@ -8,7 +8,7 @@ var porto = porto || {};
   var parser = document.createElement('a');
   parser.href = "document.location";
   var isKurjun = $('head > title').text();
-  var $content = $('body > div.b-workspace__content > div > br:nth-child(3)');
+  var $content = $('body > div.b-workspace__content > div');
 
   if (isKurjun === 'Kurjun' && $content.length !== 0) {
     console.log('This is kurjun');
@@ -122,7 +122,7 @@ var porto = porto || {};
       event: 'load-local-content',
       path: 'common/ui/inline/_e2e-button-template.html'
     }, function(content) {
-      $content.after(content);
+      $content.before(content);
       var $e2eBtn = $('.e2e-plugin-btn');
       $e2eBtn.find('.ssh-key-button_title').text('Register');
       registerClickListener($e2eBtn);

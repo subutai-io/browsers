@@ -408,7 +408,7 @@ porto.EncryptFrame.prototype._setMessage = function(msg, type, fingerprint) {
   if (selectedPubKey.length > 0 && fingerprint) {
     this._emailTextElement.data('fingerprint', fingerprint);
     var newCookie = "su_fingerprint=" + fingerprint;
-    console.log(newCookie);
+    //console.log(newCookie);
     document.cookie = newCookie;
     porto.extension.sendMessage({
       event: "associate-peer-key", su_fingerprint: fingerprint, url: document.location.origin
@@ -501,7 +501,7 @@ porto.EncryptFrame.prototype._registerEventListener = function() {
       case 'get-armored-pub':
         that._saveEmailText();
         that._removeDialog();
-        console.log(msg.fingerprint);
+        //console.log(msg.fingerprint);
         //console.error("encryptFrame:event:get-armored-pub");
         that._setMessage(msg.armor[0].armoredPublic, 'text', msg.fingerprint[0]);
         break;
