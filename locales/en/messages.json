@@ -360,7 +360,7 @@
     "description": "A click in the text field as an event type"
   },
   "security_log_password_input": {
-    "message": "Input-event in password input",
+    "message": "Password input event",
     "description": "A click in the text area as an event type"
   },
   "security_log_password_show": {
@@ -405,6 +405,14 @@
   },
   "security_log_backup_dialog_cancel": {
     "message": "Click-event to close on dialog",
+    "description": ""
+  },
+  "requested_public_key_set": {
+    "message": "Public key set.",
+    "description": ""
+  },
+  "security_log_dialog_ok": {
+    "message": "Key password prompt dialog.",
     "description": ""
   },
   "security_log_dialog_undo": {

@@ -1,6 +1,6 @@
 {
   "name": "subutaisocial",
-  "version": "1.2.3-rc8",
+  "version": "1.2.3-rc9",
   "description": "Subutai Social E2E Plugin",
   "scripts": {
     "test": "grunt test"
