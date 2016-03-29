@@ -45,7 +45,7 @@ var porto = porto || null;
   function onOk() {
     $('body').addClass('busy');
     $('#okBtn').button('loading');
-    logUserInput('security_log_dialog_ok');
+    logUserInput('requested_public_key_set');
 
     port.postMessage({
       event: 'send-armored-pub',

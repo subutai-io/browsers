@@ -137,7 +137,7 @@ var porto = porto || null;
         }
         msg.secLog.reverse().forEach(function(entry) {
           $('#showlog').show();
-          if (cnt < 3) {
+          if (cnt < 7) {
             logEntry = $.parseHTML(logEntryTmpl);
             $(logEntry).find('.timestamp').text((new Date(entry.timestamp)).toLocaleTimeString());
             $(logEntry).find('.logDescription').text(entry.typei18n);

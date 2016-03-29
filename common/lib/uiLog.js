@@ -43,6 +43,8 @@ define(function(require, exports, module) {
    *                 type = 'security_log_signature_modal_close' <br>
    */
   function push(source, type) {
+    console.log(source + ':' + type);
+    console.trace();
     var entry = {
       source: source,
       sourcei18n: l10n(source),
