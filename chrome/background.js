@@ -94,7 +94,7 @@ define([
       if (injectOptimized && csCode === '') {
         return porto.data.load('common/ui/inline/porto-cs.js').then(function(csmSrc) {
           return porto.data.load('common/dep/jquery.min.js').then(function(jquerySrc) {
-            return porto.data.load('common/scripts/libs/sweetalert2.js').then(
+            return porto.data.load('common/scripts/libs/swal2.js').then(
               function(sweetalertSrc) {
                 csCode = jquerySrc + '\n' + sweetalertSrc + '\n' + csmSrc;
               });
@@ -108,7 +108,7 @@ define([
       // load framestyles and replace path
       if (framestyles === '') {
         return porto.data.load('common/ui/inline/framestyles.css').then(function(data) {
-          return porto.data.load('common/css/libs/sweetalert2.css').then(function(data2) {
+          return porto.data.load('common/css/libs/swal2.css').then(function(data2) {
             framestyles = data2 + '\n' + data;
             var token = /\.\.\/\.\./g;
             framestyles = framestyles.replace(token, chrome.runtime.getURL('common'));

@@ -9,8 +9,9 @@ var porto = porto || {};
   parser.href = "document.location";
   var isKurjun = $('head > title').text();
   var $content = $('body > div.b-workspace__content > div');
+  var $addUserBtn = $('#add_user_btn');
 
-  if (isKurjun === 'Kurjun' && $content.length !== 0) {
+  if (isKurjun === 'Kurjun' && $addUserBtn.length !== 0) {
     console.log('This is kurjun');
     $('body').on('click', '.bp-close-modal', function() {
       swal2.closeModal();
@@ -64,9 +65,7 @@ var porto = porto || {};
          title: "Logged in",
          showConfirmButton: true,
          text: "Your identity was successfully verified by Kurjun!",
-         type: "success",
-         timer: 2500,
-         customClass: "b-success"
+         type: "success"
        }, function() {
          setTimeout(function() {
            location.reload();
@@ -95,10 +94,10 @@ var porto = porto || {};
       }, function(content) {
         swal2({
           html: content,
-          showCancelButton: false,
-          animation: false,
-          showConfirmButton: false,
-          width: 492,
+          showCancelButton: true,
+          confirmButtonText: 'Submit',
+          allowOutsideClick: false,
+          width: 540,
           //buttonsStyling: false,
           closeOnConfirm: false
         }, function() {

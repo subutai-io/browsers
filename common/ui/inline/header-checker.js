@@ -123,7 +123,6 @@ porto.headerChecker.intervalSSID = 0;
          showConfirmButton: true,
          text: "System permissions were successfully delegated!",
          type: "success",
-         timer: 2500,
          customClass: "b-success"
        }, function() {
        });
@@ -150,10 +149,8 @@ porto.headerChecker.intervalSSID = 0;
       }, function(content) {
         swal2({
           html: content,
-          showCancelButton: false,
-          animation: false,
-          showConfirmButton: false,
-          width: 520,
+          width: 540,
+          showCancelButton: true,
           //buttonsStyling: false,
           closeOnConfirm: false
         }, function() {
@@ -195,68 +192,6 @@ porto.headerChecker.intervalSSID = 0;
       url: 'ws://localhost:9998'
     }
   );
-
-  if (parser.origin === "https://hub.subut.ai") {
-    porto.headerChecker.intervalHubID = window.setInterval(function() {
-      porto.headerChecker.scanLoop();
-    }, porto.headerChecker.interval);
-  }
-
-  porto.headerChecker.scanLoop = function() {
-    var containers = $('.bp-env-cntr-ssh tbody tr');
-
-    var performCheck = function(that, response) {
-      console.log(response);
-      var pathParams = parser.pathname;
-      var userId = pathParams.split('/');
-      var email = $(
-        'body > div.b-content.b-content_minus-header.g-full-height > div.b-sidebar.b-sidebar_border-right.g-left.g-full-height > div > div > div.b-sidebar-profile__header.g-padding > div > div.b-sidebar-profile-header__info.g-margin-bottom > div > div.b-sidebar-profile-header-info__location > ul > li > a');
-      email = $(email).attr('data-email');
-      if (email) {
-        console.log('email: ' + email);
-        if (email === response) {
-          var row = $(that.closest('tr'));
-          var envName = $('.b-sidebar-profile-header-name').text().trim();
-
-          if (userId[3] === 'environments') {
-            envName = userId[4];
-          }
-          var cmd = 'cmd:ssh%%%' + envName + '%%%' + row.attr('data-container-id');
-          porto.extension.sendMessage({
-            event: "porto-socket-send",
-            msg: {
-              cmd: cmd
-            }
-          }, function(response) {
-            console.log(response);
-          });
-        }
-      }
-    };
-
-    for (var i = 0; i < containers.length; i++) {
-      var $container = $(containers[i]);
-      if ($container.attr('data-dirty') !== 'true') {
-        // 1: name, 2: template, 3: size, 4: status, 5: ip
-        var $action = $container.find('td:nth-child(7)');
-        var $btn = $action.find('button:nth-child(2)');
-        $btn.attr('disabled', false);
-        $btn.on('click', function() {
-          var that = this;
-          porto.extension.sendMessage({
-            event: "porto-socket-send",
-            msg: {
-              cmd: 'cmd:current_user'
-            }
-          }, function(response) {
-            performCheck(that, response);
-          });
-        });
-        $container.attr('data-dirty', 'true');
-      }
-    }
-
-  };
 
   function getCookie(cname) {
     var name = cname + "=";

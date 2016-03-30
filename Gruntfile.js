@@ -72,6 +72,7 @@ module.exports = function(grunt) {
             'common/ui/inline/main-cs.js',
             'common/ui/inline/encryptFrame.js',
             'common/ui/inline/kurjunAgent.js',
+            'common/ui/inline/hubTrayPort.js',
             'common/ui/inline/header-checker.js'
           ],
           dest: 'build/common/ui/inline/porto-cs.js'
