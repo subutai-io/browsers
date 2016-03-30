@@ -80,6 +80,7 @@ define([
               setPopover(e2eToolbar);
             }
             event.target.showPopover();
+            e2eToolbar.contentWindow.postMessage({event:'init'}, window.location.origin);
             break;
         }
       }
