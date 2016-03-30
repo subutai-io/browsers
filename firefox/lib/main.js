@@ -29,7 +29,8 @@ unload.when(function(reason) {
   // reason is never 'uninstall' https://bugzilla.mozilla.org/show_bug.cgi?id=571049
   if (reason === 'uninstall' || reason === 'disable') {
     //console.log("Extension disabled or unistalled");
-    if (prompts.confirm(l10nGet("clear_localstorage_confirm_title"), l10nGet("clear_localstorage_confirm_message"))) {
+    if (prompts.confirm(l10nGet("clear_localstorage_confirm_title"),
+        l10nGet("clear_localstorage_confirm_message"))) {
       clearStorage();
     }
   }
@@ -130,9 +131,13 @@ function injectMainCS() {
     onAttach: onCsAttach,
     contentScriptFile: [
       data.url('common/dep/jquery.min.js'),
+      data.url('common/scripts/libs/swal2.js'),
       data.url('common/ui/inline/porto-cs.js')
     ],
-    contentStyle: getDynamicStyle('common/ui/inline/framestyles.css'),
+    contentStyle: [
+      getDynamicStyle('common/css/libs/swal2.css'),
+      getDynamicStyle('common/ui/inline/framestyles.css')
+    ],
     contentScriptOptions: {
       expose_messaging: false,
       data_path: data.url()
@@ -144,7 +149,8 @@ function injectMainCS() {
   if (pageMods.mainPageMod !== undefined) {
     try {
       pageMods.mainPageMod.destroy();
-    } catch (e) {
+    }
+    catch (e) {
       console.log('Destroying active page-mod failed', e);
     }
   }
