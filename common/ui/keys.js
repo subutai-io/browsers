@@ -320,13 +320,13 @@ var options = options || null;
           '<i class="b-icon b-icon_key"' + style + '></i>');
       }
 
-      $(tableRow).find('td:nth-child(2)').text(key.name);
+      $(tableRow).find('td.key-name').text(key.name);
       //if (options.primaryKeyId === key.id) {
       //  $(tableRow).attr('data-keyisprimary', true);
       //  $(tableRow).find('td:nth-child(2)').append('&nbsp;&nbsp;<span class="label label-warning"
       // data-l10n-id="keygrid_primary_label"></span>'); }
-      $(tableRow).find('td:nth-child(3)').text(key.email);
-      $(tableRow).find('td:nth-child(4)').text(key.id);
+      $(tableRow).find('td.key-email').text(key.email);
+      $(tableRow).find('td.key-id').text(key.id);
 
       var mgmts = null;
       if (keyPeerMap[key.fingerprint]) {
@@ -350,9 +350,9 @@ var options = options || null;
         $(tableRow).find('.keyPair').remove();
       }
 
-      $(tableRow).find('td:nth-child(6)').on('click', initExportTab);
-      $(tableRow).find('td:nth-child(7)').on('click', showKeyInfo);
-      $(tableRow).find('td:nth-child(8)').on('click', function() {
+      $(tableRow).find('td.key-export').on('click', initExportTab);
+      $(tableRow).find('td.key-info').on('click', showKeyInfo);
+      $(tableRow).find('td.key-delete').on('click', function() {
         var $entryForRemove = $(this).parent();
         console.log($entryForRemove.attr('data-keyguid'));
 
