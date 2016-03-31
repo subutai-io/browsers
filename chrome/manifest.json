@@ -12,7 +12,7 @@
     "128": "common/img/icons/ss-icon128x128.png"
   },
   "browser_action": {
-    "default_icon": "common/img/icons/ss-icon24.png",
+    "default_icon": "common/img/icons/ss-icon48x48.png",
     "default_title": "__MSG_ext_name__",
     "default_popup": "common/ui/popup.html"
   },
@@ -44,13 +44,8 @@
     "common/img/verify-24.png",
     "common/img/loading.gif",
     "common/ui/inline/framestyles.css",
-    "common/ui/inline/dialogs/decryptInline.html",
-    "common/ui/inline/dialogs/verifyInline.html",
     "common/ui/inline/dialogs/encryptDialog.html",
     "common/ui/inline/dialogs/signDialog.html",
-    "common/ui/inline/dialogs/keyGenDialog.html",
-    "common/ui/inline/dialogs/keyBackupDialog.html",
-    "common/ui/inline/dialogs/restoreBackupDialog.html",
     "common/ui/editor/editor.html",
     "common/ui/options.html",
     "common/dep/bootstrap/css/bootstrap.css",

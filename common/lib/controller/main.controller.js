@@ -217,62 +217,10 @@ define(function(require, exports, module) {
     destroyNodes(sub.getByMainType('imFrame'));
   }
 
-  function addToWatchList() {
-    var scanScript = " \
-        var hosts = $('iframe').get().map(function(element) { \
-          return $('<a/>').attr('href', element.src).prop('hostname'); \
-        }); \
-        hosts.push(document.location.hostname); \
-        porto.extension.sendMessage({ \
-          event: 'iframe-scan-result', \
-          result: hosts \
-        }); \
-      ";
-
-    porto.tabs.getActive(function(tab) {
-      if (tab) {
-        // reset scanned hosts buffer
-        scannedHosts.length = 0;
-        var options = {};
-        options.contentScriptFile = [];
-        options.contentScriptFile.push('common/dep/jquery.min.js');
-        options.contentScriptFile.push('common/ui/porto.js');
-        options.contentScript = scanScript;
-        options.onMessage = handleMessageEvent;
-        // inject scan script
-        porto.tabs.attach(tab, options, function() {
-          if (scannedHosts.length === 0) {
-            return;
-          }
-          // remove duplicates and add wildcards
-          var hosts = reduceHosts(scannedHosts);
-          var site = model.getHostname(tab.url);
-          scannedHosts.length = 0;
-          porto.tabs.loadOptionsTab('#watchList', function(old, tab) {
-            sendToWatchList(tab, site, hosts, old);
-          });
-        });
-      }
-    });
-
-  }
-
-  function sendToWatchList(tab, site, hosts, old) {
-    porto.tabs.sendMessage(tab, {
-      event: 'add-watchlist-item',
-      site: site,
-      hosts: hosts,
-      old: old
-    });
-  }
-
   function onBrowserAction(action) {
     switch (action) {
       case 'reload':
         reloadFrames();
-        break;
-      case 'add':
-        addToWatchList();
         break;
       case 'options':
         loadOptions('#keyring');
@@ -294,29 +242,6 @@ define(function(require, exports, module) {
         });
       }
     });
-  }
-
-  function reduceHosts(hosts) {
-    var reduced = [];
-    hosts.forEach(function(element) {
-      var labels = element.split('.');
-      if (labels.length < 2) {
-        return;
-      }
-      if (labels.length <= 3) {
-        if (/www.*/.test(labels[0])) {
-          labels[0] = '*';
-        }
-        else {
-          labels.unshift('*');
-        }
-        reduced.push(labels.join('.'));
-      }
-      else {
-        reduced.push('*.' + labels.slice(-3).join('.'));
-      }
-    });
-    return porto.util.sortAndDeDup(reduced);
   }
 
   function getWatchListFilterURLs() {
