@@ -9,6 +9,10 @@
   var connectionStatus = '';
 
   var openWs = function() {
+    if (ws) {
+      return;
+    }
+
     if (!serverUrl) {
       throw new Error("cannot connect to null url");
     }
@@ -76,5 +80,4 @@
     protocol = params.protocol;
   });
 
-  console.error('page-worker alive');
 })();
