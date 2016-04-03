@@ -24,24 +24,34 @@ var porto = porto || {};
     var $publicKey = $('#keyContent');
     var stage = $publicKey.data('stage');
     if (stage === 'set-key') {
-      porto.extension.sendMessage({
-        event: 'porto-send-request',
-        params: {
-          url: parser.origin + '/kurjun/rest/identity/user/add',
-          method: 'POST',
-          data: {key: $publicKey.text()}
-        }
-      }, function(response) {
-        $publicKey.removeData(porto.FRAME_STATUS);
-        $publicKey.text(response.data);
-        $publicKey.val(response.data);
-        $publicKey.removeClass('bp-set-pub-key');
-        $publicKey.addClass('bp-sign-target');
-        $publicKey.data('stage', 'sign-authid');
-        $publicKey.on('change', function() {
-          swal2.enableButtons();
-        });
-      });
+      $.ajax({
+         url: parser.origin + '/kurjun/rest/identity/user/add',
+         data: {key: $publicKey.text()},
+         type: 'POST'
+       })
+       .done(function(data, status, xhr) {
+         $publicKey.removeData(porto.FRAME_STATUS);
+         $publicKey.text(data);
+         $publicKey.val(data);
+         $publicKey.removeClass('bp-set-pub-key');
+         $publicKey.addClass('bp-sign-target');
+         $publicKey.data('stage', 'sign-authid');
+         $publicKey.on('change', function() {
+           swal2.enableButtons();
+         });
+       })
+       .fail(function(xhr, status, errorThrown) {
+         swal2.enableButtons();
+         swal2({
+           title: "Oh, snap",
+           text: errorThrown,
+           type: "error",
+           customClass: "b-warning"
+         });
+       })
+       .always(function(xhr, status) {
+         console.log("The request is complete!");
+       });
     }
   }
 
@@ -82,7 +92,6 @@ var porto = porto || {};
        });
      })
      .always(function(xhr, status) {
-       console.log("The request is complete!");
      });
   }
 

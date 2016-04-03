@@ -32,14 +32,13 @@ porto.trayPort.intervalSSID = 0;
     }
   });
 
-  porto.extension.sendMessage(
-    {
-      event: 'porto-socket-init',
-      url: 'ws://localhost:9998'
-    }
-  );
-
   if (parser.origin === "https://hub.subut.ai") {
+    porto.extension.sendMessage(
+      {
+        event: 'porto-socket-init',
+        url: 'ws://localhost:9998'
+      }
+    );
     porto.trayPort.intervalHubID = window.setInterval(function() {
       porto.trayPort.scanLoop();
     }, porto.trayPort.interval);

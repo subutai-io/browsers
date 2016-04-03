@@ -61,52 +61,79 @@ porto.headerChecker.intervalSSID = 0;
     var $publicKey = $('#keyContent');
     var stage = $publicKey.data('stage');
     if (stage === 'set-key') {
-      porto.extension.sendMessage({
-        event: 'porto-send-request',
-        params: {
-          url: parser.origin + '/rest/ui/identity/set-public-key',
-          method: 'POST',
-          data: {publicKey: $publicKey.text()}
-        }
-      }, function(response) {
-        $publicKey.removeData(porto.FRAME_STATUS);
-        issueDelegateDocument();
-      });
+      $.ajax({
+         url: parser.origin + '/rest/ui/identity/set-public-key',
+         type: 'POST',
+         data: {publicKey: $publicKey.text()}
+       })
+       .done(function(data, status, xhr) {
+         $publicKey.removeData(porto.FRAME_STATUS);
+         issueDelegateDocument();
+       })
+       .fail(function(xhr, status, errorThrown) {
+         swal2.enableButtons();
+         swal2({
+           title: "Oh, snap",
+           text: errorThrown,
+           type: "error",
+           customClass: "b-warning"
+         });
+       })
+       .always(function(xhr, status) {
+       });
     }
   }
 
   function issueDelegateDocument() {
     console.log('create delegate document');
-    porto.extension.sendMessage({
-      event: 'porto-send-request',
-      params: {
-        url: parser.origin + '/rest/ui/identity/delegate-identity',
-        method: 'POST'
-      }
-    }, function(response) {
-      getDelegateDocument();
-    });
+    $.ajax({
+       url: parser.origin + '/rest/ui/identity/delegate-identity',
+       type: 'POST'
+     })
+     .done(function(data, status, xhr) {
+       getDelegateDocument();
+     })
+     .fail(function(xhr, status, errorThrown) {
+       swal2.enableButtons();
+       swal2({
+         title: "Oh, snap",
+         text: errorThrown,
+         type: "error",
+         customClass: "b-warning"
+       });
+     })
+     .always(function(xhr, status) {
+     });
   }
 
   function getDelegateDocument() {
     console.log('get delegate document');
     var $publicKey = $('#keyContent');
-    porto.extension.sendMessage({
-      event: 'porto-send-request',
-      params: {
-        url: parser.origin + '/rest/ui/identity/delegate-identity',
-        method: 'GET'
-      }
-    }, function(response) {
-      $publicKey.text(response.data);
-      $publicKey.val(response.data);
-      $publicKey.removeClass('bp-set-pub-key');
-      $publicKey.addClass('bp-sign-target');
-      $publicKey.data('stage', 'sign-authid');
-      $publicKey.on('change', function() {
-        delegateUserPermissions();
-      });
-    });
+    $.ajax({
+       url: parser.origin + '/rest/ui/identity/delegate-identity',
+       type: 'GET'
+     })
+     .done(function(data, status, xhr) {
+       $publicKey.text(data);
+       $publicKey.val(data);
+       $publicKey.removeClass('bp-set-pub-key');
+       $publicKey.addClass('bp-sign-target');
+       $publicKey.data('stage', 'sign-authid');
+       $publicKey.on('change', function() {
+         delegateUserPermissions();
+       });
+     })
+     .fail(function(xhr, status, errorThrown) {
+       swal2.enableButtons();
+       swal2({
+         title: "Oh, snap",
+         text: errorThrown,
+         type: "error",
+         customClass: "b-warning"
+       });
+     })
+     .always(function(xhr, status) {
+     });
   }
 
   function delegateUserPermissions() {
@@ -185,13 +212,6 @@ porto.headerChecker.intervalSSID = 0;
       }
     }
   }
-
-  porto.extension.sendMessage(
-    {
-      event: 'porto-socket-init',
-      url: 'ws://localhost:9998'
-    }
-  );
 
   function getCookie(cname) {
     var name = cname + "=";
