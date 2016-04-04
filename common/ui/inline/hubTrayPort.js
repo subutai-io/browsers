@@ -109,8 +109,7 @@ porto.trayPort.intervalSSID = 0;
       var $container = $(containers[i]);
       if ($container.attr('data-dirty') !== 'true') {
         // 1: name, 2: template, 3: size, 4: status, 5: ip
-        var $action = $container.find('td:nth-child(7)');
-        var $btn = $action.find('button:nth-child(2)');
+        var $btn = $container.find('td .e2e-plugin-btn');
         $btn.attr('disabled', false);
         $btn.on('click', function() {
           var that = this;
