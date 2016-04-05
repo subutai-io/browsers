@@ -47,64 +47,6 @@ porto.trayPort.intervalSSID = 0;
   porto.trayPort.scanLoop = function() {
     var containers = $('.bp-env-cntr-ssh tbody tr');
 
-    var performCheck = function(that, response) {
-      console.log(response);
-      var pathParams = parser.pathname;
-      var userId = pathParams.split('/');
-      var email = $(
-        'body > div.b-content.b-content_minus-header.g-full-height > div.b-sidebar.b-sidebar_border-right.g-left.g-full-height > div > div > div.b-sidebar-profile__header.g-padding > div > div.b-sidebar-profile-header__info.g-margin-bottom > div > div.b-sidebar-profile-header-info__location > ul > li > a');
-      email = $(email).attr('data-email');
-      if (email) {
-        console.log('email: ' + email);
-        if (email === response) {
-          var row = $(that.closest('tr'));
-          var envName = $('.b-sidebar-profile-header-name').text().trim();
-
-          if (userId[3] === 'environments') {
-            envName = userId[4];
-          }
-          var cmd = 'cmd:ssh%%%' + envName + '%%%' + row.attr('data-container-id');
-          porto.extension.sendMessage({
-            event: "porto-socket-send",
-            msg: {
-              cmd: cmd
-            }
-          }, function(response) {
-            // code:code%%%error==error_message%%%success==success_message
-            var parseStep1 = response.split('%%%');
-            if (parseStep1.length === 3) {
-              var parseError = parseStep1[1].split('==');
-              if (parseError[1]) {
-                swal2({
-                  title: "Oh, snap error " + parseStep1[0],
-                  text: parseError[1],
-                  type: "error",
-                  customClass: "b-warning"
-                });
-              }
-              else {
-                swal2({
-                  title: "Success",
-                  text: parseStep1[2].split('==')[1],
-                  type: "success",
-                  customClass: "b-success"
-                });
-              }
-            }
-            console.log(response);
-          });
-        }
-        else {
-          swal2({
-            title: "Oh, snap error ",
-            text: "TrayApp and Hub user didn't match!?!?",
-            type: "error",
-            customClass: "b-warning"
-          });
-        }
-      }
-    };
-
     for (var i = 0; i < containers.length; i++) {
       var $container = $(containers[i]);
       if ($container.attr('data-dirty') !== 'true') {
@@ -127,5 +69,67 @@ porto.trayPort.intervalSSID = 0;
     }
 
   };
+
+  function performCheck(that, response) {
+    console.log(response);
+    var pathParams = parser.pathname;
+    var userId = pathParams.split('/');
+    var email = $(
+      'body > div.b-content.b-content_minus-header.g-full-height > div.b-sidebar.b-sidebar_border-right.g-left.g-full-height > div > div > div.b-sidebar-profile__header.g-padding > div > div.b-sidebar-profile-header__info.g-margin-bottom > div > div.b-sidebar-profile-header-info__location > ul > li > a');
+    email = $(email).attr('data-email');
+    if (email) {
+      console.log('email: ' + email);
+      if (email === response) {
+        var row = $(that.closest('tr'));
+        var envName = $('.b-sidebar-profile-header-name').text().trim();
+
+        if (userId[3] === 'environments') {
+          envName = userId[4];
+        }
+        var cmd = 'cmd:ssh%%%' + envName + '%%%' + row.attr('data-container-id');
+        openSshTunnel(cmd);
+      }
+      else {
+        swal2({
+          title: "Oh, snap error ",
+          text: "TrayApp and Hub user didn't match!?!?",
+          type: "error",
+          customClass: "b-warning"
+        });
+      }
+    }
+  }
+
+  function openSshTunnel(cmd) {
+    porto.extension.sendMessage({
+      event: "porto-socket-send",
+      msg: {
+        cmd: cmd
+      }
+    }, function(response) {
+      // code:code%%%error==error_message%%%success==success_message
+      var parseStep1 = response.split('%%%');
+      if (parseStep1.length === 3) {
+        var parseError = parseStep1[1].split('==');
+        if (parseError[1]) {
+          swal2({
+            title: "Oh, snap error " + parseStep1[0],
+            text: parseError[1],
+            type: "error",
+            customClass: "b-warning"
+          });
+        }
+        else {
+          swal2({
+            title: "Success",
+            text: parseStep1[2].split('==')[1],
+            type: "success",
+            customClass: "b-success"
+          });
+        }
+      }
+      console.log(response);
+    });
+  }
 
 })(window, document);

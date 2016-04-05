@@ -4,11 +4,11 @@
 /* jshint strict: false */
 var porto = porto || {};
 
-porto.headerChecker = {};
+porto.subutai = {};
 
-porto.headerChecker.interval = 2500; // ms
-porto.headerChecker.intervalHubID = 0;
-porto.headerChecker.intervalSSID = 0;
+porto.subutai.interval = 2500; // ms
+porto.subutai.intervalHubID = 0;
+porto.subutai.intervalSSID = 0;
 
 (function(window, document, undefined) {
 
@@ -35,17 +35,18 @@ porto.headerChecker.intervalSSID = 0;
       swal2.closeModal();
     });
 
-    porto.headerChecker.subutaiSocial = {};
+    porto.subutai.subutaiSocial = {};
 
-    porto.headerChecker.subutaiSocial.scanAgent = function() {
+    porto.subutai.subutaiSocial.scanAgent = function() {
       injectSetPublicKeyButton();
+      ezSshScanner();
     };
 
-    porto.headerChecker.subutaiSocial.scanAgent();
+    porto.subutai.subutaiSocial.scanAgent();
 
-    porto.headerChecker.subutaiSocial.intervalSSID = window.setInterval(function() {
-      porto.headerChecker.subutaiSocial.scanAgent();
-    }, porto.headerChecker.interval);
+    porto.subutai.subutaiSocial.intervalSSID = window.setInterval(function() {
+      porto.subutai.subutaiSocial.scanAgent();
+    }, porto.subutai.interval);
 
   }
 
@@ -226,6 +227,99 @@ porto.headerChecker.intervalSSID = 0;
       }
     }
     return "";
+  }
+
+  function ezSshScanner() {
+    var email = $('[data-hub-email]');
+    email = $(email).attr('data-hub-email');
+    if (!email) {
+      return;
+    }
+
+    var $ezSshTable = $('.ez-ssh-table tbody tr');
+
+    for (var i = 0; i < $ezSshTable.length; i++) {
+      var $container = $($ezSshTable[i]);
+      if ($container.attr('data-dirty') !== 'true') {
+
+        var $btn = $container.find('td .ez-ssh-btn');
+
+        if ($btn.length !== 0) {
+          $btn.attr('disabled', false);
+          $btn.on('click', function() {
+            var that = this;
+            porto.extension.sendMessage({
+              event: "porto-socket-send",
+              msg: {
+                cmd: 'cmd:current_user'
+              }
+            }, function(response) {
+              performCheck(that, response);
+            });
+          });
+          $container.attr('data-dirty', 'true');
+        }
+
+      }
+    }
+  }
+
+  function performCheck(that, response) {
+    console.log(response);
+    var pathParams = parser.pathname;
+    var userId = pathParams.split('/');
+    var email = $('[data-hub-email]');
+    email = $(email).attr('data-hub-email');
+    if (email) {
+      console.log('email: ' + email);
+      if (email === response) {
+        var $row = $(that.closest('tr'));
+        var envId = $row.find('[env-id]').attr('env-id');
+        var contId = $row.find('[container-id]').attr('container-id');
+        var cmd = 'cmd:ssh%%%' + envId + '%%%' + contId;
+        openSshTunnel(cmd);
+      }
+      else {
+        swal2({
+          title: "Oh, snap error ",
+          text: "TrayApp and Hub user didn't match!?!?",
+          type: "error",
+          customClass: "b-warning"
+        });
+      }
+    }
+  }
+
+  function openSshTunnel(cmd) {
+    porto.extension.sendMessage({
+      event: "porto-socket-send",
+      msg: {
+        cmd: cmd
+      }
+    }, function(response) {
+      // code:code%%%error==error_message%%%success==success_message
+      var parseStep1 = response.split('%%%');
+      if (parseStep1.length === 3) {
+        var parseError = parseStep1[1].split('==');
+        if (parseError[1]) {
+          swal2({
+            title: "Oh, snap error " + parseStep1[0],
+            text: parseError[1],
+            type: "error",
+            customClass: "b-warning"
+          });
+        }
+        else {
+          swal2({
+            title: "Success",
+            text: parseStep1[2].split('==')[1],
+            type: "success",
+            customClass: "b-success"
+          });
+        }
+      }
+      console.log(response);
+    });
   }
 
 })(window, document);
