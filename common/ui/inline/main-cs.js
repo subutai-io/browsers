@@ -158,7 +158,7 @@ porto.main.findEditable = function() {
   editable = editable.add(editableBody);
   // filter out elements below a certain height limit
   editable = editable.filter(function() {
-    return ($(this).hasClass('bp-sign-target') || $(this).hasClass('bp-set-pub-key'));
+    return ($(this).hasClass('bp-sign-target') || $(this).hasClass('bp-set-pub-key') || $(this).hasClass('e2e-sign-message'));
   });
   //console.log(editable);
   return editable;
@@ -238,11 +238,19 @@ porto.main.attachEncryptFrame = function(element, expanded) {
         }
       );
     }
-    else {
+    else if ($(element).hasClass('bp-set-pub-key')) {
       eFrame.attachTo($(element), {
           expanded: expanded,
           su_fingerprint: getCookie('su_fingerprint'),
           context: "bp-set-pub-key"
+        }
+      );
+    }
+    else if ($(element).hasClass('e2e-sign-message')) {
+      eFrame.attachTo($(element), {
+          expanded: expanded,
+          su_fingerprint: getCookie('su_fingerprint'),
+          context: "e2e-sign-message"
         }
       );
     }

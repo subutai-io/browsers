@@ -48,40 +48,11 @@ var porto = porto || null;
     logUserInput('requested_public_key_set');
 
     port.postMessage({
-      event: 'send-armored-pub',
+      event: 'sign-dialog-ok',
       sender: name,
-      keyIds: [$('#keySelect').val()],
+      signKeyId: $('#keySelect').val(),
       type: 'text'
     });
-
-    //port.postMessage({
-    //  event: 'sign-dialog-ok',
-    //  sender: name,
-    //  signKeyId: $('#keySelect').val(),
-    //  type: 'text'
-    //});
-
-    //port.postMessage({
-    //  event: 'keyring',
-    //  method: 'getArmoredKeys',
-    //  args: [[], {pub: true, priv: true, all: true}],
-    //  sender: name,
-    //  signKeyId: porto.LOCAL_KEYRING_ID,
-    //  type: 'text'
-    //}, function(result) {
-    //  console.log(result);
-    //  var hasPrivate = false;
-    //  var allKeys = result.reduce(function(prev, curr) {
-    //    if (curr.armoredPublic) {
-    //      prev += '\n' + curr.armoredPublic;
-    //    }
-    //    if (curr.armoredPrivate) {
-    //      hasPrivate = true;
-    //      prev += '\n' + curr.armoredPrivate;
-    //    }
-    //    return prev;
-    //  }, '');
-    //});
     return false;
   }
 
@@ -120,15 +91,6 @@ var porto = porto || null;
             return option;
           })
         );
-        if (msg.keys.length === 1) {
-          onOk();
-        }
-        else if (msg.keys.length > 1) {
-          port.postMessage({
-            event:'bp-show-keys-popup-alice',
-            sender: name
-          });
-        }
         break;
       default:
         console.log('unknown event', msg.event);
