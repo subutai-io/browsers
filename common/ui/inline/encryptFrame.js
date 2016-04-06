@@ -139,7 +139,7 @@ porto.EncryptFrame.prototype._normalizeButtons = function() {
       //this._eFrame.find('#editorBtn').show();
       break;
     case 'e2e-sign-message':
-      if (this._editorMode === porto.EDITOR_WEBMAIL && !this._emailUndoText) {
+      if (!this._emailUndoText) {
         this._eFrame.find('#signBtn').show();
       }
       break;
