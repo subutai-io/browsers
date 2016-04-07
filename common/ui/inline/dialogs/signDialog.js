@@ -46,11 +46,14 @@ var porto = porto || null;
     $('body').addClass('busy');
     $('#okBtn').button('loading');
     logUserInput('requested_public_key_set');
+    var $keySelect = $('#keySelect');
+    var selectedKey = $keySelect.find(':selected');
 
     port.postMessage({
       event: 'sign-dialog-ok',
       sender: name,
-      signKeyId: $('#keySelect').val(),
+      signKeyId: $keySelect.val(),
+      fingerprint: selectedKey.data('fingerprint'),
       type: 'text'
     });
     return false;
@@ -85,6 +88,7 @@ var porto = porto || null;
         keySelect.append(
           msg.keys.map(function(key) {
             var option = $('<option/>').val(key.id.toLowerCase()).text(key.name + ' <' + key.email + '>');
+            option.data('fingerprint', key.fingerprint);
             if (key.id === msg.primary) {
               option.prop('selected', true);
             }

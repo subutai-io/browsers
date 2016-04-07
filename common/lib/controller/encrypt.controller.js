@@ -56,7 +56,12 @@ define(function(require, exports, module) {
             }
           }
         }
-        that.ports.eFrame.postMessage({event: 'get-armored-pub', armor: armored, fingerprint: fingerprintArr});
+        that.ports.eFrame.postMessage({
+          event: 'get-armored-pub',
+          armor: armored,
+          fingerprint: fingerprintArr,
+          keyName: msg.keyName
+        });
         break;
       case 'bp-show-keys-popup-alice':
         that.ports.eFrame.postMessage({event: 'bp-show-keys-popup-bob'});
@@ -104,7 +109,12 @@ define(function(require, exports, module) {
         this.pwdControl = sub.factory.get('pwdDialog');
         this.pwdControl.unlockKey(this.signBuffer)
           .then(function() {
-            that.ports.eFrame.postMessage({event: 'email-text', type: msg.type, action: 'sign'});
+            that.ports.eFrame.postMessage({
+              event: 'email-text',
+              type: msg.type,
+              action: 'sign',
+              fingerprint: msg.fingerprint
+            });
           })
           .catch(function(err) {
             if (err.code = 'PWD_DIALOG_CANCEL') {
@@ -128,9 +138,14 @@ define(function(require, exports, module) {
               console.log('model.encryptMessage() error', error);
             });
         } else if (msg.action === 'sign') {
+          var fingerprint = msg.fingerprint;
           this.model.signMessage(msg.data, this.signBuffer.key)
             .then(function(msg) {
-              that.ports.eFrame.postMessage({event: 'signed-message', message: msg});
+              that.ports.eFrame.postMessage({
+                event: 'signed-message',
+                message: msg,
+                fingerprint: fingerprint
+              });
             })
             .catch(function(error) {
               console.log('model.signMessage() error', error);

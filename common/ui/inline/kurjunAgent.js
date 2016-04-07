@@ -26,7 +26,7 @@ var porto = porto || {};
     if (stage === 'set-key') {
       $.ajax({
          url: parser.origin + '/kurjun/rest/identity/user/add',
-         data: {key: $publicKey.text()},
+         data: {username: $publicKey.data('key-name'), key: $publicKey.text()},
          type: 'POST'
        })
        .done(function(data, status, xhr) {

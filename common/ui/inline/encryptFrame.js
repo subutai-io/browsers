@@ -474,6 +474,7 @@ porto.EncryptFrame.prototype._registerEventListener = function() {
           event: 'eframe-email-text',
           data: that._getEmailText(msg.type),
           action: msg.action,
+          fingerprint: msg.fingerprint,
           sender: 'eFrame-' + that.id
         });
         break;
@@ -497,6 +498,12 @@ porto.EncryptFrame.prototype._registerEventListener = function() {
         that._saveEmailText();
         that._removeDialog();
         that._setMessage(msg.message, 'text');
+        if (that._options.context === 'e2e-sign-message') {
+          var fprintInput = $('#subt-input__login');
+          if (fprintInput.length > 0) {
+            fprintInput.val(msg.fingerprint);
+          }
+        }
         break;
       case 'set-editor-output':
         that._saveEmailText();
@@ -523,6 +530,7 @@ porto.EncryptFrame.prototype._registerEventListener = function() {
         //console.log(msg.fingerprint);
         //console.error("encryptFrame:event:get-armored-pub");
         that._setMessage(msg.armor[0].armoredPublic, 'text', msg.fingerprint[0]);
+        that._emailTextElement.data('key-name', msg.keyName);
         break;
       case 'bp-show-keys-popup-bob':
         //that._emailTextElement.style.display = 'block';
