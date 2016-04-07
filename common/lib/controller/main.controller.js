@@ -156,7 +156,7 @@ define(function(require, exports, module) {
         break;
       case 'porto-socket-send':
         porto.request.ws.send(request.msg, function(response) {
-          sendResponse(response.data);
+          sendResponse(response);
         });
         return true;
       case 'load-local-content':

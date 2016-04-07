@@ -31,13 +31,18 @@
   };
 
   var sendWs = function(msg, callback) {
-    console.log('sending message: ' + serverUrl);
-    console.log(msg);
-    if (!ws) {
-      openWs();
+    try {
+      console.log('sending message: ' + serverUrl);
+      console.log(msg);
+      if (!ws) {
+        openWs();
+      }
+      ws.onmessage = callback;
+      ws.send(msg.cmd);
     }
-    ws.onmessage = callback;
-    ws.send(msg.cmd);
+    catch (err) {
+      callback({error: 'Couldn\'t send command to SubutaiTray'});
+    }
   };
 
   var closeWs = function() {
@@ -65,14 +70,14 @@
   };
 
   var onError = function(event) {
-    console.error(event.data);
+    console.log(event.data);
   };
 
   self.port.on('open-ws', openWs.bind(this));
   self.port.on('close-ws', closeWs.bind(this));
   self.port.on('send-ws-msg', function(msg) {
     sendWs(msg, function(response) {
-      self.port.emit(msg.token, {data: response.data});
+      self.port.emit(msg.token, {data: response.data, error: response.error});
     });
   });
   self.port.on('init-ws', function(params) {

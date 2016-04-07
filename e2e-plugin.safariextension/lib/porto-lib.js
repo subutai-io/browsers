@@ -102,13 +102,18 @@ define(function(require, exports, module) {
   };
 
   var sendWs = function(msg, callback) {
-    console.log('sending message: ' + serverUrl);
-    console.log(msg);
-    if (!that.ws) {
-      openWs();
+    try {
+      console.log('sending message: ' + serverUrl);
+      console.log(msg);
+      if (!that.ws) {
+        openWs();
+      }
+      that.ws.onmessage = callback;
+      that.ws.send(msg.cmd);
     }
-    that.ws.onmessage = callback;
-    that.ws.send(msg.cmd);
+    catch (err) {
+      callback({error: 'Couldn\'t send command to SubutaiTray'});
+    }
   };
 
   var closeWs = function() {
@@ -137,7 +142,7 @@ define(function(require, exports, module) {
   };
 
   var onError = function(event) {
-    console.error(event.data);
+    console.log(event.data);
   };
 
   porto.request.ws = {

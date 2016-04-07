@@ -27,6 +27,13 @@ porto.subutai.intervalSSID = 0;
 
   if (cookie && isSubutaiSocial === 'Subutai Social') {
 
+    porto.extension.sendMessage(
+      {
+        event: 'porto-socket-init',
+        url: 'ws://localhost:9998'
+      }
+    );
+
     porto.extension.sendMessage({
       event: "associate-peer-key", su_fingerprint: cookie, url: document.location.origin
     });
@@ -270,9 +277,9 @@ porto.subutai.intervalSSID = 0;
     var userId = pathParams.split('/');
     var email = $('[data-hub-email]');
     email = $(email).attr('data-hub-email');
-    if (email) {
+    if (email && !response.error) {
       console.log('email: ' + email);
-      if (email === response) {
+      if (email === response.data) {
         var $row = $(that.closest('tr'));
         var envId = $row.find('[env-id]').attr('env-id');
         var contId = $row.find('[container-id]').attr('container-id');
@@ -282,11 +289,19 @@ porto.subutai.intervalSSID = 0;
       else {
         swal2({
           title: "Oh, snap error ",
-          text: "TrayApp and Hub user didn't match!?!?",
+          text: "SubutaiTray and Hub user didn't match!?!?",
           type: "error",
           customClass: "b-warning"
         });
       }
+    }
+    else {
+      swal2({
+        title: "Oh, SubutaiTray running?",
+        text: response.error,
+        type: "error",
+        customClass: "b-warning"
+      });
     }
   }
 
@@ -297,25 +312,35 @@ porto.subutai.intervalSSID = 0;
         cmd: cmd
       }
     }, function(response) {
-      // code:code%%%error==error_message%%%success==success_message
-      var parseStep1 = response.split('%%%');
-      if (parseStep1.length === 3) {
-        var parseError = parseStep1[1].split('==');
-        if (parseError[1]) {
-          swal2({
-            title: "Oh, snap error " + parseStep1[0],
-            text: parseError[1],
-            type: "error",
-            customClass: "b-warning"
-          });
-        }
-        else {
-          swal2({
-            title: "Success",
-            text: parseStep1[2].split('==')[1],
-            type: "success",
-            customClass: "b-success"
-          });
+      if (response.error) {
+        swal2({
+          title: "Oh, SubutaiTray running?",
+          text: response.error,
+          type: "error",
+          customClass: "b-warning"
+        });
+      }
+      else {
+        // code:code%%%error==error_message%%%success==success_message
+        var parseStep1 = response.split('%%%');
+        if (parseStep1.length === 3) {
+          var parseError = parseStep1[1].split('==');
+          if (parseError[1]) {
+            swal2({
+              title: "Oh, snap error " + parseStep1[0],
+              text: parseError[1],
+              type: "error",
+              customClass: "b-warning"
+            });
+          }
+          else {
+            swal2({
+              title: "Success",
+              text: parseStep1[2].split('==')[1],
+              type: "success",
+              customClass: "b-success"
+            });
+          }
         }
       }
       console.log(response);
