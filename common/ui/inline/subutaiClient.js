@@ -76,6 +76,7 @@ porto.subutai.intervalSSID = 0;
        })
        .done(function(data, status, xhr) {
          $publicKey.removeData(porto.FRAME_STATUS);
+         $publicKey.removeClass('bp-set-pub-key');
          issueDelegateDocument();
        })
        .fail(function(xhr, status, errorThrown) {
@@ -124,7 +125,6 @@ porto.subutai.intervalSSID = 0;
      .done(function(data, status, xhr) {
        $publicKey.text(data);
        $publicKey.val(data);
-       $publicKey.removeClass('bp-set-pub-key');
        $publicKey.addClass('bp-sign-target');
        $publicKey.data('stage', 'sign-authid');
        $publicKey.on('change', function() {
