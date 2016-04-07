@@ -158,8 +158,11 @@ porto.EncryptFrame.prototype._onSignButton = function() {
       event: 'get-signing-keys', sender: 'eFrame-' + this.id
     });
   }
-  else {
+  else if (this._options.context === 'e2e-sign-message') {
     this.showSignDialog();
+  }
+  else if (this._options.context === 'bp-set-pub-key') {
+    this.showPubkeyDialog();
   }
   return false;
 };
@@ -183,6 +186,10 @@ porto.EncryptFrame.prototype._onEditorButton = function() {
 
 porto.EncryptFrame.prototype.showSignDialog = function() {
   this._expandFrame(this._showDialog.bind(this, 'sign'));
+};
+
+porto.EncryptFrame.prototype.showPubkeyDialog = function() {
+  this._expandFrame(this._showDialog.bind(this, 'pubkey'));
 };
 
 porto.EncryptFrame.prototype.showEncryptDialog = function() {
@@ -234,7 +241,11 @@ porto.EncryptFrame.prototype._setFrameDim = function() {
 
 porto.EncryptFrame.prototype._showDialog = function(type) {
   this._eDialog = $('<iframe/>', {
-    id: 'eDialog-' + this.id, 'class': 'm-frame-dialog', frameBorder: 0, scrolling: 'no'
+    id: 'eDialog-' + this.id,
+    'class': 'm-frame-dialog',
+    frameBorder: 0,
+    scrolling: 'no',
+    style: 'display: block'
   });
   var url, dialog;
   if (type === 'encrypt') {
@@ -242,6 +253,9 @@ porto.EncryptFrame.prototype._showDialog = function(type) {
   }
   else if (type === 'sign') {
     dialog = 'signDialog';
+  }
+  else if (type === 'pubkey') {
+    dialog = 'pubkeyDialog';
   }
   //console.error(dialog);
   if (porto.crx || porto.sfx) {

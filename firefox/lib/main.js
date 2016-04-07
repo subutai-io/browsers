@@ -107,6 +107,7 @@ function activatePageMods() {
   injectMessageAdapter();
   injectEncryptDialog();
   injectSignDialog();
+  injectPubkeyDialog();
   injectEmbeddedOptions();
 }
 
@@ -278,6 +279,31 @@ function injectSignDialog() {
       data.url('common/dep/bootstrap/js/bootstrap.js'),
       data.url('common/ui/porto.js'),
       data.url('common/ui/inline/dialogs/signDialog.js')
+    ],
+    contentStyleFile: [
+      data.url("common/dep/bootstrap/css/bootstrap.css"),
+      data.url("common/ui/porto.css"),
+      data.url("common/ui/inline/dialogs/signDialog.css")
+    ],
+    contentScriptWhen: 'ready',
+    attachTo: ['existing', 'frame'],
+    contentScriptOptions: {
+      expose_messaging: false,
+      data_path: data.url()
+    }
+  });
+}
+
+function injectPubkeyDialog() {
+  pageMods.pubkeyDialogPageMod = pageMod.PageMod({
+    include: 'about:blank?porto=pubkeyDialog*',
+    onAttach: onCsAttach,
+    contentScriptFile: [
+      data.url('common/dep/jquery.min.js'),
+      data.url('common/dep/jquery.ext.js'),
+      data.url('common/dep/bootstrap/js/bootstrap.js'),
+      data.url('common/ui/porto.js'),
+      data.url('common/ui/inline/dialogs/pubkeyDialog.js')
     ],
     contentStyleFile: [
       data.url("common/dep/bootstrap/css/bootstrap.css"),
