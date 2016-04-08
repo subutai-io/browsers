@@ -196,6 +196,7 @@
   var previousDocumentClick;
   var previousWindowKeyDown;
   var lastFocusedButton;
+  var colorState;
 
   /*
    * Global sweetAlert function
@@ -520,21 +521,32 @@
     if (params.buttonsStyling) {
       $confirmButton.style.borderLeftColor = params.confirmButtonColor;
       $confirmButton.style.borderRightColor = params.confirmButtonColor;
+      $confirmButton.style.margin = '0 30px';
     }
 
     window.swal2.toggleLoading = function() {
       $confirmButton.disabled = !$confirmButton.disabled;
       $cancelButton.disabled = !$cancelButton.disabled;
+      if ($confirmButton.disabled) {
+        colorState = $confirmButton.style.color;
+        $confirmButton.style.color = 'transparent';
+      }
+      else {
+        $confirmButton.style.color = colorState;
+      }
     };
 
     window.swal2.enableButtons = function() {
       $confirmButton.disabled = false;
       $cancelButton.disabled = false;
+      $confirmButton.style.color = colorState;
     };
 
     window.swal2.disableButtons = function() {
       $confirmButton.disabled = true;
       $cancelButton.disabled = true;
+      colorState = $confirmButton.style.color;
+      $confirmButton.style.color = 'transparent';
     };
 
     swal2.enableButtons();
@@ -742,6 +754,7 @@
       removeClass($cancelBtn, 'styled');
 
       $confirmBtn.style.backgroundColor = $confirmBtn.style.borderLeftColor = $confirmBtn.style.borderRightColor = '';
+      $confirmBtn.style.color = 'inherit';
       $cancelBtn.style.backgroundColor = $cancelBtn.style.borderLeftColor = $cancelBtn.style.borderRightColor = '';
     }
 

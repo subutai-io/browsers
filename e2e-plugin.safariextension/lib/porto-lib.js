@@ -108,7 +108,9 @@ define(function(require, exports, module) {
       if (!that.ws) {
         openWs();
       }
-      that.ws.onmessage = callback;
+      that.ws.onmessage = function(event) {
+        callback({data: event.data});
+      };
       that.ws.send(msg.cmd);
     }
     catch (err) {

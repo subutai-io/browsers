@@ -296,7 +296,7 @@ var pageWorker = require("sdk/page-worker").Page({
   contentScriptFile: data.url('ws-client.js'),
   contentURL: data.url('ws-client.html')
 });
-console.error(data.url('ws-client.html'));
+
 porto.request.ws = {
   init: function(url, options) {
     console.log(url);

@@ -322,7 +322,7 @@ porto.subutai.intervalSSID = 0;
       }
       else {
         // code:code%%%error==error_message%%%success==success_message
-        var parseStep1 = response.split('%%%');
+        var parseStep1 = response.data.split('%%%');
         if (parseStep1.length === 3) {
           var parseError = parseStep1[1].split('==');
           if (parseError[1]) {
