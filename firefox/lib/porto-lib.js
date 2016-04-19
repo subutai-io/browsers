@@ -162,32 +162,6 @@ porto.windows.openPopup = function(url, options, callback) {
   windows.open(winOpts);
 };
 
-var delegate = {
-  onTrack: function(window) {
-    // check for porto popup
-    if (window.arguments && porto.windows.internalURL.test(window.arguments[0])) {
-      window.locationbar.visible = false;
-      window.menubar.visible = false;
-      window.personalbar.visible = false;
-      window.toolbar.visible = false;
-      var options = porto.windows.options.shift();
-      if (options) {
-        window.innerWidth = options.width;
-        window.innerHeight = options.height;
-        for (var main in winUtils.windowIterator()) {
-          var y = parseInt(main.screenY + (main.outerHeight - options.height) / 2);
-          var x = parseInt(main.screenX + (main.outerWidth - options.width) / 2);
-          window.moveTo(x, y);
-          break;
-        }
-      }
-    }
-  }
-};
-
-var winUtils = require('sdk/deprecated/window-utils');
-var tracker = new winUtils.WindowTracker(delegate);
-
 porto.windows.BrowserWindow = function(id) {
   this._id = id;
 };

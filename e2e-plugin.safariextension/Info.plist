@@ -3,7 +3,7 @@
 <plist version="1.0">
 <dict>
 	<key>Builder Version</key>
-	<string>11601.4.4</string>
+	<string>11601.6.10</string>
 	<key>CFBundleDisplayName</key>
 	<string>Subutai Social E2E Plugin</string>
 	<key>CFBundleIdentifier</key>
@@ -11,9 +11,9 @@
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundleShortVersionString</key>
-	<string>2.0.6</string>
+	<string>2.0.7</string>
 	<key>CFBundleVersion</key>
-	<string>2.0.6</string>
+	<string>2.0.7</string>
 	<key>Chrome</key>
 	<dict>
 		<key>Global Page</key>
