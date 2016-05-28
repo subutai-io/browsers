@@ -2,8 +2,10 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>Author</key>
+	<string>Nursel Karasulu</string>
 	<key>Builder Version</key>
-	<string>11601.6.10</string>
+	<string>11601.6.15</string>
 	<key>CFBundleDisplayName</key>
 	<string>Subutai Social E2E Plugin</string>
 	<key>CFBundleIdentifier</key>
@@ -41,7 +43,7 @@
 	<key>Description</key>
 	<string>Effortlessly secure the doors to your Subutai Social Cloud</string>
 	<key>DeveloperIdentifier</key>
-	<string>0000000000</string>
+	<string>YM8SD62476</string>
 	<key>ExtensionInfoDictionaryVersion</key>
 	<string>1.0</string>
 	<key>Permissions</key>
