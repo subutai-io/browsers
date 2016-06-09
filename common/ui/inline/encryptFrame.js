@@ -502,6 +502,7 @@ porto.EncryptFrame.prototype._registerEventListener = function() {
           var fprintInput = $('#subt-input__login');
           if (fprintInput.length > 0) {
             fprintInput.val(msg.fingerprint);
+            fprintInput.text(msg.fingerprint);
           }
         }
         break;

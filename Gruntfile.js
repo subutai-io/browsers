@@ -193,6 +193,15 @@ module.exports = function(grunt) {
 
         {
           expand: true,
+          cwd: 'common/img/icons/',
+          src: 'e2e_icon256x256.png',
+          dest: 'build/e2e-plugin.safariextension/',
+          rename: function(dest, src) {
+            return dest + 'Icon.png';
+          }
+        },
+        {
+          expand: true,
           src: ['common/**/*', '!common/lib/**/*'],
           cwd: 'build/',
           dest: 'build/e2e-plugin.safariextension/'

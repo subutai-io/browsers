@@ -103,7 +103,10 @@ var options = {};
       porto.extension.sendMessage({
         event: 'keyring', method: method, args: args, keyringId: options.keyringId
       }, function(data) {
-        if (data.error) {
+        if (!data) {
+          reject("Error");
+        }
+        else if (data.error) {
           reject(data.error);
         }
         else {

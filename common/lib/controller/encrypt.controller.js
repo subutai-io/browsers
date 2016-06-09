@@ -22,6 +22,7 @@ define(function(require, exports, module) {
     //console.log('encrypt.controller::' + msg.event);
     //console.log(msg);
     //console.trace();
+    var keys = localKeyring.getPrivateKeys();
     switch (msg.event) {
       case 'encrypt-dialog-cancel':
       case 'sign-dialog-cancel':
@@ -29,7 +30,6 @@ define(function(require, exports, module) {
         this.ports.eFrame.postMessage(msg);
         break;
       case 'sign-dialog-init':
-        var keys = localKeyring.getPrivateKeys();
         var primary = localKeyring.getAttributes().primary_key;
         this.porto.data.load('common/ui/inline/dialogs/templates/sign.html').then(function(content) {
           var port = that.ports.sDialog;
@@ -38,7 +38,6 @@ define(function(require, exports, module) {
         });
         break;
       case 'get-signing-keys':
-        var keys = localKeyring.getPrivateKeys();
         that.ports.eFrame.postMessage({event: 'filter-relevant-key', keys: keys});
         break;
       case 'send-armored-pub':
@@ -78,17 +77,17 @@ define(function(require, exports, module) {
         break;
       case 'eframe-recipient-proposal':
         var emails = this.porto.util.sortAndDeDup(msg.data);
-        var keys = localKeyring.getKeyUserIDs(emails);
+        var userKeys = localKeyring.getKeyUserIDs(emails);
         var primary;
         if (this.prefs.data().general.auto_add_primary) {
           primary = localKeyring.getAttributes().primary_key;
           primary = primary && primary.toLowerCase();
         }
         if (this.recipientsCallback) {
-          this.recipientsCallback({ keys: keys, primary: primary });
+          this.recipientsCallback({ keys: userKeys, primary: primary });
           this.recipientsCallback = null;
         } else {
-          this.ports.eDialog.postMessage({event: 'public-key-userids', keys: keys, primary: primary});
+          this.ports.eDialog.postMessage({event: 'public-key-userids', keys: userKeys, primary: primary});
         }
         break;
       case 'encrypt-dialog-ok':
@@ -128,8 +127,8 @@ define(function(require, exports, module) {
         break;
       case 'eframe-email-text':
         if (msg.action === 'encrypt') {
-          // TODO fix error while encrypting message, instead of passing three parameters to pgpMode.encryptMessage
-          // wrap it into one object with relevant keys
+          // TODO fix error while encrypting message, instead of passing three parameters to
+          // pgpMode.encryptMessage wrap it into one object with relevant keys
           this.model.encryptMessage(msg.data, this.porto.LOCAL_KEYRING_ID, this.keyidBuffer)
             .then(function(msg) {
               that.ports.eFrame.postMessage({event: 'encrypted-message', message: msg});

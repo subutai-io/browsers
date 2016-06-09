@@ -164,6 +164,14 @@ define(function(require, exports, module) {
           sendResponse(content);
         });
         return true;
+      case "get-user-ids":
+        var localKeyring = keyring.getById(porto.LOCAL_KEYRING_ID);
+        var keys = localKeyring.getPrivateKeys();
+        var usersArr = keys.map(function(key) {
+          return {id: key.id, name: key.name, email: key.email, fingerprint: key.fingerprint};
+        });
+        sendResponse({users: usersArr});
+        break;
       default:
         console.log('unknown event:', request);
     }

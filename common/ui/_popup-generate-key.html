@@ -9,13 +9,15 @@
   </div>
   <div class="b-popup__body">
     <div class="b-form">
+      <span id="error-msg" style="display: none" class="b-form-hint b-form-hint_red">Email already exists.</span>
       <div class="b-form-wrapper g-margin-bottom" style="display: none">
         <label for="name" class="b-form-label g-margin-right">Enter key name</label>
         <input id="name" type="text" class="b-form-input g-right" placeholder="Name">
       </div>
       <div class="b-form-wrapper g-margin-bottom">
         <label for="email" class="b-form-label g-margin-right">Enter email</label>
-        <input id="email" type="email" class="b-form-input g-right" placeholder="Enter e-mail" tabindex="2">
+        <input id="email" type="email" class="b-form-input g-right" placeholder="Enter e-mail"
+               tabindex="2">
       </div>
     </div>
 
@@ -31,11 +33,13 @@
       <div class="js-passwd-hide">
         <div class="b-form-wrapper g-margin-bottom-half">
           <label for="password" class="b-form-label g-margin-right">Enter password</label>
-          <input id="password" type="password" class="b-form-input g-right" placeholder="Enter password">
+          <input id="password" type="password" class="b-form-input g-right"
+                 placeholder="Enter password">
         </div>
         <div class="b-form-wrapper g-margin-bottom-half">
           <label for="password-confirm" class="b-form-label g-margin-right">Confirm password</label>
-          <input id="password-confirm" type="password" class="b-form-input g-right" placeholder="Confirm password">
+          <input id="password-confirm" type="password" class="b-form-input g-right"
+                 placeholder="Confirm password">
         </div>
       </div>
     </div>
@@ -73,7 +77,7 @@
         </div>
       </div>
     </div>
-  <button class="b-btn b-btn_green confirm g-right" tabindex="1">Generate</button>
-  <div class="clear"></div>
+    <button class="b-btn b-btn_green confirm g-right" tabindex="1">Generate</button>
+    <div class="clear"></div>
   </div>
 </div>

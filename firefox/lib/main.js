@@ -6,7 +6,7 @@ var data = require('sdk/self').data;
 var pageMod = require('sdk/page-mod');
 var tabs = require('sdk/tabs');
 var unload = require('sdk/system/unload');
-var l10nGet = require("sdk/l10n").get;
+var l10nGet = require('sdk/l10n').get;
 
 var ToggleButton = require("sdk/ui/button/toggle").ToggleButton;
 var Panel = require('sdk/panel').Panel;

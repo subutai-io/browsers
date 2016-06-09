@@ -132,66 +132,99 @@ var options = options || null;
     var parameters = {};
     parameters.algorithm = $('#algorythm').val();
     parameters.numBits = $('#keysize').val();
-    parameters.userIds = [
-      {
-        fullName: $('#name').val(), email: $('#email').val()
-      }
-    ];
+    var newUser = {fullName: $('#name').val(), email: $('#email').val()};
+    parameters.userIds = [newUser];
     parameters.passphrase = $('#password').val();
     parameters.confirm = $('#password-confirm').val();
 
-    try {
-      validateFields(parameters);
-      generateKey(parameters)
-        .then(function(result) {
-          //success
-          swal2.enableButtons();
-          options.event.triggerHandler('keygrid-reload');
-          swal2({
-            title: "Generate key-pair",
-            text: "Key pair successfully generated!",
-            type: "success",
-            customClass: "b-success",
-            timer: 1500
+    porto.extension.sendMessage({event: 'get-user-ids'}, function(data) {
+      console.log('User ids');
+      console.log(data);
+      var usersArr = data.users;
+      var exists = false;
+      for (var inx in usersArr) {
+        if (usersArr.hasOwnProperty(inx) && usersArr[inx].email === newUser.email) {
+          exists = true;
+          break;
+        }
+      }
+      var errorMsgEmail = $("#error-msg");
+      if (exists) {
+        errorMsgEmail.text("Email already exists.");
+        errorMsgEmail.show();
+        swal2.enableButtons();
+        return;
+      }
+      errorMsgEmail.hide();
+      try {
+        validateFields(parameters);
+      }
+      catch (error) {
+        swal2.enableButtons();
+        return;
+      }
+      try {
+        generateKey(parameters)
+          .then(function(result) {
+            //success
+            swal2.enableButtons();
+            options.event.triggerHandler('keygrid-reload');
+            swal2({
+              title: "Generate key-pair",
+              text: "Key pair successfully generated!",
+              type: "success",
+              customClass: "b-success",
+              timer: 1500
 
-          }, function() {
-            options.keyring('getKeys').then(fillKeysTable);
-            $('#key-types').change();
-            //populatePeerList(peersMetadata);
+            }, function() {
+              options.keyring('getKeys').then(fillKeysTable);
+              $('#key-types').change();
+              //populatePeerList(peersMetadata);
+            });
+          })
+          .catch(function(error) {
+            //failed
+            console.error('generateKey() options.keyring(generateKey)', error);
+            console.error(error);
+            swal2({
+              title: "Oh, snap",
+              text: error.message,
+              type: "error",
+              customClass: "b-warning",
+              timer: 1500
+            });
+          })
+          .then(function() {
+            console.log('Generation completed!');
           });
-        })
-        .catch(function(error) {
-          //failed
-          console.error('generateKey() options.keyring(generateKey)', error);
-          console.error(error);
-          swal2({
-            title: "Oh, snap",
-            text: error.message,
-            type: "error",
-            customClass: "b-warning",
-            timer: 1500
-          });
-        })
-        .then(function() {
-          console.log('Generation completed!');
+      }
+      catch (error) {
+        swal2({
+          title: "Oh, snap", text: error.message, type: "error", customClass: "b-warning", timer: 1500
         });
-    }
-    catch (error) {
-      swal2({
-        title: "Oh, snap", text: error.message, type: "error", customClass: "b-warning", timer: 1500
-      });
-    }
+      }
+    });
   }
 
   function validateFields(parameters) {
+    var errorMsgEmail = $("#error-msg");
+
+    errorMsgEmail.hide();
+
     var passwordConfirm = parameters.confirm;
     if (passwordConfirm !== parameters.passphrase) {
+      errorMsgEmail.text("Passwords do not match.");
+      errorMsgEmail.show();
       throw Error("Passwords do not match.");
     }
     if (!validateEmail(parameters.userIds[0].email)) {
+      errorMsgEmail.text("Invalid e-mail format");
+      errorMsgEmail.show();
       throw Error("Invalid e-mail format");
     }
     if (!parameters.userIds[0].email) {
+      errorMsgEmail.text("Email cannot be empty");
+      errorMsgEmail.show();
       throw Error("Email cannot be empty");
     }
     if (!parameters.userIds[0].fullName) {
@@ -529,6 +562,7 @@ var options = options || null;
                closeOnConfirm: false
              }, function() {
                createFile($('.bp-export-filename').val(), keyPair);
+               swal2.closeModal();
              });
              $('.bp-export-clipboard').text(keyPair);
              var $filename = $('.bp-export-filename');
@@ -561,6 +595,7 @@ var options = options || null;
           closeOnConfirm: false
         }, function() {
           createFile($('.bp-export-filename').val(), allKeys);
+          swal2.closeModal();
         });
         $('.bp-export-clipboard').text(allKeys);
         var $filename = $('.bp-export-filename');
@@ -637,6 +672,11 @@ var options = options || null;
         priv = porto.util.decodeQuotedPrint(priv);
         keys.push({type: 'private', armored: priv});
       });
+    }
+
+    if (keys.length === 0) {
+      callback({type: 'error'});
+      return;
     }
 
     options
