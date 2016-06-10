@@ -1,6 +1,6 @@
 {
   "name": "porto",
-  "version": "2.0.7",
+  "version": "2.0.8rc1",
   "description": "Porto is a browser extension library for Google Chrome, Firefox and Safari that allows to develop cross platform browser extension with ease.",
   "license": "ALS",
   "private": true,
