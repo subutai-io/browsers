@@ -297,7 +297,7 @@ porto.subutai.intervalSSID = 0;
     }
     else {
       swal2({
-        title: "Oh, SubutaiTray running?",
+        title: "Is SubutaiTray running?",
         text: response.error,
         type: "error",
         customClass: "b-warning"
@@ -314,7 +314,7 @@ porto.subutai.intervalSSID = 0;
     }, function(response) {
       if (response.error) {
         swal2({
-          title: "Oh, SubutaiTray running?",
+          title: "Is SubutaiTray running?",
           text: response.error,
           type: "error",
           customClass: "b-warning"

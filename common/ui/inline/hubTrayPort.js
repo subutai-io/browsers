@@ -77,8 +77,9 @@ porto.trayPort.intervalSSID = 0;
     var email = $(
       'body > div.b-content.b-content_minus-header.g-full-height > div.b-sidebar.b-sidebar_border-right.g-left.g-full-height > div > div > div.b-sidebar-profile__header.g-padding > div > div.b-sidebar-profile-header__info.g-margin-bottom > div > div.b-sidebar-profile-header-info__location > ul > li > a');
     email = $(email).attr('data-email');
+    console.log('hub email: ' + email);
     if (email && !response.error) {
-      console.log('email: ' + email);
+      console.log("tray email: " + response.data);
       if (email === response.data) {
         var row = $(that.closest('tr'));
         var envName = $('.b-sidebar-profile-header-name').text().trim();
@@ -91,7 +92,7 @@ porto.trayPort.intervalSSID = 0;
       }
       else {
         swal2({
-          title: "Oh, snap error ",
+          title: "Authentication error ",
           text: "SubutaiTray and Hub user didn't match!?!?",
           type: "error",
           customClass: "b-warning"
@@ -99,12 +100,22 @@ porto.trayPort.intervalSSID = 0;
       }
     }
     else {
-      swal2({
-        title: "Oh, SubutaiTray running?",
-        text: response.error,
-        type: "error",
-        customClass: "b-warning"
-      });
+      if (!email) {
+        swal2({
+          title: "User is not authenticated",
+          html: "<div style='font-size: 16px'>Couldn't retrieve your profile details. <br/> Re-login or try to refresh page</div>",
+          type: "error",
+          customClass: "b-warning"
+        });
+      }
+      else {
+        swal2({
+          title: "Is SubutaiTray running?",
+          text: response.error,
+          type: "error",
+          customClass: "b-warning"
+        });
+      }
     }
   }
 
@@ -117,7 +128,7 @@ porto.trayPort.intervalSSID = 0;
     }, function(response) {
       if (response.error) {
         swal2({
-          title: "Oh, SubutaiTray running?",
+          title: "Is SubutaiTray running?",
           text: response.error,
           type: "error",
           customClass: "b-warning"

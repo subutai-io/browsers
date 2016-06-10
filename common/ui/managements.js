@@ -10,9 +10,7 @@ var options = options || null;
 (function(options) {
   // event controller
   var managementTemplate = null;
-  var $generateKeyTemplate = $('<div></div>');
-  var $keyInfoTemplate = $('<div></div>');
-  var $keyImportTemplate = $('<div></div>');
+  var $confirmationTemplate = $('<div></div>');
   var keyringId = null;
   var keysMetadata = [];
   var managementList = [];
@@ -39,11 +37,8 @@ var options = options || null;
       $('#version').text('v' + version);
     });
 
-    porto.appendTpl($generateKeyTemplate,
-      porto.extension.getURL('common/ui/_popup-generate-key.html'));
-    porto.appendTpl($keyInfoTemplate,
-      porto.extension.getURL('common/ui/_popup-keys-information.html'));
-    porto.appendTpl($keyImportTemplate, porto.extension.getURL('common/ui/_popup-import-key.html'));
+    porto.appendTpl($confirmationTemplate,
+      porto.extension.getURL('common/ui/_popup-confirmation.html'));
 
     options.registerL10nMessages(
       ['keygrid_key_not_expire', 'keygrid_delete_confirmation', 'keygrid_primary_label',
@@ -127,9 +122,15 @@ var options = options || null;
 
   function fillPeersTable(peers, filter) {
 
+    console.log(peers);
     var $tableBody = $('.b-main-table .b-main-table-body');
-    $tableBody.empty();
+    $tableBody.empty(
+      $('.js-empty-table').css({'display': 'none'}),
+      $('.b-main-table .b-main-table-body').css({'display': 'table-row-group'})
+    );
     if (peers && peers.length <= 0) {
+      $('.js-empty-table').css({'display': 'table-row'});
+      $('.b-main-table .b-main-table-body').css({'display': 'none'});
       return;
     }
     peers.forEach(function(peer) {
@@ -194,11 +195,13 @@ var options = options || null;
         var site = $entryForRemove.attr('data-site');
 
         swal2({
-          title: "Are you sure?",
-          type: "warning",
-          showCancelButton: true,
-          confirmButtonColor: "#DD6B55",
-          confirmButtonText: "Yes"
+          html: $confirmationTemplate.html(),
+          showCancelButton: false,
+          showConfirmButton: false,
+          closeOnConfirm: true,
+          width: 250,
+          animation: false,
+          buttonsStyling: false
         }, function() {
           var removedArr = managementList.filter(function(management) {
             if (!management) {
