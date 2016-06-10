@@ -627,7 +627,13 @@ var options = options || null;
       onImportKey(function(result) {
         if (result.type === 'error') {
           swal2({
-            title: "Oh, snap", text: "Couldn't import key", type: "error", customClass: "b-warning"
+            html: $keyErrorTemplate,
+            showCancelButton: false,
+            showConfirmButton: false,
+            width: 250,
+            buttonsStyling: false,
+            animation: false,
+            closeOnConfirm: true
           });
         }
         else {

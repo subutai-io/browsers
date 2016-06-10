@@ -464,7 +464,11 @@ module.exports = function(grunt) {
   grunt.registerTask('dist-crx', function() {
     grunt.util.spawn({cmd: 'sign-dist/crxmake.sh', args: ['build/chrome', 'cert/crx_signing.pem'], opts: {stdio: 'ignore'}});
   });
+
   grunt.registerTask('dist-ff', ['jpm:xpi', 'copy:xpi']);
+  grunt.registerTask('sign-ffa', function() {
+    grunt.util.spawn({cmd: 'sign-dist/ffa-sign.sh', args: ['cert/ffa-api-credentials.sh', 'dist/e2e-plugin.firefox.xpi']});
+  });
   grunt.registerTask('dist-doc', ['jsdoc', 'compress:doc']);
 
   grunt.registerTask('copy_common', ['copy:vendor', 'copy:common', 'replace:bootstrap', 'replace:openpgp_ff']);
