@@ -443,7 +443,7 @@ var options = options || null;
     $('#keyemail').val($keyData.attr('data-keyemail'));
     $('#keyalgorithm').val($keyData.attr('data-keyalgorithm'));
     $('#keylength').val($keyData.attr('data-keylength'));
-    $('#keycreationdate').val($keyData.attr('data-keycreationdate'));
+    $('#keycreationdate').val($keyData.attr('data-keycreationdate').substr(0, 10));
 
     if ($keyData.attr('data-keyexpirationdate') !== 'false') {
       $('#keyexpirationdate').val($keyData.attr('data-keyexpirationdate'));
