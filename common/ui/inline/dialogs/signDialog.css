@@ -12,7 +12,6 @@ html, body {
 }
 
 #keyDialog {
-  display: none;
   position: absolute;
   left: 0;
   top: 0;

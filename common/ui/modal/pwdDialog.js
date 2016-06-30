@@ -117,7 +117,7 @@ var porto = porto || null;
         $('#spinner').hide();
         $('.modal-body').css('opacity', '1');
         $('#password').closest('.control-group').addClass('error')
-                      .end().next().removeClass('hide');
+                      .end().next().removeClass('noUi-marker-normal');
         break;
       default:
         console.log('unknown event');

@@ -18,6 +18,6 @@
     "multiprocess": true
   },
   "engines": {
-    "firefox": ">=38.0"
+    "firefox": ">=38.0 || <=*"
   }
 }
