@@ -172,6 +172,9 @@ define(function(require, exports, module) {
         });
         sendResponse({users: usersArr});
         break;
+      case "open-tab":
+        porto.tabs.create(request.link);
+        break;
       default:
         console.log('unknown event:', request);
     }

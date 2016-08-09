@@ -77,6 +77,38 @@ var porto = porto || null;
     sendMessage({event: 'get-prefs'});
     sendMessage({event: 'get-ui-log'});
 
+	/*var cookie = getCookie('su_fingerprint');
+	var isSubutaiSocial = $('head > title').text();
+
+	if (cookie && isSubutaiSocial === 'Subutai Social') {*/
+
+	$('#subutai-reload').on('click', function(){
+		sendMessage({
+			event: "porto-socket-send",
+			msg: {
+				cmd: 'cmd:ss_ip'
+			}
+		}, function(response) {
+			var baseUrl = window.location.origin + window.location.pathname;
+			var responseString = response.toString();
+			console.log(responseString);
+			if (isURL(responseString) && baseUrl !== responseString) {
+				sendMessage({event: "open-tab", link: responseString});
+			}
+		});
+	});
+	//}
+
+	function isURL(str) {
+	  var pattern = new RegExp('^(https?:\\/\\/)?'+ // protocol
+	  '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.?)+[a-z]{2,}|'+ // domain name
+	  '((\\d{1,3}\\.){3}\\d{1,3}))'+ // OR ip (v4) address
+	  '(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*'+ // port and path
+	  '(\\?[;&a-z\\d%_.~+=-]*)?'+ // query string
+	  '(\\#[-a-z\\d_]*)?$','i'); // fragment locator
+	  return pattern.test(str);
+	}
+
     $('#state')
       .off()
       .on('click', function() {

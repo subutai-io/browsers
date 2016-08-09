@@ -27,20 +27,6 @@ porto.subutai.intervalSSID = 0;
 
   if (cookie && isSubutaiSocial === 'Subutai Social') {
 
-    window.onbeforeunload = function(e) {
-      porto.extension.sendMessage({
-        event: "porto-socket-send",
-        msg: {
-          cmd: 'cmd:get_ip'
-        }
-      }, function(response) {
-        var baseUrl = window.location.origin + window.location.pathname;
-        if (baseUrl !== response) {
-          location.href = response;
-        }
-      });
-    };
-
     porto.extension.sendMessage(
       {
         event: 'porto-socket-init',
