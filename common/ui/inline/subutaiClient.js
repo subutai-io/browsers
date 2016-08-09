@@ -27,7 +27,7 @@ porto.subutai.intervalSSID = 0;
 
   if (cookie && isSubutaiSocial === 'Subutai Social') {
 
-	window.onbeforeunload = function(e) {
+	/*window.onbeforeunload = function(e) {
 		porto.extension.sendMessage({
 			event: "porto-socket-send",
 			msg: {
@@ -39,7 +39,8 @@ porto.subutai.intervalSSID = 0;
 				location.href = response;
 			}
 		});
-	};
+		return true;
+	};*/
 
     porto.extension.sendMessage(
       {
