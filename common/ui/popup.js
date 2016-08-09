@@ -51,7 +51,7 @@ var porto = porto || null;
       })
       .on('click', 'button', function(event) {
         // id of dropdown entry = action
-        if (this.id === 'state' || this.id === '') {
+        if (this.id === 'state' || this.id === '' || this.id === 'subutai-reload') {
           return;
         }
         var message = {
@@ -77,37 +77,20 @@ var porto = porto || null;
     sendMessage({event: 'get-prefs'});
     sendMessage({event: 'get-ui-log'});
 
-	/*var cookie = getCookie('su_fingerprint');
-	var isSubutaiSocial = $('head > title').text();
+    /*var cookie = getCookie('su_fingerprint');
+     var isSubutaiSocial = $('head > title').text();
 
-	if (cookie && isSubutaiSocial === 'Subutai Social') {*/
+     if (cookie && isSubutaiSocial === 'Subutai Social') {*/
 
-	$('#subutai-reload').on('click', function(){
-		sendMessage({
-			event: "porto-socket-send",
-			msg: {
-				cmd: 'cmd:ss_ip'
-			}
-		}, function(response) {
-			var baseUrl = window.location.origin + window.location.pathname;
-			var responseString = response.toString();
-			console.log(responseString);
-			if (isURL(responseString) && baseUrl !== responseString) {
-				sendMessage({event: "open-tab", link: responseString});
-			}
-		});
-	});
-	//}
-
-	function isURL(str) {
-	  var pattern = new RegExp('^(https?:\\/\\/)?'+ // protocol
-	  '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.?)+[a-z]{2,}|'+ // domain name
-	  '((\\d{1,3}\\.){3}\\d{1,3}))'+ // OR ip (v4) address
-	  '(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*'+ // port and path
-	  '(\\?[;&a-z\\d%_.~+=-]*)?'+ // query string
-	  '(\\#[-a-z\\d_]*)?$','i'); // fragment locator
-	  return pattern.test(str);
-	}
+    $('#subutai-reload').on('click', function() {
+      sendMessage({
+        event: "popup-socket-send",
+        msg: {
+          cmd: 'cmd:ss_ip'
+        }
+      });
+    });
+    //}
 
     $('#state')
       .off()
@@ -127,7 +110,8 @@ var porto = porto || null;
 
     $('[data-toggle="tooltip"]').tooltip();
 
-    sendMessage({event: "get-version"});
+    sendMessage({event: "get-version-popup"});
+    sendMessage({event: 'porto-socket-init', url: 'ws://localhost:9998'});
   }
 
   function hide() {
@@ -178,13 +162,49 @@ var porto = porto || null;
           cnt++;
         });
         break;
-      default:
+      case 'get-version-popup':
         var input = $('#version');
         if (input) {
-          input.text(msg);
+          input.text(msg.version);
         }
         console.log(msg);
         break;
+      case 'popup-socket-send':
+        openTab(msg);
+        break;
+      default:
+        console.error("Unknown popup handle event: " + msg);
+        break;
+    }
+  }
+
+  function isURL(str) {
+    var pattern = new RegExp('^(https?:\\/\\/)?' + // protocol
+                             '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.?)+[a-z]{2,}|' + // domain name
+                             '((\\d{1,3}\\.){3}\\d{1,3}))' + // OR ip (v4) address
+                             '(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*' + // port and path
+                             '(\\?[;&a-z\\d%_.~+=-]*)?' + // query string
+                             '(\\#[-a-z\\d_]*)?$', 'i'); // fragment locator
+    return pattern.test(str);
+  }
+
+  function openTab(msg) {
+    var response = msg.response;
+    var baseUrl = window.location.origin + window.location.pathname;
+
+    var parseStep1 = response.data.split('%%%');
+    if (parseStep1.length === 3) {
+      var parseError = parseStep1[1].split('==');
+      if (parseError[1]) {
+        console.error(parseStep1[0]);
+      }
+      else {
+        var responseString = parseStep1[2].split('==')[1];
+        console.log(responseString);
+        if (isURL(responseString) && baseUrl !== responseString) {
+          sendMessage({event: "open-tab", link: responseString});
+        }
+      }
     }
   }
 

@@ -122,6 +122,10 @@ define(function(require, exports, module) {
       case 'get-version':
         sendResponse(defaults.getVersion());
         break;
+      case 'get-version-popup':
+        request.version = defaults.getVersion();
+        sendResponse(request);
+        break;
       case 'activate':
         postToNodes(sub.getByMainType('mainCS'), {event: 'on'});
         specific.activate();
@@ -157,6 +161,12 @@ define(function(require, exports, module) {
       case 'porto-socket-send':
         porto.request.ws.send(request.msg, function(response) {
           sendResponse(response);
+        });
+        return true;
+      case 'popup-socket-send':
+        porto.request.ws.send(request.msg, function(response) {
+          request.response = response;
+          sendResponse(request);
         });
         return true;
       case 'load-local-content':
