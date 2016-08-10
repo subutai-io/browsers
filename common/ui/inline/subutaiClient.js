@@ -25,7 +25,26 @@ porto.subutai.intervalSSID = 0;
   var cookie = getCookie('su_fingerprint');
   var isSubutaiSocial = $('head > title').text();
 
-  if (cookie && isSubutaiSocial === 'Subutai Social') {
+  porto.extension.onMessage.addListener(function(request, sender, sendResponse) {
+    return handleRequests(request, sender, sendResponse);
+  });
+
+  function handleRequests(request, sender, sendResponse) {
+    console.log(request);
+    switch (request.event) {
+      case 'are-you-ss':
+        sendResponse({msg: checkIfSubutai()});
+        break;
+      default:
+      //console.log('unknown event:', request);
+    }
+  }
+
+  function checkIfSubutai() {
+    return !!(cookie && isSubutaiSocial === 'Subutai Social');
+  }
+
+  if (checkIfSubutai()) {
 
     porto.extension.sendMessage(
       {

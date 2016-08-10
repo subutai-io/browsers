@@ -112,6 +112,7 @@ var porto = porto || null;
 
     sendMessage({event: "get-version-popup"});
     sendMessage({event: 'porto-socket-init', url: 'ws://localhost:9998'});
+    sendMessage({event: "popup-active-tab"});
   }
 
   function hide() {
@@ -136,6 +137,10 @@ var porto = porto || null;
   }
 
   function messageListener(msg) {
+    console.log(msg);
+    if (!msg || msg === undefined || !msg.event || msg.event === undefined) {
+      return;
+    }
     switch (msg.event) {
       case 'init':
         init();
@@ -172,6 +177,12 @@ var porto = porto || null;
       case 'popup-socket-send':
         openTab(msg);
         break;
+      case "popup-active-tab":
+        sendMessage({event: "popup-message-tab", tab: msg.activeTab, msg: {event: "are-you-ss"}});
+        break;
+      case "popup-message-tab":
+        disableEnableBtn(msg.response);
+        break;
       default:
         console.error("Unknown popup handle event: " + msg);
         break;
@@ -186,6 +197,17 @@ var porto = porto || null;
                              '(\\?[;&a-z\\d%_.~+=-]*)?' + // query string
                              '(\\#[-a-z\\d_]*)?$', 'i'); // fragment locator
     return pattern.test(str);
+  }
+
+  function disableEnableBtn(response) {
+    if (response.msg) {
+      console.log("button enabled");
+      $('#subutai-reload').show();
+    }
+    else {
+      console.log("button disabled");
+      $('#subutai-reload').hide();
+    }
   }
 
   function openTab(msg) {

@@ -169,6 +169,18 @@ define(function(require, exports, module) {
           sendResponse(request);
         });
         return true;
+      case "popup-active-tab":
+        porto.tabs.getActive(function(tab) {
+          request.activeTab = {id: tab.id};
+          sendResponse(request);
+        });
+        return true;
+      case "popup-message-tab":
+        porto.tabs.sendMessage(request.tab, request.msg, function(response) {
+          request.response = response;
+          sendResponse(request);
+        });
+        return true;
       case 'load-local-content':
         porto.data.load(request.path).then(function(content) {
           sendResponse(content);
