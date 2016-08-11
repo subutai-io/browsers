@@ -75,6 +75,10 @@
     "message": "Options",
     "description": "Open options dialog."
   },
+  "popup_subutai_reload": {
+    "message": "Reload",
+    "description": "Reload Subutai page and check URL."
+  },
   "popup_help": {
     "message": "Help",
     "description": "Open help dialog."
