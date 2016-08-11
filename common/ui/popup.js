@@ -77,11 +77,6 @@ var porto = porto || null;
     sendMessage({event: 'get-prefs'});
     sendMessage({event: 'get-ui-log'});
 
-    /*var cookie = getCookie('su_fingerprint');
-     var isSubutaiSocial = $('head > title').text();
-
-     if (cookie && isSubutaiSocial === 'Subutai Social') {*/
-
     $('#subutai-reload').on('click', function() {
       sendMessage({
         event: "popup-socket-send",
@@ -90,7 +85,6 @@ var porto = porto || null;
         }
       });
     });
-    //}
 
     $('#state')
       .off()
