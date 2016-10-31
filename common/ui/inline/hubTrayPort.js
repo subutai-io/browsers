@@ -83,10 +83,15 @@ porto.trayPort.intervalSSID = 0;
       if (email === response.data) {
         var row = $(that.closest('tr'));
         var envName = $('.b-sidebar-profile-header-name').text().trim();
+		var environmentId = $('#e2e-plugin-hub-environment-name');
 
-        if (userId[3] === 'environments') {
+		if (environmentId.length > 0) {
+          envName = environmentId.val();
+		}else if (userId[3] === 'environments') {
           envName = userId[4];
         }
+		console.log('environment: ' + envName);
+
         var cmd = 'cmd:ssh%%%' + envName + '%%%' + row.attr('data-container-id');
         openSshTunnel(cmd);
       }
