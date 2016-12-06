@@ -74,8 +74,9 @@ porto.trayPort.intervalSSID = 0;
     console.log(response);
     var pathParams = parser.pathname;
     var userId = pathParams.split('/');
-    var email = $(
-      'body > div.b-content.b-content_minus-header.g-full-height > div.b-sidebar.b-sidebar_border-right.g-left.g-full-height > div > div > div.b-sidebar-profile__header.g-padding > div > div.b-sidebar-profile-header__info.g-margin-bottom > div > div.b-sidebar-profile-header-info__location > ul > li > a');
+    // var email = $(
+    //   'body > div.b-content.b-content_minus-header.g-full-height > div.b-sidebar.b-sidebar_border-right.g-left.g-full-height > div > div > div.b-sidebar-profile__header.g-padding > div > div.b-sidebar-profile-header__info.g-margin-bottom > div > div.b-sidebar-profile-header-info__location > ul > li > a');
+    var email = $('#e2e-plugin-email-hub-field');
     email = $(email).attr('data-email');
     console.log('hub email: ' + email);
     if (email && !response.error) {
