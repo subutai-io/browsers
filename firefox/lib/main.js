@@ -217,7 +217,7 @@ function onCsAttach(worker) {
     }
   });
   if (/^resource.*keys\.html/.test(worker.url)) {
-    porto.tabs.worker[worker.tab.index] = worker;
+    porto.tabs.worker[worker.tab.id] = worker;
   }
 }
 

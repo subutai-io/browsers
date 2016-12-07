@@ -41,7 +41,7 @@ define(function(require, exports, module) {
     if (request.api_event) {
       return;
     }
-    //console.log('main.controller::' + request.event);
+    //console.log('main.controller::handleMessageEvent');
     //console.log(request);
     //console.trace();
     switch (request.event) {
