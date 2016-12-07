@@ -122,6 +122,10 @@ define(function(require, exports, module) {
       case 'get-version':
         sendResponse(defaults.getVersion());
         break;
+      case 'get-version-popup':
+        request.version = defaults.getVersion();
+        sendResponse(request);
+        break;
       case 'activate':
         postToNodes(sub.getByMainType('mainCS'), {event: 'on'});
         specific.activate();
@@ -159,6 +163,24 @@ define(function(require, exports, module) {
           sendResponse(response);
         });
         return true;
+      case 'popup-socket-send':
+        porto.request.ws.send(request.msg, function(response) {
+          request.response = response;
+          sendResponse(request);
+        });
+        return true;
+      case "popup-active-tab":
+        porto.tabs.getActive(function(tab) {
+          request.activeTab = {id: tab.id};
+          sendResponse(request);
+        });
+        return true;
+      case "popup-message-tab":
+        porto.tabs.sendMessage(request.tab, request.msg, function(response) {
+          request.response = response;
+          sendResponse(request);
+        });
+        return true;
       case 'load-local-content':
         porto.data.load(request.path).then(function(content) {
           sendResponse(content);
@@ -171,6 +193,9 @@ define(function(require, exports, module) {
           return {id: key.id, name: key.name, email: key.email, fingerprint: key.fingerprint};
         });
         sendResponse({users: usersArr});
+        break;
+      case "open-tab":
+        porto.tabs.create(request.link);
         break;
       default:
         console.log('unknown event:', request);

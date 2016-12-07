@@ -10,7 +10,7 @@ porto.subutai.interval = 2500; // ms
 porto.subutai.intervalHubID = 0;
 porto.subutai.intervalSSID = 0;
 
-(function(window, document, undefined) {
+(function (window, document, undefined) {
 
   var parser = document.createElement('a');
   parser.href = "document.location";
@@ -25,7 +25,26 @@ porto.subutai.intervalSSID = 0;
   var cookie = getCookie('su_fingerprint');
   var isSubutaiSocial = $('head > title').text();
 
-  if (cookie && isSubutaiSocial === 'Subutai Social') {
+  porto.extension.onMessage.addListener(function (request, sender, sendResponse) {
+    return handleRequests(request, sender, sendResponse);
+  });
+
+  function handleRequests(request, sender, sendResponse) {
+    console.log(request);
+    switch (request.event) {
+      case 'are-you-ss':
+        sendResponse({msg: checkIfSubutai()});
+        break;
+      default:
+      //console.log('unknown event:', request);
+    }
+  }
+
+  function checkIfSubutai() {
+    return !!(cookie);
+  }
+
+  if (checkIfSubutai()) {
 
     porto.extension.sendMessage(
       {
@@ -38,26 +57,26 @@ porto.subutai.intervalSSID = 0;
       event: "associate-peer-key", su_fingerprint: cookie, url: document.location.origin
     });
 
-    $('body').on('click', '.bp-close-modal', function() {
+    $('body').on('click', '.bp-close-modal', function () {
       swal2.closeModal();
     });
 
     porto.subutai.subutaiSocial = {};
 
-    porto.subutai.subutaiSocial.scanAgent = function() {
+    porto.subutai.subutaiSocial.scanAgent = function () {
       injectSetPublicKeyButton();
       ezSshScanner();
     };
 
     porto.subutai.subutaiSocial.scanAgent();
 
-    porto.subutai.subutaiSocial.intervalSSID = window.setInterval(function() {
+    porto.subutai.subutaiSocial.intervalSSID = window.setInterval(function () {
       porto.subutai.subutaiSocial.scanAgent();
     }, porto.subutai.interval);
 
   }
 
-  porto.extension.sendMessage({event: "get-version"}, function(version) {
+  porto.extension.sendMessage({event: "get-version"}, function (version) {
     var input = $('#bp-plugin-version');
     if (input.length > 0) {
       input.val(version);
@@ -70,125 +89,125 @@ porto.subutai.intervalSSID = 0;
     var stage = $publicKey.data('stage');
     if (stage === 'set-key') {
       $.ajax({
-         url: parser.origin + '/rest/ui/identity/set-public-key',
-         type: 'POST',
-         data: {publicKey: $publicKey.text()}
-       })
-       .done(function(data, status, xhr) {
-         $publicKey.removeData(porto.FRAME_STATUS);
-         $publicKey.removeClass('bp-set-pub-key');
-         issueDelegateDocument();
-       })
-       .fail(function(xhr, status, errorThrown) {
-         swal2.enableButtons();
-         swal2({
-           title: "Oh, snap",
-           text: errorThrown,
-           type: "error",
-           customClass: "b-warning"
-         });
-       })
-       .always(function(xhr, status) {
-       });
+        url: parser.origin + '/rest/ui/identity/set-public-key',
+        type: 'POST',
+        data: {publicKey: $publicKey.text()}
+      })
+        .done(function (data, status, xhr) {
+          $publicKey.removeData(porto.FRAME_STATUS);
+          $publicKey.removeClass('bp-set-pub-key');
+          issueDelegateDocument();
+        })
+        .fail(function (xhr, status, errorThrown) {
+          swal2.enableButtons();
+          swal2({
+            title: "Oh, snap",
+            text: errorThrown,
+            type: "error",
+            customClass: "b-warning"
+          });
+        })
+        .always(function (xhr, status) {
+        });
     }
   }
 
   function issueDelegateDocument() {
     console.log('create delegate document');
     $.ajax({
-       url: parser.origin + '/rest/ui/identity/delegate-identity',
-       type: 'POST'
-     })
-     .done(function(data, status, xhr) {
-       getDelegateDocument();
-     })
-     .fail(function(xhr, status, errorThrown) {
-       swal2.enableButtons();
-       swal2({
-         title: "Oh, snap",
-         text: errorThrown,
-         type: "error",
-         customClass: "b-warning"
-       });
-     })
-     .always(function(xhr, status) {
-     });
+      url: parser.origin + '/rest/ui/identity/delegate-identity',
+      type: 'POST'
+    })
+      .done(function (data, status, xhr) {
+        getDelegateDocument();
+      })
+      .fail(function (xhr, status, errorThrown) {
+        swal2.enableButtons();
+        swal2({
+          title: "Oh, snap",
+          text: errorThrown,
+          type: "error",
+          customClass: "b-warning"
+        });
+      })
+      .always(function (xhr, status) {
+      });
   }
 
   function getDelegateDocument() {
     console.log('get delegate document');
     var $publicKey = $('#keyContent');
     $.ajax({
-       url: parser.origin + '/rest/ui/identity/delegate-identity',
-       type: 'GET'
-     })
-     .done(function(data, status, xhr) {
-       $publicKey.text(data);
-       $publicKey.val(data);
-       $publicKey.addClass('bp-sign-target');
-       $publicKey.data('stage', 'sign-authid');
-       $publicKey.on('change', function() {
-         delegateUserPermissions();
-       });
-     })
-     .fail(function(xhr, status, errorThrown) {
-       swal2.enableButtons();
-       swal2({
-         title: "Oh, snap",
-         text: errorThrown,
-         type: "error",
-         customClass: "b-warning"
-       });
-     })
-     .always(function(xhr, status) {
-     });
+      url: parser.origin + '/rest/ui/identity/delegate-identity',
+      type: 'GET'
+    })
+      .done(function (data, status, xhr) {
+        $publicKey.text(data);
+        $publicKey.val(data);
+        $publicKey.addClass('bp-sign-target');
+        $publicKey.data('stage', 'sign-authid');
+        $publicKey.on('change', function () {
+          delegateUserPermissions();
+        });
+      })
+      .fail(function (xhr, status, errorThrown) {
+        swal2.enableButtons();
+        swal2({
+          title: "Oh, snap",
+          text: errorThrown,
+          type: "error",
+          customClass: "b-warning"
+        });
+      })
+      .always(function (xhr, status) {
+      });
   }
 
   function delegateUserPermissions() {
     console.log('delegate permissions');
     var $publicKey = $('#keyContent');
     $.ajax({
-       url: parser.origin + '/rest/ui/identity/approve-delegate', type: 'POST',
-       data: {signedDocument: $publicKey.val()}
-     })
-     .done(function(data, status, xhr) {
-       swal2.enableButtons();
-       swal2({
-         title: "Success!",
-         showConfirmButton: true,
-         text: "System permissions were successfully delegated!",
-         type: "success",
-         customClass: "b-success"
-       }, function() {
-       });
-     })
-     .fail(function(xhr, status, errorThrown) {
-       swal2.enableButtons();
-       swal2({
-         title: "Oh, snap",
-         text: errorThrown,
-         type: "error",
-         customClass: "b-warning"
-       });
-     })
-     .always(function(xhr, status) {
-     });
+      url: parser.origin + '/rest/ui/identity/approve-delegate', type: 'POST',
+      data: {signedDocument: $publicKey.val()}
+    })
+      .done(function (data, status, xhr) {
+        swal2.enableButtons();
+        swal2({
+          title: "Success!",
+          showConfirmButton: true,
+          text: "System permissions were successfully delegated!",
+          type: "success",
+          customClass: "b-success"
+        }, function () {
+        });
+      })
+      .fail(function (xhr, status, errorThrown) {
+        swal2.enableButtons();
+        swal2({
+          title: "Oh, snap",
+          text: errorThrown,
+          type: "error",
+          customClass: "b-warning"
+        });
+      })
+      .always(function (xhr, status) {
+      });
   }
 
   function registerClickListener($element) {
     console.log('register click listener');
-    $element.on('click', function(e) {
+    $element.on('click', function (e) {
       porto.extension.sendMessage({
         event: 'load-local-content',
         path: 'common/ui/_popup-key-selector.html'
-      }, function(content) {
+      }, function (content) {
         swal2({
           html: content,
           width: 540,
           showCancelButton: true,
           //buttonsStyling: false,
           closeOnConfirm: false
-        }, function() {
+        }, function () {
           swal2.disableButtons();
 
           var $publicKey = $('#keyContent');
@@ -211,7 +230,7 @@ porto.subutai.intervalSSID = 0;
         porto.extension.sendMessage({
           event: 'load-local-content',
           path: 'common/ui/inline/_e2e-button-template.html'
-        }, function(content) {
+        }, function (content) {
           $content.append(content);
           var $e2eBtn = $('.e2e-plugin-btn');
           $e2eBtn.find('.ssh-key-button_title').text('Set Public Key');
@@ -253,14 +272,14 @@ porto.subutai.intervalSSID = 0;
 
         if ($btn.length !== 0) {
           $btn.attr('disabled', false);
-          $btn.on('click', function() {
+          $btn.on('click', function () {
             var that = this;
             porto.extension.sendMessage({
               event: "porto-socket-send",
               msg: {
                 cmd: 'cmd:current_user'
               }
-            }, function(response) {
+            }, function (response) {
               performCheck(that, response);
             });
           });
@@ -311,7 +330,7 @@ porto.subutai.intervalSSID = 0;
       msg: {
         cmd: cmd
       }
-    }, function(response) {
+    }, function (response) {
       if (response.error) {
         swal2({
           title: "Is SubutaiTray running?",

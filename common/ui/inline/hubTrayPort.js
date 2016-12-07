@@ -74,8 +74,9 @@ porto.trayPort.intervalSSID = 0;
     console.log(response);
     var pathParams = parser.pathname;
     var userId = pathParams.split('/');
-    var email = $(
-      'body > div.b-content.b-content_minus-header.g-full-height > div.b-sidebar.b-sidebar_border-right.g-left.g-full-height > div > div > div.b-sidebar-profile__header.g-padding > div > div.b-sidebar-profile-header__info.g-margin-bottom > div > div.b-sidebar-profile-header-info__location > ul > li > a');
+    // var email = $(
+    //   'body > div.b-content.b-content_minus-header.g-full-height > div.b-sidebar.b-sidebar_border-right.g-left.g-full-height > div > div > div.b-sidebar-profile__header.g-padding > div > div.b-sidebar-profile-header__info.g-margin-bottom > div > div.b-sidebar-profile-header-info__location > ul > li > a');
+    var email = $('#e2e-plugin-email-hub-field');
     email = $(email).attr('data-email');
     console.log('hub email: ' + email);
     if (email && !response.error) {
@@ -83,10 +84,15 @@ porto.trayPort.intervalSSID = 0;
       if (email === response.data) {
         var row = $(that.closest('tr'));
         var envName = $('.b-sidebar-profile-header-name').text().trim();
+		var environmentId = $('#e2e-plugin-hub-environment-name');
 
-        if (userId[3] === 'environments') {
+		if (environmentId.length > 0) {
+          envName = environmentId.val();
+		}else if (userId[3] === 'environments') {
           envName = userId[4];
         }
+		console.log('environment: ' + envName);
+
         var cmd = 'cmd:ssh%%%' + envName + '%%%' + row.attr('data-container-id');
         openSshTunnel(cmd);
       }
