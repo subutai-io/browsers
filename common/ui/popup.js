@@ -106,7 +106,6 @@ var porto = porto || null;
 
     sendMessage({event: "get-version-popup"});
     sendMessage({event: 'porto-socket-init', url: 'ws://localhost:9998'});
-    sendMessage({event: "popup-active-tab"});
   }
 
   function hide() {
@@ -131,6 +130,7 @@ var porto = porto || null;
   }
 
   function messageListener(msg) {
+    //console.log("popup::messageListener");
     console.log(msg);
     if (!msg || msg === undefined || !msg.event || msg.event === undefined) {
       return;
@@ -138,6 +138,7 @@ var porto = porto || null;
     switch (msg.event) {
       case 'init':
         init();
+        sendMessage({event: "popup-active-tab"});
         break;
       case 'get-prefs':
         activeState = msg.prefs.main_active;
@@ -185,11 +186,11 @@ var porto = porto || null;
 
   function isURL(str) {
     var pattern = new RegExp('^(https?:\\/\\/)?' + // protocol
-                             '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.?)+[a-z]{2,}|' + // domain name
-                             '((\\d{1,3}\\.){3}\\d{1,3}))' + // OR ip (v4) address
-                             '(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*' + // port and path
-                             '(\\?[;&a-z\\d%_.~+=-]*)?' + // query string
-                             '(\\#[-a-z\\d_]*)?$', 'i'); // fragment locator
+    '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.?)+[a-z]{2,}|' + // domain name
+    '((\\d{1,3}\\.){3}\\d{1,3}))' + // OR ip (v4) address
+    '(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*' + // port and path
+    '(\\?[;&a-z\\d%_.~+=-]*)?' + // query string
+    '(\\#[-a-z\\d_]*)?$', 'i'); // fragment locator
     return pattern.test(str);
   }
 

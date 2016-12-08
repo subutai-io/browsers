@@ -101,11 +101,14 @@ porto.tabs.activate = function(tab, options, callback) {
 porto.tabs.eventIndex = 0;
 
 porto.tabs.sendMessage = function(tab, msg, callback) {
-  if (callback) {
-    msg.response = 'resp' + this.eventIndex++;
-    this.worker[tab.index].port.once(msg.response, callback);
+  var worker = this.worker[tab.id];
+  if (worker) {
+    if (callback) {
+      msg.response = 'resp' + this.eventIndex++;
+      worker.port.once(msg.response, callback);
+    }
+    worker.port.emit('message-event', msg);
   }
-  this.worker[tab.index].port.emit('message-event', msg);
 };
 
 porto.tabs.loadOptionsTab = function(hash, callback) {
