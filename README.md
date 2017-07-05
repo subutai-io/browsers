@@ -9,8 +9,14 @@ The Subutai Social E2E plugin works on your computer with your browser to manage
 
 
 1) Install Node.js and NPM
+    
+    Add Node.js PPA
+        
+        sudo apt-get install python-software-properties
+        curl -sL https://deb.nodesource.com/setup_8.x | sudo -E bash -
 
-        sudo apt-get update
+    Install Node.js
+    
         sudo apt-get install nodejs
         sudo apt-get install nodejs-legacy
         sudo apt-get install npm
@@ -19,6 +25,7 @@ The Subutai Social E2E plugin works on your computer with your browser to manage
 
         node --version
         npm --version
+        
 2) Install Grunt using NPM
         
         sudo npm install -g grunt
@@ -26,7 +33,15 @@ The Subutai Social E2E plugin works on your computer with your browser to manage
     After successful installation make sure grunt has been installed successful and check version.
         
         grunt --version
+ 
+3) Install Bower using NPM
 
+        sudo npm install -g bower
+    
+    Let's check the installed version of bower on your system using following command.
+        
+        bower --version
+        
 Run:
 
     bash setup.sh
