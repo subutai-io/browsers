@@ -12,6 +12,7 @@ The Subutai Social E2E plugin works on your computer with your browser to manage
 
         sudo apt-get update
         sudo apt-get install nodejs
+        sudo apt-get install nodejs-legacy
         sudo apt-get install npm
 
     Make sure you have successfully installed node.js and npm on your system
