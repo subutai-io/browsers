@@ -81,8 +81,11 @@ porto.trayPort.intervalSSID = 0;
     email = $(email).attr('data-email');
     console.log('hub email: ' + email);
     if (email && !response.error) {
-      console.log("tray email: " + response.data);
-      if (email === response.data) {
+      var trayEmail = response.data;
+      email = email.toLowerCase();
+      trayEmail = trayEmail.toLowerCase();
+      console.log('tray email: ' + trayEmail);
+      if (email === trayEmail) {
         var row = $(that.closest('tr'));
         var envName = $('.b-sidebar-profile-header-name').text().trim();
         var environmentId = $('#e2e-plugin-hub-environment-name');
