@@ -297,10 +297,12 @@ porto.subutai.intervalSSID = 0;
     var email = $('[data-hub-email]');
     email = $(email).attr('data-hub-email');
     if (email && !response.error) {
-      console.log('email: ' + email);
       var clientEmail = response.data;
       email = email.toLowerCase();
       clientEmail = clientEmail.toLowerCase();
+
+      console.log('email: ' + email);
+      console.log('client email: ' + clientEmail);
       if (email === clientEmail) {
         var $row = $(that.closest('tr'));
         var envId = $row.find('[env-id]').attr('env-id');
