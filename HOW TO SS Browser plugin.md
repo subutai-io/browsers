@@ -1,6 +1,6 @@
 # HOW-TO SS Browser plugin
 
-This page explains how to user browser plugin with subutai social.
+This page explains how to user browser plugin with Subutai.
 
 You will go through user registration till environment creation process.
 
@@ -21,14 +21,14 @@ where you should point a path to unpacked browser plugin
     2. In newly opened window click on "generate button on right top corner and fill in blank input fields
     3. Click on "Submit"
 
-3. Sign-up user with Subutai Social
-    1. On login page of Subutai Social Console click on Sign up button
+3. Sign-up user with Subutai
+    1. On login page of Subutai Console click on Sign up button
     2. Fill in blank fields, and in last one, you should paste your public key, give several seconds to 
 plugin to detect and collect all your keys, so it can pull key list and paste public key selected from list.
     3. Then admin should approve your request and now you can login to console.
 
 4. Update user public key
-    1. Log in to subutai social management console with user who has administrative privileges
+    1. Log in to Subutai management console with user who has administrative privileges
     2. On left side panel select User Management and from list click edit icon near user you want to change.
     3. In public key field input public key you want to set. Click Save.
 

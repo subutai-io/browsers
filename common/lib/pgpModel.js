@@ -27,7 +27,7 @@ define(function(require, exports, module) {
 
   function initOpenPGP() {
     openpgp.config.commentstring = 'https://subutai.io/';
-    openpgp.config.versionstring = 'Subutai Social v' + defaults.getVersion();
+    openpgp.config.versionstring = 'Subutai v' + defaults.getVersion();
     if (porto.crx || porto.sfx) {
       openpgp.initWorker('dep/openpgp.worker.js');
     } else if (porto.ffa) {

@@ -16,11 +16,11 @@
     "description": "Main info"
   },
   "ext_name": {
-    "message": "Subutai Social E2E Plugin",
+    "message": "Subutai E2E Plugin",
     "description": "Name of the extension."
   },
   "ext_description": {
-    "message": "Effortlessly secure the doors to your Subutai Social Cloud",
+    "message": "Effortlessly secure the doors to your Subutai Cloud",
     "description": "Description of the extension."
   },
   "popup_actived_checkbox": {
