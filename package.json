@@ -1,7 +1,7 @@
 {
-  "name": "subutaisocial",
+  "name": "subutai",
   "version": "2.0.14",
-  "description": "Subutai Social E2E Plugin",
+  "description": "Subutai E2E Plugin",
   "scripts": {
     "test": "grunt test"
   },
