@@ -1,7 +1,7 @@
 ## Basic Usage
 
 The Mailvelope extension injects a script into the page to make its client-api accessible.
-The `window.mailvelope` object will be an instance of the [Mailvelope](Mailvelope.html) class, please refer to its methods for further documentation.
+The `window.mailvelope` object will be an instance of the Mailvelope class, please refer to its methods for further documentation.
 
 ## Events
 
