@@ -1,305 +1,386 @@
-/* jshint strict: false */
+'use strict';
 
-var data = require('sdk/self').data;
-var tabs = require('sdk/tabs');
-var windows = require('sdk/windows').browserWindows;
-var addonWindow = require('sdk/addon/window');
-//var {open} = require('sdk/window/utils');
-var timer = require('sdk/timers');
-var ss = require('sdk/simple-storage');
-var url = require('sdk/url');
-var l10nGet = require('sdk/l10n').get;
+define(function(require, exports, module) {
 
-var porto = require('./common/porto').porto;
-var CWorker = require('./web-worker').Worker;
+  var porto = require('porto');
 
-porto.ffa = true;
-porto.crx = false;
+  porto.crx = false;
+  porto.webex = true;
+  porto.sfx = false;
 
-porto.data = {};
+  var dompurify = require('dompurify');
 
-porto.data.url = function(path) {
-  return data.url(path);
-};
+  porto.data = {};
 
-porto.data.load = function(path) {
-  return new Promise(function(resolve, reject) {
-    resolve(data.load(path));
-  });
-};
+  porto.data.url = function(path) {
+    return chrome.runtime.getURL(path);
+  };
 
-porto.data.loadDefaults = function() {
-  var defaults = data.load('common/res/defaults.json');
-  return JSON.parse(defaults);
-};
+  porto.data.load = function(path) {
+    return new Promise(function(resolve, reject) {
+      var req = new XMLHttpRequest();
+      req.open('GET', chrome.runtime.getURL(path));
+      req.responseType = 'text';
+      req.onload = function() {
+        if (req.status == 200) {
+          resolve(req.response);
+        }
+        else {
+          reject(new Error(req.statusText));
+        }
+      };
+      req.onerror = function() {
+        reject(new Error('Network Error'));
+      };
+      req.send();
+    });
+  };
 
-porto.tabs = {};
+  porto.request = {};
+  porto.request.send = function(params) {
+    return new Promise(function(resolve, reject) {
+      $.ajax({
+         // The URL for the request
+         url: params.url,
 
-porto.tabs.worker = {};
+         // The data to send (will be converted to a query string)
+         data: params.data,
 
-porto.tabs.getActive = function(callback) {
-  callback(tabs.activeTab);
-};
+         // Whether this is a POST or GET request
+         type: params.method,
 
-porto.tabs.attach = function(tab, options, callback) {
-  var lopt = {};
-  if (options) {
-    lopt.contentScriptFile =
-      options.contentScriptFile && options.contentScriptFile.map(function(file) {
-        return data.url(file);
-      });
-    lopt.contentScript = options.contentScript;
-    lopt.contentScriptOptions = options.contentScriptOptions;
-  }
-  lopt.contentScriptFile = lopt.contentScriptFile || [];
-  lopt.contentScriptOptions = lopt.contentScriptOptions || {};
-  lopt.contentScriptOptions.expose_messaging = lopt.contentScriptOptions.expose_messaging || true;
-  lopt.contentScriptOptions.data_path = data.url();
-  var worker = tab.attach(lopt);
-  this.worker[tab.index] = worker;
-  worker.port.on('message-event', options.onMessage);
-  //console.log('attach registers for message-event', Date.now());
-  worker.port.once('message-event', function(msg) {
-    if (callback) {
-      // first event on port will fire callback after 200ms delay
-      //console.log('starting attach callback timer', msg.event, Date.now());
-      timer.setTimeout(callback.bind(this, tab), 200);
+         // The type of data we expect back
+         dataType: params.dataType
+       })
+       // Code to run if the request succeeds (is done);
+       // The response is passed to the function
+       .done(function(data, status, xhr) {
+         console.log(data);
+         resolve({data: data, status: xhr.status, statusText: xhr.statusText});
+       })
+       // Code to run if the request fails; the raw request and
+       // status codes are passed to the function
+       .fail(function(xhr, status, errorThrown) {
+         reject({responseText: xhr.responseText, status: xhr.status, statusText: xhr.statusText});
+       })
+       // Code to run regardless of success or failure;
+       .always(function(xhr, status) {
+         console.log("The request is complete!");
+       });
+    });
+  };
+
+  var that = this;
+  that.ws = null;
+  var connected = false;
+
+  var serverUrl = null;
+  var protocol = null;
+  var connectionStatus = '';
+
+  var openWs = function() {
+
+    if (that.ws) {
+      return;
     }
-  });
-};
 
-porto.tabs.query = function(url, callback) {
-  var result = [];
-  var tabs = windows.activeWindow.tabs;
-  var reUrl = new RegExp(url + '.*');
-  for (var i = 0; i < tabs.length; i++) {
-    if (reUrl.test(tabs[i].url)) {
-      result.push(tabs[i]);
+    if (!serverUrl) {
+      throw new Error("cannot connect to null url");
     }
-  }
-  callback(result);
-};
-
-porto.tabs.create = function(url, complete, callback) {
-  tabs.open({
-    url: url,
-    onReady: complete ? callback : undefined,
-    onOpen: complete ? undefined : callback
-  });
-};
-
-porto.tabs.activate = function(tab, options, callback) {
-  if (options.url) {
-    tab.url = options.url;
-  }
-  tab.activate();
-  if (callback) {
-    callback(tab);
-  }
-};
-
-porto.tabs.eventIndex = 0;
-
-porto.tabs.sendMessage = function(tab, msg, callback) {
-  var worker = this.worker[tab.id];
-  if (worker) {
-    if (callback) {
-      msg.response = 'resp' + this.eventIndex++;
-      worker.port.once(msg.response, callback);
-    }
-    worker.port.emit('message-event', msg);
-  }
-};
-
-porto.tabs.loadOptionsTab = function(hash, callback) {
-  // check if options tab already exists
-  var url = data.url('common/ui/keys.html');
-  this.query(url, function(tabs) {
-    if (tabs.length === 0) {
-      // if not existent, create tab
-      if (hash === undefined) {
-        hash = '';
-      }
-      porto.tabs.create(url + hash, true, callback.bind(this, false));
+    if (protocol) {
+      that.ws = new WebSocket(serverUrl, protocol);
     }
     else {
-      // if existent, set as active tab
-      porto.tabs.activate(tabs[0], {url: url + hash}, callback.bind(this, true));
+      that.ws = new WebSocket(serverUrl);
     }
-  });
-};
+    that.ws.onopen = onOpen;
+    that.ws.onclose = onClose;
+    that.ws.onmessage = onMessage;
+    that.ws.onerror = onError;
 
-porto.storage = {};
+    connectionStatus = 'OPENING ...';
+  };
 
-porto.storage.get = function(id) {
-  return ss.storage[id];
-};
-
-porto.storage.set = function(id, obj) {
-  ss.storage[id] = obj;
-};
-
-porto.windows = {};
-
-porto.windows.modalActive = false;
-
-porto.windows.internalURL = new RegExp('^' + data.url(''));
-
-// FIFO list for window options
-porto.windows.options = [];
-
-porto.windows.openPopup = function(url, options, callback) {
-  var winOpts = {};
-  winOpts.url = data.url(url);
-  if (porto.windows.internalURL.test(winOpts.url)) {
-    this.options.push(options);
-  }
-  winOpts.onDeactivate = function() {
-    if (options && options.modal) {
-      this.activate();
+  var sendWs = function(msg, callback) {
+    try {
+      console.log('sending message: ' + serverUrl);
+      console.log(msg);
+      if (!that.ws) {
+        openWs();
+      }
+      that.ws.onmessage = function(event) {
+        callback({data: event.data});
+      };
+      that.ws.send(msg.cmd);
+    }
+    catch (err) {
+      callback({error: 'Couldn\'t send command to SubutaiTray'});
     }
   };
-  if (callback) {
-    winOpts.onOpen = callback;
-  }
-  windows.open(winOpts);
-};
 
-porto.windows.BrowserWindow = function(id) {
-  this._id = id;
-};
-
-porto.windows.BrowserWindow.prototype.activate = function() {
-  chrome.windows.update(this._id, {focused: true});
-};
-
-porto.util = porto.util || {};
-
-var dompurifyWorker = require('sdk/page-worker').Page({
-  contentScriptFile: [
-    data.url('common/dep/purify.js'),
-    data.url('dep/purifyAdapter.js')
-  ]
-});
-
-porto.util.parseHTML = function(html, callback) {
-  var message = {
-    data: html,
-    response: porto.util.getHash()
+  var closeWs = function() {
+    if (that.ws) {
+      console.log('CLOSING ...');
+      that.ws.close();
+    }
+    connected = false;
+    connectionStatus = 'CLOSED';
   };
-  dompurifyWorker.port.once(message.response, callback);
-  dompurifyWorker.port.emit('parse', message);
-};
 
-// must be bound to window, otherwise illegal invocation
-porto.util.setTimeout = timer.setTimeout;
-porto.util.clearTimeout = timer.clearTimeout;
+  var onOpen = function() {
+    console.log('OPENED: ' + serverUrl + ':' + protocol);
+    connected = true;
+    connectionStatus = 'OPENED';
+  };
 
-porto.util.getHostname = function(source) {
-  return url.URL(source).host.split(':')[0];
-};
+  var onClose = function() {
+    console.log('CLOSED: ' + serverUrl + ':' + protocol);
+    that.ws = null;
+  };
 
-porto.util.getHost = function(source) {
-  return url.URL(source).host;
-};
+  var onMessage = function(event) {
+    var data = event.data;
+    console.log('message received: ' + data);
+  };
 
-porto.util.getDOMWindow = function() {
-  return addonWindow.window;
-};
+  var onError = function(event) {
+    console.log(event.data);
+  };
 
-porto.util.getWorker = function() {
-  return CWorker;
-};
+  porto.request.ws = {
+    init: function(url, options) {
+      serverUrl = url;
+      protocol = options;
+    },
+    connect: function() {
+      openWs();
+    },
+    disconnect: function() {
+      closeWs();
+    },
+    send: function(msg, callback) {
+      console.log(msg);
+      sendWs(msg, callback);
+    }
+  };
 
-porto.l10n = porto.l10n || {};
+  porto.data.loadDefaults = function() {
+    return require('../lib/json-loader!common/res/defaults.json');
+  };
 
-porto.l10n.get = function(id, substitutions) {
-  if (substitutions) {
-    return l10nGet.apply(null, [id].concat(substitutions));
-  }
-  else {
-    return l10nGet(id);
-  }
-};
+  porto.tabs = {};
 
-porto.browserAction = {};
+  porto.tabs.getActive = function(callback) {
+    // get selected tab, "*://*/*" filters out non-http(s)
+    chrome.tabs.query({active: true, currentWindow: true, url: "*://*/*"}, function(tabs) {
+      callback(tabs[0]);
+    });
+  };
 
-porto.browserAction.toggleButton = null;
+  porto.tabs.attach = function(tab, options, callback) {
+    function executeScript(file, callback) {
+      if (file) {
+        chrome.tabs.executeScript(tab.id, {file: file, allFrames: true}, function() {
+          executeScript(options.contentScriptFile.shift(), callback);
+        });
+      }
+      else {
+        callback(tab);
+      }
+    }
 
-porto.browserAction.state = function(options) {
-  this.toggleButton.state('window', options);
-};
+    executeScript(options.contentScriptFile.shift(), function() {
+      if (options.contentScript) {
+        chrome.tabs.executeScript(tab.id, {code: options.contentScript, allFrames: true},
+          callback.bind(this, tab));
+      }
+      else {
+        callback(tab);
+      }
+    });
+  };
 
-porto.request = {};
+  porto.tabs.query = function(url, callback) {
+    if (!/\*$/.test(url)) {
+      url += '*';
+    }
+    chrome.tabs.query({url: url, currentWindow: true}, callback);
+  };
 
-var request = require('sdk/request').Request;
-porto.request.send = function(params) {
-  return new Promise(function(resolve, reject) {
-    var callback = function(response) {
-      console.log('request completed.');
-      resolve({data: response.text, status: response.status, statusText: response.statusText});
-    };
+  porto.tabs.create = function(url, complete, callback) {
+    var newTab;
+    if (complete) {
+      // wait for tab to be loaded
+      chrome.tabs.onUpdated.addListener(function updateListener(tabid, info) {
+        if (tabid === newTab.id && info.status === 'complete') {
+          chrome.tabs.onUpdated.removeListener(updateListener);
+          if (callback) {
+            callback(newTab);
+          }
+        }
+      });
+    }
+    chrome.tabs.create({url: url}, function(tab) {
+      if (complete) {
+        newTab = tab;
+      }
+      else {
+        if (callback) {
+          callback(tab);
+        }
+      }
+    });
+  };
 
-    var options = {
-      url: params.url,
-      content: params.data,
-      contentType: params.dataType,
-      onComplete: callback
-    };
+  porto.tabs.activate = function(tab, options, callback) {
+    options = $.extend(options, {active: true});
+    chrome.tabs.update(tab.id, options, callback);
+  };
 
-    switch (params.method) {
-      case "GET":
-        this.request(options).get();
-        break;
-      case "HEAD":
-        this.request(options).head();
-        break;
-      case "POST":
-        this.request(options).post();
-        break;
-      case "PUT":
-        this.request(options).put();
-        break;
-      case "DELETE":
-        this.request(options).delete();
-        break;
-      default:
-        throw "Invalid method invocation";
+  porto.tabs.sendMessage = function(tab, msg, callback) {
+    chrome.tabs.sendMessage(tab.id, msg, null, callback);
+  };
+
+  porto.tabs.loadOptionsTab = function(hash, callback) {
+    // check if options tab already exists
+    var url = chrome.runtime.getURL('common/ui/keys.html');
+    this.query(url, function(tabs) {
+      if (tabs.length === 0) {
+        // if not existent, create tab
+        if (hash === undefined) {
+          hash = '';
+        }
+        porto.tabs.create(url + hash, callback !== undefined, callback.bind(this, false));
+      }
+      else {
+        // if existent, set as active tab
+        porto.tabs.activate(tabs[0], {url: url + hash}, callback.bind(this, true));
+      }
+    });
+  };
+
+  porto.storage = {};
+
+  porto.storage.get = function(id) {
+    return JSON.parse(window.localStorage.getItem(id));
+  };
+
+  porto.storage.set = function(id, obj) {
+    window.localStorage.setItem(id, JSON.stringify(obj));
+  };
+
+  porto.windows = {};
+
+  porto.windows.modalActive = false;
+
+  porto.windows.openPopup = function(url, options, callback) {
+    chrome.windows.getCurrent(null, function(current) {
+      if (window.navigator.platform.indexOf('Win') >= 0 && options.height) {
+        options.height += 36;
+      }
+      chrome.windows.create({
+        url: url,
+        width: options && options.width,
+        height: options && options.height,
+        top: options && parseInt(current.top + (current.height - options.height) / 2),
+        left: options && parseInt(current.left + (current.width - options.width) / 2),
+        focused: true,
+        type: 'popup'
+      }, function(popup) {
+        //console.log('popup created', popup);
+        if (options && options.modal) {
+          porto.windows.modalActive = true;
+          var focusChangeHandler = function(newFocus) {
+            //console.log('focus changed', newFocus);
+            if (newFocus !== popup.id && newFocus !== chrome.windows.WINDOW_ID_NONE) {
+              chrome.windows.update(popup.id, {focused: true});
+            }
+          };
+          chrome.windows.onFocusChanged.addListener(focusChangeHandler);
+          var removedHandler = function(removed) {
+            //console.log('removed', removed);
+            if (removed === popup.id) {
+              //console.log('remove handler');
+              porto.windows.modalActive = false;
+              chrome.windows.onFocusChanged.removeListener(focusChangeHandler);
+              chrome.windows.onRemoved.removeListener(removedHandler);
+            }
+          };
+          chrome.windows.onRemoved.addListener(removedHandler);
+        }
+        if (callback) {
+          callback(new porto.windows.BrowserWindow(popup.id));
+        }
+      });
+    });
+  };
+
+  porto.windows.BrowserWindow = function(id) {
+    this._id = id;
+  };
+
+  porto.windows.BrowserWindow.prototype.activate = function() {
+    chrome.windows.update(this._id, {focused: true});
+  };
+
+  porto.windows.BrowserWindow.prototype.close = function() {
+    chrome.windows.remove(this._id);
+  };
+
+  porto.util = porto.util || {};
+
+  // Add a hook to make all links open a new window
+  // attribution: https://github.com/cure53/DOMPurify/blob/master/demos/hooks-target-blank-demo.html
+  dompurify.addHook('afterSanitizeAttributes', function(node) {
+    // set all elements owning target to target=_blank
+    if ('target' in node) {
+      node.setAttribute('target', '_blank');
+    }
+    // set MathML links to xlink:show=new
+    if (!node.hasAttribute('target') &&
+        (node.hasAttribute('xlink:href') ||
+         node.hasAttribute('href'))) {
+      node.setAttribute('xlink:show', 'new');
     }
   });
-};
 
-var pageWorker = require("sdk/page-worker").Page({
-  contentScriptFile: data.url('ws-client.js'),
-  contentURL: data.url('ws-client.html')
+  porto.util.parseHTML = function(html, callback) {
+    callback(dompurify.sanitize(html, {SAFE_FOR_JQUERY: true}));
+  };
+
+  // must be bound to window, otherwise illegal invocation
+  porto.util.setTimeout = window.setTimeout.bind(window);
+  porto.util.clearTimeout = window.clearTimeout.bind(window);
+
+  porto.util.getHostname = function(url) {
+    var a = document.createElement('a');
+    a.href = url;
+    return a.hostname;
+  };
+
+  porto.util.getHost = function(url) {
+    var a = document.createElement('a');
+    a.href = url;
+    return a.host;
+  };
+
+  porto.util.getDOMWindow = function() {
+    return window;
+  };
+
+  porto.l10n.get = chrome.i18n.getMessage;
+
+  porto.browserAction = {};
+
+  porto.browserAction.state = function(options) {
+    if (typeof options.badge !== 'undefined') {
+      chrome.browserAction.setBadgeText({text: options.badge});
+    }
+    if (typeof options.badgeColor !== 'undefined') {
+      chrome.browserAction.setBadgeBackgroundColor({color: options.badgeColor});
+    }
+  };
+
+  exports.porto = porto;
+
 });
-
-porto.request.ws = {
-  init: function(url, options) {
-    console.log(url);
-    pageWorker.port.emit('init-ws', {
-      url: url,
-      protocol: options
-    });
-  },
-  connect: function() {
-    pageWorker.port.emit('close-ws');
-    pageWorker.port.emit('open-ws');
-  },
-  disconnect: function() {
-    pageWorker.port.emit('close-ws');
-  },
-  send: function(msg, callback) {
-    console.log(msg);
-
-    var token = porto.util.getHash();
-    pageWorker.port.once(token, function(data) {
-      callback(data);
-    });
-
-    msg.token = token;
-    pageWorker.port.emit('send-ws-msg', msg);
-  }
-};
-
-exports.porto = porto;

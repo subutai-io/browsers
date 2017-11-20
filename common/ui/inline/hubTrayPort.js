@@ -32,7 +32,7 @@ porto.trayPort.intervalSSID = 0;
     }
   });
 
-  console.log("ORIGIN: "+parser.origin);
+  console.log("ORIGIN: " + parser.origin);
   if (parser.origin === "https://hub.subut.ai" || parser.origin === "https://dev.subut.ai" || parser.origin === "https://stage.subut.ai") {
     porto.extension.sendMessage(
       {

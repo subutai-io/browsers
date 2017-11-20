@@ -28,13 +28,8 @@ define(function(require, exports, module) {
   function initOpenPGP() {
     openpgp.config.commentstring = 'https://subutai.io/';
     openpgp.config.versionstring = 'Subutai v' + defaults.getVersion();
-    if (porto.crx || porto.sfx) {
+    if (porto.crx || porto.sfx || porto.webex) {
       openpgp.initWorker('dep/openpgp.worker.js');
-    } else if (porto.ffa) {
-      var CWorker = porto.util.getWorker();
-      openpgp.initWorker('', {
-        worker: new CWorker(porto.data.url('openpgp.worker.min.js'))
-      });
     }
   }
 
@@ -499,7 +494,7 @@ define(function(require, exports, module) {
 
   function migrate08() {
     var prefs = getPreferences();
-    if (porto.crx && prefs.migrate08 && prefs.migrate08.done) {
+    if ( (porto.webex || porto.crx) && prefs.migrate08 && prefs.migrate08.done) {
       window.localStorage.removeItem("privatekeys");
       window.localStorage.removeItem("publickeys");
       delete prefs.migrate08;
