@@ -223,7 +223,7 @@ module.exports = function(grunt) {
           src: '**/*',
           cwd: 'locales',
           dest: 'build/firefox/_locales'
-        },
+        }
       ]
       },
       dep: {
@@ -319,15 +319,6 @@ module.exports = function(grunt) {
           }
         }
       ]
-      },
-      xpi: {
-        expand: true,
-        flatten: true,
-        src: 'dist/*.xpi',
-        dest: 'dist/',
-        rename: function(dest) {
-          return dest + 'e2e-plugin.firefox.xpi';
-        }
       }
     },
 
@@ -378,13 +369,6 @@ module.exports = function(grunt) {
         }]
       }
     },
-
-    jpm: {
-      options: {
-        src: "./build/firefox",
-        xpi: "./dist/"
-      }
-    },
     shell: {
       move_firefox_dist: {
         command: 'mv dist/subutai_e2e_plugin-*.zip dist/e2e-plugin.firefox.zip'
@@ -425,7 +409,7 @@ module.exports = function(grunt) {
 
   grunt.registerTask('dist-ff', ['shell:webex_build', 'shell:move_firefox_dist']);
   grunt.registerTask('sign-ffa', function() {
-    grunt.util.spawn({cmd: 'sign-dist/ffa-sign.sh', args: ['cert/ffa-api-credentials.sh', 'dist/e2e-plugin.firefox.xpi']});
+    grunt.util.spawn({cmd: 'sign-dist/ffa-sign.sh', args: ['cert/ffa-api-credentials.sh', 'dist/e2e-plugin.firefox.zip']});
   });
   grunt.registerTask('dist-doc', ['jsdoc', 'compress:doc']);
 
