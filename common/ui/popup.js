@@ -23,15 +23,8 @@ var porto = porto || null;
       messageListener(message.data);
     });
   }
-  else if (!crx) {
-    // Firefox
-    sendMessage = function(msg) {
-      addon.postMessage(msg);
-    };
-    addon.on('message', messageListener);
-  }
   else {
-    // Chrome
+    // Chrome | WebExtension
     sendMessage = function(msg) {
       chrome.runtime.sendMessage(msg, messageListener);
     };
@@ -62,7 +55,7 @@ var porto = porto || null;
         hide();
       });
 
-    if (porto.crx || porto.sfx) {
+    if (porto.crx || porto.sfx || porto.webex) {
       porto.l10n.localizeHTML();
     }
 
@@ -118,14 +111,16 @@ var porto = porto || null;
 
   function handleAppActivation() {
     if (activeState) {
-      $('#state .glyphicon').removeClass('glyphicon-unchecked').addClass('glyphicon-check');
+      console.log('enabling buttons');
+      $('#state').find('.glyphicon').removeClass('glyphicon-unchecked').addClass('glyphicon-check');
       $('#add').removeClass('disabled').css('pointer-events', 'auto');
-      $('#reload').removeClass('disabled').css('pointer-events', 'auto');
+      $('#subutai-reload').removeClass('disabled').css('pointer-events', 'auto');
     }
     else {
-      $('#state .glyphicon').removeClass('glyphicon-check').addClass('glyphicon-unchecked');
+      console.log('disabling buttons');
+      $('#state').find('.glyphicon').removeClass('glyphicon-check').addClass('glyphicon-unchecked');
       $('#add').addClass('disabled').css('pointer-events', 'none');
-      $('#reload').addClass('disabled').css('pointer-events', 'none');
+      $('#subutai-reload').addClass('disabled').css('pointer-events', 'none');
     }
   }
 

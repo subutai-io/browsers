@@ -133,6 +133,12 @@ module.exports = function(grunt) {
             cwd: 'bower_components/requirejs/',
             src: 'require.js',
             dest: 'build/e2e-plugin.safariextension/'
+          },
+          {
+            expand: true,
+            cwd: 'bower_components/requirejs/',
+            src: 'require.js',
+            dest: 'build/firefox/'
           }
         ]
       },
@@ -156,7 +162,7 @@ module.exports = function(grunt) {
       common_browser: {
         files: [
           {
-          expand: true,
+            expand: true,
           src: ['common/**/*', '!common/lib/**/*'],
           cwd: 'build/',
           dest: 'build/chrome/'
@@ -169,29 +175,10 @@ module.exports = function(grunt) {
         },
         {
           expand: true,
-          src: ['common/**/*', '!common/lib/**/*'],
-          cwd: 'build/',
-          dest: 'build/firefox/data/'
-        },
-        {
-          expand: true,
-          src: '**/*',
-          cwd: 'build/common/lib/',
-          dest: 'build/firefox/lib/common/'
-        },
-        {
-          expand: true,
-          src: 'porto.js',
-          cwd: 'build/common/ui',
-          dest: 'build/firefox/lib/common/'
-        },
-        {
-          expand: true,
           src: '**/*',
           cwd: 'locales',
           dest: 'build/chrome/_locales'
         },
-
         {
           expand: true,
           cwd: 'common/img/icons/',
@@ -218,26 +205,26 @@ module.exports = function(grunt) {
           src: '**/*',
           cwd: 'locales',
           dest: 'build/e2e-plugin.safariextension/_locales'
-        }]
-      },
-      locale_firefox: {
-        expand: true,
-        src: '**/*.json',
-        cwd: 'locales',
-        dest: 'build/firefox/locale/',
-        rename: function(dest, src) {
-          return dest + src.match(/^[\w-]{2,5}/)[0].replace('_', '-') + '.properties';
         },
-        options: {
-          process: function(content, srcpath) {
-            var locale = JSON.parse(content);
-            var result = '';
-            for (var key in locale) {
-              result += key + '= ' + locale[key].message.replace(/\$(\d)/g, '%$1s') + '\n';
-            }
-            return result;
-          }
+        {
+          expand: true,
+          src: ['common/**/*', '!common/lib/**/*'],
+          cwd: 'build/',
+          dest: 'build/firefox/'
+        },
+        {
+          expand: true,
+          src: '**/*',
+          cwd: 'build/common/lib/',
+          dest: 'build/firefox/lib/common/'
+        },
+        {
+          expand: true,
+          src: '**/*',
+          cwd: 'locales',
+          dest: 'build/firefox/_locales'
         }
+      ]
       },
       dep: {
         files: [{
@@ -305,66 +292,39 @@ module.exports = function(grunt) {
         {
           expand: true,
           flatten: true,
-          src: ['dep/firefox/openpgpjs/openpgp.min.js', 'dep/firefox/openpgpjs/openpgp.worker.min.js'],
-          dest: 'build/firefox/data/'
+          src: ['dep/firefox/openpgpjs/openpgp.js', 'dep/firefox/openpgpjs/openpgp.worker.js'],
+          dest: 'build/firefox/dep/'
         },
         {
           expand: true,
           flatten: true,
-          src: 'node_modules/mailreader/src/mailreader-parser.js',
-          dest: 'build/firefox/node_modules/mailreader-parser'
-        },
-        {
-          expand: true,
-          flatten: true,
-          src: 'node_modules/mailreader/node_modules/emailjs-mime-parser/src/*.js',
-          dest: 'build/firefox/node_modules/emailjs-mime-parser'
-        },
-        {
-          expand: true,
-          flatten: true,
-          src: 'node_modules/emailjs-mime-codec/src/*.js',
-          dest: 'build/firefox/node_modules/emailjs-mime-codec'
-        },
-        {
-          expand: true,
-          flatten: true,
-          src: 'node_modules/mailreader/node_modules/emailjs-mime-parser/node_modules/emailjs-addressparser/src/*.js',
-          dest: 'build/firefox/node_modules/emailjs-addressparser'
-        },
-        {
-          expand: true,
-          flatten: true,
-          src: 'node_modules/emailjs-mime-builder/src/*.js',
-          dest: 'build/firefox/node_modules/emailjs-mime-builder'
-        },
-        {
-          expand: true,
-          flatten: true,
-          src: 'node_modules/emailjs-mime-builder/node_modules/emailjs-mime-types/src/*.js',
-          dest: 'build/firefox/node_modules/emailjs-mime-types'
+          cwd: 'node_modules/',
+          src: [
+            'mailreader/src/mailreader-parser.js',
+            'mailreader/node_modules/emailjs-mime-parser/src/*.js',
+            'mailreader/node_modules/emailjs-mime-parser/node_modules/emailjs-addressparser/src/*.js',
+            'emailjs-mime-codec/src/*.js',
+            'emailjs-mime-builder/src/*.js',
+            'emailjs-mime-builder/node_modules/emailjs-mime-types/src/*.js'
+          ],
+          dest: 'build/firefox/lib/'
         },
         {
           expand: true,
           flatten: true,
           src: 'node_modules/emailjs-mime-builder/node_modules/punycode/*.js',
-          dest: 'build/firefox/node_modules/emailjs-punycode'
-        }]
-      },
-      xpi: {
-        expand: true,
-        flatten: true,
-        src: 'dist/*.xpi',
-        dest: 'dist/',
-        rename: function(dest) {
-          return dest + 'e2e-plugin.firefox.xpi';
+          dest: 'build/firefox/lib/',
+          rename: function(dest) {
+            return dest + 'emailjs-punycode.js';
+          }
         }
+      ]
       }
     },
 
     watch: {
       scripts: {
-        files: ['Gruntfile.js', '{common,dep,chrome,firefox,e2e-plugin.safariextension}/**/*.js'],
+        files: ['Gruntfile.js', '{common,dep,chrome,firefox,e2e-plugin.safariextension}/**/*'],
         tasks: ['default', 'dist-ff', 'dist-cr'],
         options: {
           spawn: false
@@ -383,18 +343,6 @@ module.exports = function(grunt) {
           expand: true,
           src: ['chrome/**/*', 'chrome/!**/.*'],
           cwd: 'build/'
-        }]
-      },
-      doc: {
-        options: {
-          mode: 'zip',
-          archive: 'dist/e2e-plugin.client-api-documentation.zip',
-          pretty: true
-        },
-        files: [{
-          expand: true,
-          src: ['**/*'],
-          cwd: 'build/doc/'
         }]
       }
     },
@@ -419,21 +367,14 @@ module.exports = function(grunt) {
           from: /("version"\s:\s"[\d\.]+)/,
           to: '$1' + ' build: ' + (new Date()).toISOString().slice(0, 19)
         }]
-      },
-      openpgp_ff: {
-        src: ['dep/firefox/openpgpjs/openpgp.min.js'],
-        dest: ['build/firefox/node_modules/openpgp/openpgp.js'],
-        replacements: [{
-          from: "*/",
-          to: "*/\nvar window = require('./window');"
-        }]
       }
     },
-
-    jpm: {
-      options: {
-        src: "./build/firefox",
-        xpi: "./dist/"
+    shell: {
+      move_firefox_dist: {
+        command: 'mv dist/subutai_e2e_plugin-*.zip dist/e2e-plugin.firefox.zip'
+      },
+      webex_build: {
+        command: 'web-ext build --source-dir=build/firefox --artifacts-dir=dist'
       }
     },
 
@@ -458,7 +399,7 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-bump');
   grunt.loadNpmTasks("grunt-jscs");
   grunt.loadNpmTasks('grunt-jsdoc');
-  grunt.loadNpmTasks('grunt-jpm');
+  grunt.loadNpmTasks('grunt-shell');
 
   //custom tasks
   grunt.registerTask('dist-cr', ['compress:chrome']);
@@ -466,14 +407,14 @@ module.exports = function(grunt) {
     grunt.util.spawn({cmd: 'sign-dist/crxmake.sh', args: ['build/chrome', 'cert/crx_signing.pem'], opts: {stdio: 'ignore'}});
   });
 
-  grunt.registerTask('dist-ff', ['jpm:xpi', 'copy:xpi']);
+  grunt.registerTask('dist-ff', ['shell:webex_build', 'shell:move_firefox_dist']);
   grunt.registerTask('sign-ffa', function() {
-    grunt.util.spawn({cmd: 'sign-dist/ffa-sign.sh', args: ['cert/ffa-api-credentials.sh', 'dist/e2e-plugin.firefox.xpi']});
+    grunt.util.spawn({cmd: 'sign-dist/ffa-sign.sh', args: ['cert/ffa-api-credentials.sh', 'dist/e2e-plugin.firefox.zip']});
   });
   grunt.registerTask('dist-doc', ['jsdoc', 'compress:doc']);
 
-  grunt.registerTask('copy_common', ['copy:vendor', 'copy:common', 'replace:bootstrap', 'replace:openpgp_ff']);
-  grunt.registerTask('final_assembly', ['copy:plugins', 'copy:common_browser', 'copy:locale_firefox', 'copy:dep']);
+  grunt.registerTask('copy_common', ['copy:vendor', 'copy:common', 'replace:bootstrap']);
+  grunt.registerTask('final_assembly', ['copy:plugins', 'copy:common_browser', 'copy:dep']);
 
   grunt.registerTask('default', ['clean', 'jshint', 'jscs', 'copy:jquery', 'concat', 'copy_common', 'final_assembly']);
   grunt.registerTask('nightly', ['clean', 'jshint', 'jscs', 'copy:jquery', 'concat', 'copy_common', 'final_assembly', 'replace:build_version']);

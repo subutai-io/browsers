@@ -41,8 +41,8 @@ define(function(require, exports, module) {
     if (request.api_event) {
       return;
     }
-    //console.log('main.controller::handleMessageEvent');
-    //console.log(request);
+    console.log('main.controller::handleMessageEvent');
+    console.log(request);
     //console.trace();
     switch (request.event) {
       case 'pgpmodel':
@@ -60,9 +60,6 @@ define(function(require, exports, module) {
         break;
       case 'set-watch-list':
         model.setWatchList(request.data);
-        if (porto.ffa) {
-          reloadFrames(true);
-        }
         specific.initScriptInjection();
         break;
       case 'get-all-keyring-attr':

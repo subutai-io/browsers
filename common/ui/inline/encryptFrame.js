@@ -258,11 +258,8 @@ porto.EncryptFrame.prototype._showDialog = function(type) {
     dialog = 'pubkeyDialog';
   }
   //console.error(dialog);
-  if (porto.crx || porto.sfx) {
+  if (porto.crx || porto.sfx || porto.webex) {
     url = porto.extension.getURL('common/ui/inline/dialogs/' + dialog + '.html?id=' + this.id);
-  }
-  else if (porto.ffa) {
-    url = 'about:blank?porto=' + dialog + '&id=' + this.id;
   }
   this._eDialog.attr('src', url);
   this._eFrame.append(this._eDialog);

@@ -5,7 +5,7 @@ define(function(require, exports, module) {
   var porto = require('porto');
 
   porto.crx = true;
-  porto.ffa = false;
+  porto.webex = false;
   porto.sfx = false;
 
   var dompurify = require('dompurify');
@@ -55,7 +55,9 @@ define(function(require, exports, module) {
        // Code to run if the request succeeds (is done);
        // The response is passed to the function
        .done(function(data, status, xhr) {
-         console.log(data);
+         if (porto.storage.get('debug')) {
+           console.log(data);
+         }
          resolve({data: data, status: xhr.status, statusText: xhr.statusText});
        })
        // Code to run if the request fails; the raw request and

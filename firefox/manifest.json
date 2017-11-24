@@ -1,11 +1,15 @@
 {
+  "applications": {
+    "gecko": {
+      "id": "jid1-DejrJUD3AaPCkw@jetpack",
+      "strict_min_version": "52.0"
+    }
+  },
   "name": "__MSG_ext_name__",
   "version": "4.0.0",
-  "version_name": "4.0.0",
   "description": "__MSG_ext_description__",
   "homepage_url":"https://subutai.io",
   "manifest_version": 2,
-  "minimum_chrome_version": "38",
   "icons": {
     "16": "common/img/icons/ss-icon16x16.png",
     "48": "common/img/icons/ss-icon48x48.png",
@@ -19,15 +23,17 @@
   "background": {
     "page": "background.html"
   },
-  "options_page": "common/ui/keys.html",
   "permissions": [
     "tabs",
     "webRequest",
-    "downloads",
     "*://*/*",
-    "clipboardWrite"
+    "clipboardWrite",
+    "storage",
+    "downloads",
+    "webNavigation"
   ],
   "web_accessible_resources": [
+    "common/ui/keys.html",
     "common/img/addon.detection.png",
     "common/img/key-24.png",
     "common/img/mail_locked_96.png",

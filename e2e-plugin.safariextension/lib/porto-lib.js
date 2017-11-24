@@ -5,7 +5,7 @@ define(function(require, exports, module) {
   var porto = require('porto');
 
   porto.crx = false;
-  porto.ffa = false;
+  porto.webex = false;
   porto.sfx = true;
 
   var dompurify = require('dompurify');
