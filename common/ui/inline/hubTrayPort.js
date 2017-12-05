@@ -25,6 +25,7 @@ porto.trayPort.intervalSSID = 0;
   //parser.hash;     // => "#hash"
   //parser.host;     // => "example.com:3000"
 
+  var origin = parser.origin;
   porto.extension.sendMessage({event: "get-version"}, function(version) {
     var input = $('#bp-plugin-version');
     if (input.length > 0) {
@@ -32,8 +33,9 @@ porto.trayPort.intervalSSID = 0;
     }
   });
 
-  console.log("ORIGIN: " + parser.origin);
-  if (parser.origin === "https://hub.subut.ai" || parser.origin === "https://dev.subut.ai" || parser.origin === "https://stage.subut.ai") {
+  console.log("ORIGIN: " + origin);
+  if (origin.indexOf(".subut.ai") !== -1)
+  {
     porto.extension.sendMessage(
       {
         event: 'porto-socket-init',
@@ -65,13 +67,29 @@ porto.trayPort.intervalSSID = 0;
             performCheck(that, response);
           });
         });
+
+        var $deskBtn = $container.find('td .e2e-plugin-desk-btn');
+        $deskBtn.attr('disabled', false);
+        $deskBtn.on('click', function() {
+          var that = this;
+          porto.extension.sendMessage({
+            event: "porto-socket-send",
+            msg: {
+              cmd: 'cmd:current_user'
+            }
+          }, function(response) {
+            performCheck(that, response);
+          });
+        });
+
         $container.attr('data-dirty', 'true');
       }
     }
 
   };
 
-  function performCheck(that, response) {
+  function performCheck(that, response, type) {
+    console.log(type);
     console.log(response);
     var pathParams = parser.pathname;
     var userId = pathParams.split('/');
@@ -97,8 +115,15 @@ porto.trayPort.intervalSSID = 0;
         }
         console.log('environment: ' + envName);
 
-        var cmd = 'cmd:ssh%%%' + envName + '%%%' + row.attr('data-container-id');
-        openSshTunnel(cmd);
+        if (type === 'ez-desktop')
+        {
+          openDesktopClient('cmd:desktop%%%' + envName + '%%%' + row.attr('data-container-id'))
+        }
+        else
+        {
+          openSshTunnel('cmd:ssh%%%' + envName + '%%%' + row.attr('data-container-id'));
+        }
+
       }
       else {
         swal2({
@@ -151,7 +176,49 @@ porto.trayPort.intervalSSID = 0;
           var parseError = parseStep1[1].split('==');
           if (parseError[1]) {
             swal2({
-              title: "Oh, snap error " + parseStep1[0],
+              title: "Oh, snap! Error " + parseStep1[0],
+              text: parseError[1],
+              type: "error",
+              customClass: "b-warning"
+            });
+          }
+          else {
+            swal2({
+              title: "Success",
+              text: parseStep1[2].split('==')[1],
+              type: "success",
+              customClass: "b-success"
+            });
+          }
+        }
+      }
+      console.log(response);
+    });
+  }
+
+  function openDesktopClient(cmd) {
+    porto.extension.sendMessage({
+      event: "porto-socket-send",
+      msg: {
+        cmd: cmd
+      }
+    }, function(response) {
+      if (response.error) {
+        swal2({
+          title: "Is SubutaiTray running?",
+          text: response.error,
+          type: "error",
+          customClass: "b-warning"
+        });
+      }
+      else {
+        // code:code%%%error==error_message%%%success==success_message
+        var parseStep1 = response.data.split('%%%');
+        if (parseStep1.length === 3) {
+          var parseError = parseStep1[1].split('==');
+          if (parseError[1]) {
+            swal2({
+              title: "Oh, snap! Error " + parseStep1[0],
               text: parseError[1],
               type: "error",
               customClass: "b-warning"
