@@ -34,8 +34,7 @@ porto.trayPort.intervalSSID = 0;
   });
 
   console.log("ORIGIN: " + origin);
-  if (origin.indexOf(".subut.ai") !== -1)
-  {
+  if (origin.indexOf(".subut.ai") !== -1) {
     porto.extension.sendMessage(
       {
         event: 'porto-socket-init',
@@ -115,12 +114,10 @@ porto.trayPort.intervalSSID = 0;
         }
         console.log('environment: ' + envName);
 
-        if (type === 'ez-desktop')
-        {
-          openDesktopClient('cmd:desktop%%%' + envName + '%%%' + row.attr('data-container-id'))
+        if (type === 'ez-desktop') {
+          openDesktopClient('cmd:desktop%%%' + envName + '%%%' + row.attr('data-container-id'));
         }
-        else
-        {
+        else {
           openSshTunnel('cmd:ssh%%%' + envName + '%%%' + row.attr('data-container-id'));
         }
 
