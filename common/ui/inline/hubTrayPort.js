@@ -64,7 +64,7 @@ porto.trayPort.intervalSSID = 0;
               cmd: 'cmd:current_user'
             }
           }, function(response) {
-            performCheck(that, response);
+            performCheck(that, response, "ez-ssh");
           });
         });
 
@@ -78,7 +78,7 @@ porto.trayPort.intervalSSID = 0;
               cmd: 'cmd:current_user'
             }
           }, function(response) {
-            performCheck(that, response);
+            performCheck(that, response, "ez-desktop");
           });
         });
 
