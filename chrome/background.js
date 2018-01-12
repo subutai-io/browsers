@@ -85,7 +85,7 @@ define([
 
     function onContextMenuEncrypt(info) {
       //console.log(info);
-      chrome.tabs.getSelected(null, function(tab) {
+      chrome.tabs.query({active: true}, function(tab) {
         chrome.tabs.sendMessage(tab.id, {event: "context-encrypt"});
       });
     }
