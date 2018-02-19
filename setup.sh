@@ -13,6 +13,10 @@
 #nvm use 5.0
 #npm install -g grunt-cli bower
 
+# npm install -g manifoldjs
+# manifoldjs -l debug -p edgeextension -f edgeextension -m <EXTENSION LOCATION>\manifest.json
+# PS C:\Program Files (x86)\Windows Kits\10\bin\10.0.16299.0\x64> .\makeappx.exe pack /h SHA256 /d "C:\browsers\build\edge" /p C:\browsers\build\edge.appx
+
 #git clone https://github.com/subutai-io/Tooling-ss-pgp-plugin.git ss-pgp-plugin
 
 #cd ss-pgp-plugin
