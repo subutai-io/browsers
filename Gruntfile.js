@@ -26,8 +26,8 @@ module.exports = function(grunt) {
           'firefox/data/*.js',
           'firefox/lib/*.js',
           'e2e-plugin.safariextension/lib/*.js',
-          'edge/background.js',
-          'edge/lib/*.js',
+          'edge/Extension/background.js',
+          'edge/Extension/lib/*.js',
         ]
       }
     },
@@ -48,8 +48,8 @@ module.exports = function(grunt) {
           'chrome/lib/*.js',
           'firefox/data/*.js',
           'firefox/lib/*.js',
-          'edge/background.js',
-          'edge/lib/*.js',
+          'edge/Extension/background.js',
+          'edge/Extension/lib/*.js',
         ]
       }
     },
@@ -148,7 +148,7 @@ module.exports = function(grunt) {
             expand: true,
             cwd: 'bower_components/requirejs/',
             src: 'require.js',
-            dest: 'build/edge/'
+            dest: 'build/edge/Extension/'
           },
         ]
       },
@@ -238,19 +238,19 @@ module.exports = function(grunt) {
             expand: true,
             src: ['common/**/*', '!common/lib/**/*'],
             cwd: 'build/',
-            dest: 'build/edge/'
+            dest: 'build/edge/Extension/'
           },
           {
             expand: true,
             src: '**/*',
             cwd: 'build/common/lib/',
-            dest: 'build/edge/lib/common/'
+            dest: 'build/edge/Extension/lib/common/'
           },
           {
             expand: true,
             src: '**/*',
             cwd: 'locales',
-            dest: 'build/edge/_locales'
+            dest: 'build/edge/Extension/_locales'
         }
       ]
       },
@@ -350,7 +350,7 @@ module.exports = function(grunt) {
           expand: true,
           flatten: true,
           src: ['dep/edge/openpgpjs/openpgp.js', 'dep/edge/openpgpjs/openpgp.worker.js'],
-          dest: 'build/edge/dep/'
+          dest: 'build/edge/Extension/dep/'
         },
         {
           expand: true,
@@ -364,13 +364,13 @@ module.exports = function(grunt) {
             'emailjs-mime-builder/src/*.js',
             'emailjs-mime-builder/node_modules/emailjs-mime-types/src/*.js'
           ],
-          dest: 'build/edge/lib/'
+          dest: 'build/edge/Extension/lib/'
         },
         {
           expand: true,
           flatten: true,
           src: 'node_modules/emailjs-mime-builder/node_modules/punycode/*.js',
-          dest: 'build/edge/lib/',
+          dest: 'build/edge/Extension/lib/',
           rename: function(dest) {
             return dest + 'emailjs-punycode.js';
           }
