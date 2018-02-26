@@ -6,7 +6,7 @@ If you don’t have grunt and bower installed, yet:
 
 and then get and build the sources:
 
-    git clone https://github.com/subutai-io/browsers.git
+    git clone https://github.com/subutai-io/browser-plugins.git
     cd browsers
     npm install && bower install && grunt
 
