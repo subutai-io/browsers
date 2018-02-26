@@ -313,7 +313,7 @@ porto.subutai.intervalSSID = 0;
       else {
         swal2({
           title: "Oh, snap error ",
-          text: "SubutaiTray and Hub user didn't match!?!?",
+          text: "Subutai Control Center and Bazaar user didn't match!?!?",
           type: "error",
           customClass: "b-warning"
         });
@@ -321,7 +321,7 @@ porto.subutai.intervalSSID = 0;
     }
     else {
       swal2({
-        title: "Is SubutaiTray running?",
+        title: "Is Subutai Control Center running?",
         text: response.error,
         type: "error",
         customClass: "b-warning"
@@ -338,7 +338,7 @@ porto.subutai.intervalSSID = 0;
     }, function(response) {
       if (response.error) {
         swal2({
-          title: "Is SubutaiTray running?",
+          title: "Is Subutai Control Center running?",
           text: response.error,
           type: "error",
           customClass: "b-warning"
