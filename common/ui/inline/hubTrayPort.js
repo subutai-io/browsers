@@ -25,7 +25,7 @@ porto.trayPort.intervalSSID = 0;
   //parser.hash;     // => "#hash"
   //parser.host;     // => "example.com:3000"
 
-  var origin = parser.origin;
+  var origin = document.location.origin;
   porto.extension.sendMessage({event: "get-version"}, function(version) {
     var input = $('#bp-plugin-version');
     if (input.length > 0) {
@@ -34,7 +34,7 @@ porto.trayPort.intervalSSID = 0;
   });
 
   console.log("ORIGIN: " + origin);
-  if (origin.indexOf(".subut.ai") !== -1) {
+  if (origin.indexOf(".subut.ai") !== -1 || origin.indexOf(".subutai.io") !== -1) {
     porto.extension.sendMessage(
       {
         event: 'porto-socket-init',
@@ -101,7 +101,7 @@ porto.trayPort.intervalSSID = 0;
       var trayEmail = response.data;
       email = email.toLowerCase();
       trayEmail = trayEmail.toLowerCase();
-      console.log('tray email: ' + trayEmail);
+      console.log('Subutai Control Center email: ' + trayEmail);
       if (email === trayEmail) {
         var row = $(that.closest('tr'));
         var envName = $('.b-sidebar-profile-header-name').text().trim();
@@ -125,7 +125,7 @@ porto.trayPort.intervalSSID = 0;
       else {
         swal2({
           title: "Authentication error ",
-          text: "SubutaiTray and Hub user didn't match!?!?",
+          text: "Subutai Control Center and Bazaar user didn't match!?!?",
           type: "error",
           customClass: "b-warning"
         });
@@ -142,7 +142,7 @@ porto.trayPort.intervalSSID = 0;
       }
       else {
         swal2({
-          title: "Is SubutaiTray running?",
+          title: "Is Subutai Control Center running?",
           text: response.error,
           type: "error",
           customClass: "b-warning"
@@ -160,7 +160,7 @@ porto.trayPort.intervalSSID = 0;
     }, function(response) {
       if (response.error) {
         swal2({
-          title: "Is SubutaiTray running?",
+          title: "Is Subutai Control Center running?",
           text: response.error,
           type: "error",
           customClass: "b-warning"
@@ -202,7 +202,7 @@ porto.trayPort.intervalSSID = 0;
     }, function(response) {
       if (response.error) {
         swal2({
-          title: "Is SubutaiTray running?",
+          title: "Is Subutai Control Center running?",
           text: response.error,
           type: "error",
           customClass: "b-warning"

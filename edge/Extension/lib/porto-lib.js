@@ -4,9 +4,10 @@ define(function(require, exports, module) {
 
   var porto = require('porto');
 
-  porto.crx = true;
+  porto.crx = false;
   porto.webex = false;
   porto.sfx = false;
+  porto.edge = true;
 
   var dompurify = require('dompurify');
 
@@ -122,7 +123,6 @@ define(function(require, exports, module) {
 
   var closeWs = function() {
     if (that.ws) {
-      console.log('CLOSING ...');
       that.ws.close();
     }
     connected = false;
@@ -146,7 +146,7 @@ define(function(require, exports, module) {
   };
 
   var onError = function(event) {
-    console.log(event.data);
+    console.error(event.data);
   };
 
   porto.request.ws = {
