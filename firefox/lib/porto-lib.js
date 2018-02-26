@@ -114,7 +114,7 @@ define(function(require, exports, module) {
       that.ws.send(msg.cmd);
     }
     catch (err) {
-      callback({error: 'Couldn\'t send command to SubutaiTray'});
+      callback({error: 'Couldn\'t send command to Subutai Control Center'});
     }
   };
 

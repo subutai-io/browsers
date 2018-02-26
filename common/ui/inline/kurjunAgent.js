@@ -12,7 +12,7 @@ var porto = porto || {};
   var $addUserBtn = $('#add_user_btn');
 
   if (isKurjun === 'Kurjun' && $addUserBtn.length !== 0) {
-    console.log('This is kurjun');
+    console.log('This is Subutai CDN');
     $('body').on('click', '.bp-close-modal', function() {
       swal2.closeModal();
     });
@@ -74,7 +74,7 @@ var porto = porto || {};
        swal2({
          title: "Logged in",
          showConfirmButton: true,
-         text: "Your identity was successfully verified by Kurjun!",
+         text: "Your identity was successfully verified by Subutai CDN!",
          type: "success"
        }, function() {
          setTimeout(function() {
