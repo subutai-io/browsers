@@ -34,7 +34,7 @@ porto.trayPort.intervalSSID = 0;
   });
 
   console.log("ORIGIN: " + origin);
-  if (origin.indexOf(".subut.ai") !== -1) {
+  if (origin.indexOf(".subut.ai") !== -1 || origin.indexOf(".subutai.io") !== -1) {
     porto.extension.sendMessage(
       {
         event: 'porto-socket-init',
