@@ -87,7 +87,7 @@ module.exports = function(grunt) {
 
     copy: {
       jquery: {
-        src: 'bower_components/jquery/index.js',
+        src: 'bower_components/jquery/dist/jquery.min.js',
         dest: 'build/common/dep/jquery.min.js'
       },
       vendor: {
@@ -263,7 +263,7 @@ module.exports = function(grunt) {
             'dep/safari/openpgpjs/compression/rawdeflate.min.js',
             'dep/safari/openpgpjs/compression/rawdeflate.min.js.map'
           ],
-          dest: 'build/e2e-plugin.safariextension/dep/'
+          dest: 'build/e2e-plugin.safariextension/'
         },
         {
           expand: true,
@@ -292,7 +292,7 @@ module.exports = function(grunt) {
           expand: true,
           flatten: true,
           src: ['dep/chrome/openpgpjs/openpgp.js', 'dep/chrome/openpgpjs/openpgp.worker.js'],
-          dest: 'build/chrome/dep/'
+          dest: 'build/chrome/'
         },
         {
           expand: true,
@@ -321,7 +321,7 @@ module.exports = function(grunt) {
           expand: true,
           flatten: true,
           src: ['dep/firefox/openpgpjs/openpgp.js', 'dep/firefox/openpgpjs/openpgp.worker.js'],
-          dest: 'build/firefox/dep/'
+          dest: 'build/firefox/'
         },
         {
           expand: true,
@@ -350,7 +350,7 @@ module.exports = function(grunt) {
           expand: true,
           flatten: true,
           src: ['dep/edge/openpgpjs/openpgp.js', 'dep/edge/openpgpjs/openpgp.worker.js'],
-          dest: 'build/edge/Extension/dep/'
+          dest: 'build/edge/Extension/'
         },
         {
           expand: true,

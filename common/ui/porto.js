@@ -805,6 +805,12 @@ porto.util.matchPattern2RegEx = function(matchPattern) {
   );
 };
 
+porto.util.throwError = function(message, code = 'INTERNAL_ERROR') {
+  const error = new Error(message);
+  error.code = code;
+  throw error;
+};
+
 if (typeof exports !== 'undefined') {
   exports.porto = porto;
 }

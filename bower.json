@@ -1,6 +1,6 @@
 {
   "name": "porto",
-  "version": "4.1.0",
+  "version": "5.0.0",
   "description": "Porto is a browser extension library for Google Chrome,Firefox and Safari that allows to develop cross platform browser extension with ease.",
   "license": "ALS",
   "private": true,
@@ -12,14 +12,11 @@
     "tests"
   ],
   "dependencies": {
-    "jquery": "https://code.jquery.com/jquery-2.2.4.min.js",
-    "bootstrap": "~3.3.1",
+    "jquery": "3.3.1",
+    "bootstrap": "3.3.1",
     "requirejs": "2.1.14",
     "dompurify": "0.7.3",
-    "bootstrap-sortable": "~1.10.0",
+    "bootstrap-sortable": "1.10.0",
     "qrcodejs": "0.1.0"
-  },
-  "resolutions": {
-    "jquery": "e-tag:W/\"573f485"
   }
 }

@@ -284,7 +284,6 @@ define(function(require, exports, module) {
         height: options && options.height,
         top: options && parseInt(current.top + (current.height - options.height) / 2),
         left: options && parseInt(current.left + (current.width - options.width) / 2),
-        focused: true,
         type: 'popup'
       }, function(popup) {
         //console.log('popup created', popup);
