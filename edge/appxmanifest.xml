@@ -7,7 +7,7 @@
 	<Identity 
 		Name="4220subutai.SubutaiE2EPlugin" 
 		Publisher="CN=603E8A0B-F784-4A5D-9D3D-1BFF078160CB" 
-		Version="4.2.0.0" />
+		Version="5.0.0.0" />
 
 	<Properties> 
 		<DisplayName>Subutai E2E Plugin</DisplayName> 

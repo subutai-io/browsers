@@ -28,7 +28,7 @@ define(function(require, exports, module) {
   function initOpenPGP() {
     openpgp.config.commentstring = 'https://subutai.io/';
     openpgp.config.versionstring = 'Subutai v' + defaults.getVersion();
-    openpgp.initWorker('dep/openpgp.worker.js');
+    openpgp.initWorker('openpgp.worker.js');
   }
 
   exports.init = init;
@@ -128,7 +128,15 @@ define(function(require, exports, module) {
   }
 
   function unlockKey(privKey, keyid, passwd, callback) {
-    return openpgp.getWorker().decryptKeyPacket(privKey, [openpgp.Keyid.fromId(keyid)], passwd);
+    return openpgp.decryptKey({privateKey: privKey, passphrase: passwd})
+    .then(result => result.key)
+    .catch(e => {
+      if (/Invalid passphrase/.test(e.message)) {
+        porto.util.throwError('Could not unlock key: wrong password', 'WRONG_PASSWORD');
+      } else {
+        porto.util.throwError('Error in openpgp.decryptKey');
+      }
+    });
   }
 
   function decryptMessage(message, keyringId, callback) {
@@ -136,7 +144,9 @@ define(function(require, exports, module) {
       var keyRing = keyring.getById(keyringId);
       var signingKeys = keyRing.getKeyByAddress([message.options.senderAddress], {validity: true});
       signingKeys = signingKeys[message.options.senderAddress] || [message.key];
-      openpgp.getWorker().decryptAndVerifyMessage(message.key, signingKeys, message.message).then(function(result) {
+
+      openpgp.decrypt({message: message.message, privateKey: message.key, publicKeys: signingKeys})
+      .then(result => {
         result.signatures = result.signatures.map(function(signature) {
           signature.keyid = signature.keyid.toHex();
           if (signature.valid !== null) {
@@ -146,7 +156,7 @@ define(function(require, exports, module) {
           return signature;
         });
         callback(null, result);
-      }, callback);
+      });
     } else {
       openpgp.getWorker().decryptMessage(message.key, message.message).then(function(result) {
         callback(null, {text: result});
@@ -176,17 +186,18 @@ define(function(require, exports, module) {
           message: 'No key found for encryption'
         });
       } else {
-        openpgp.getWorker().encryptMessage(keys, options.message)
-          .then(function(msg) {
-            resolve(msg);
-          })
-          .catch(function(e) {
-            console.log('openpgp.getWorker().encryptMessage() error', e);
-            reject({
-              type: 'error',
-              message: l10n('encrypt_error', [e])
-            });
-          });
+        openpgp.encrypt({data: options.message, publicKeys: keys})
+        .then(msg => {
+          // logEncryption(uiLogSource, keys);
+          return msg.data;
+        })
+        .catch(e => {
+          console.log('openpgp.encrypt() error', e);
+          throw {
+            code: 'ENCRYPT_ERROR',
+            message: l10n('encrypt_error', [e])
+          };
+        });
       }
     });
   }
@@ -237,23 +248,22 @@ define(function(require, exports, module) {
     }).filter(function(key) {
       return key !== null;
     });
-    try {
-      var verified = message.verify(keys);
-      signers = signers.map(function(signer) {
-        signer.valid = signer.key && verified.some(function(verifiedSig) {
-            return signer.keyid === verifiedSig.keyid.toHex() && verifiedSig.valid;
-          });
+    openpgp.verify({message, publicKeys: keys})
+    .then((signatures) => {
+      signers = signers.map(signer => {
+        signer.valid = signer.key && signatures.some(verifiedSig => signer.keyid === verifiedSig.keyid.toHex() && verifiedSig.valid);
         // remove key object
         delete signer.key;
         return signer;
       });
       callback(null, signers);
-    } catch (e) {
+    })
+    .catch(e => {
       callback({
         type: 'error',
         message: l10n('verify_error', [e])
       });
-    }
+    });
   }
 
   /**
@@ -262,7 +272,8 @@ define(function(require, exports, module) {
    * @return {Promise<String>}
    */
   function signMessage(message, signKey) {
-    return openpgp.getWorker().signClearMessage([signKey], message);
+    return openpgp.sign({data: message, privateKeys: signKey})
+    .then(msg => msg.data);
   }
 
   function createPrivateKeyBackup(primaryKey, keyPwd) {
@@ -322,7 +333,7 @@ define(function(require, exports, module) {
    * @return {Promise<Object,Error>}
    */
   function decryptSyncMessage(key, message) {
-    return openpgp.getWorker().decryptAndVerifyMessage(key, [key], message)
+    return openpgp.decrypt({message, privateKey: key, publicKeys: key})
       .then(function(msg) {
         // check signature
         var sig = msg.signatures[0];
@@ -362,25 +373,29 @@ define(function(require, exports, module) {
    * @return {Promise<Object, Error>} - the encrypted message and the own public key
    */
   function encryptSyncMessage(key, changeLog, keyringId) {
-    var syncData = {};
-    syncData.insertedKeys = {};
-    syncData.deletedKeys = {};
-    var keyRing = keyring.getById(keyringId).keyring;
-    keyRing.publicKeys.keys.forEach(function(pubKey) {
-      convertChangeLog(pubKey, changeLog, syncData);
-    });
-    keyRing.privateKeys.keys.forEach(function(privKey) {
-      convertChangeLog(privKey.toPublic(), changeLog, syncData);
-    });
-    for (var fingerprint in changeLog) {
-      if (changeLog[fingerprint].type === keyringSync.DELETE) {
-        syncData.deletedKeys[fingerprint] = {
-          time: changeLog[fingerprint].time
-        };
+    return Promise.resolve()
+    .then(() => {
+      var syncData = {};
+      syncData.insertedKeys = {};
+      syncData.deletedKeys = {};
+      var keyRing = keyring.getById(keyringId).keyring;
+      keyRing.publicKeys.keys.forEach(function(pubKey) {
+        convertChangeLog(pubKey, changeLog, syncData);
+      });
+      keyRing.privateKeys.keys.forEach(function(privKey) {
+        convertChangeLog(privKey.toPublic(), changeLog, syncData);
+      });
+      for (var fingerprint in changeLog) {
+        if (changeLog[fingerprint].type === keyringSync.DELETE) {
+          syncData.deletedKeys[fingerprint] = {
+            time: changeLog[fingerprint].time
+          };
+        }
       }
-    }
-    syncData = JSON.stringify(syncData);
-    return openpgp.getWorker().signAndEncryptMessage([key], key, syncData);
+      syncData = JSON.stringify(syncData);
+      return openpgp.encrypt({data: syncData, publicKeys: key, privateKeys: key})
+      .then(msg => msg.data);
+    });
   }
 
   function convertChangeLog(key, changeLog, syncData) {
