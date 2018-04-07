@@ -12,6 +12,7 @@ porto.main.contextTarget = null;
 porto.main.prefs = null;
 porto.util.csGetHash().then(function(hash) {
   porto.main.name = 'mainCS-' + hash;
+  $(document).ready(porto.main.connect);
 });
 porto.main.port = null;
 
@@ -26,8 +27,6 @@ porto.main.connect = function() {
   //porto.main.initContextMenu();
   document.portoControl = true;
 };
-
-$(document).ready(porto.main.connect);
 
 porto.main.init = function(prefs, watchList) {
   porto.main.prefs = prefs;

@@ -238,23 +238,6 @@ define(function(require, exports, module) {
     return result;
   }
 
-/*
-  function getKeyType(algorithm) {
-    var result;
-    switch (algorithm) {
-    case "RSA/RSA":
-      result = openpgp.enums.publicKey.rsa_encrypt_sign;
-      break;
-    case "DSA/ElGamal":
-      result = openpgp.enums.publicKey.dsa;
-      break;
-    default:
-      throw new Error('Key type not supported');
-    }
-    return result;
-  }
-*/
-
   Keyring.prototype.getKeyDetails = function(guid) {
     var details = {};
     var keys = this.keyring.getKeysForId(guid);
@@ -656,8 +639,7 @@ define(function(require, exports, module) {
     options.userIds = options.userIds.map(function(userId) {
       return (new goog.format.EmailAddress(userId.email, userId.fullName)).toString();
     });
-    var userId = options.userIds[0];
-    openpgp.generateKeyPair({numBits: parseInt(options.numBits), userId: userId, passphrase: options.passphrase}).then(function(data) {
+    openpgp.generateKey({numBits: parseInt(options.numBits), userIds: options.userIds, passphrase: options.passphrase}).then(function(data) {
       if (data) {
         that.keyring.privateKeys.push(data.key);
         that.sync.add(data.key.primaryKey.getFingerprint(), keyringSync.INSERT);

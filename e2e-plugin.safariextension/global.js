@@ -5,7 +5,7 @@ var porto = porto || null;
 requirejs.config({
   baseUrl: 'lib', paths: {
     jquery: '../common/dep/jquery.min',
-    openpgp: '../dep/openpgp',
+    openpgp: '../openpgp',
     porto: '../common/ui/porto',
     parser_rules: '../common/dep/wysihtml5/js/advanced_parser_rules',
     dompurify: '../common/dep/purify'
