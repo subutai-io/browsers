@@ -147,7 +147,7 @@ define(function(require, exports, module) {
           that.options.beforePasswordRequest();
         }
         if (that.options.openPopup) {
-          that.porto.windows.openPopup('common/ui/modal/_popup-enter-key-password.html?id=' + that.id, {width: 470, height: 327, modal: false}, function(window) {
+          that.porto.windows.openPopup('common/ui/modal/_popup-enter-key-password.html?id=' + that.id, {width: 470, height: 355, modal: false}, function(window) {
             that.pwdPopup = window;
           });
         }

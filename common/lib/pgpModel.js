@@ -262,6 +262,11 @@ define(function(require, exports, module) {
    * @return {Promise<String>}
    */
   function signMessage(message, signKey) {
+    console.log("-------------------------");
+    console.log("sign message");
+    console.log(message);
+    console.log(signKey);
+    console.log("-------------------------");
     return openpgp.getWorker().signClearMessage([signKey], message);
   }
 

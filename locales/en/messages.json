@@ -140,7 +140,7 @@
     "description": "Title of the password dialog."
   },
   "pwd_dialog_header": {
-    "message": "Enter key password",
+    "message": "The key you're using is password protected by the Subutai E2E plugin",
     "description": "Header of the password dialog."
   },
   "pwd_dialog_userid": {
