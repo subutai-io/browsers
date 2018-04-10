@@ -286,6 +286,7 @@ define(function(require, exports, module) {
         left: options && parseInt(current.left + (current.width - options.width) / 2),
         type: 'popup'
       }, function(popup) {
+        firefox57_workaround_for_blank_panel();
         //console.log('popup created', popup);
         if (options && options.modal) {
           porto.windows.modalActive = true;
@@ -313,6 +314,19 @@ define(function(require, exports, module) {
       });
     });
   };
+
+  function firefox57_workaround_for_blank_panel () {
+    function getCurrentWindow () {
+      return browser.windows.getCurrent ();
+    }
+    getCurrentWindow().then((currentWindow) => {
+      var updateInfo = {
+        width: currentWindow.width,
+        height: currentWindow.height + 1,
+      };
+      browser.windows.update(currentWindow. id, updateInfo);
+    });
+  }
 
   porto.windows.BrowserWindow = function(id) {
     this._id = id;

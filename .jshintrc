@@ -39,6 +39,7 @@
         "requirejs": false,
         "self": false,
         "chrome": false,
+        "browser": false,
         "addon": false,
         "swal2": false,
         "safari": false,
