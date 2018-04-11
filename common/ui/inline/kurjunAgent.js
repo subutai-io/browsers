@@ -12,7 +12,6 @@ var porto = porto || {};
   var $addUserBtn = $('#add_user_btn');
 
   if (isKurjun === 'Kurjun' && $addUserBtn.length !== 0) {
-    console.log('This is Subutai CDN');
     $('body').on('click', '.bp-close-modal', function() {
       swal2.closeModal();
     });
