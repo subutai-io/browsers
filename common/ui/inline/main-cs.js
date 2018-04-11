@@ -56,7 +56,7 @@ porto.main.off = function() {
 };
 
 porto.main.scanLoop = function() {
-  console.log("[  SCAN  ]");
+  // console.log("[  SCAN  ]");
   // find armored PGP text
   var pgpTag = porto.main.findPGPTag(porto.main.regex);
   if (pgpTag.length !== 0) {
