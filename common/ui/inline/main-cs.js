@@ -17,7 +17,6 @@ porto.util.csGetHash().then(function(hash) {
 porto.main.port = null;
 
 porto.main.connect = function() {
-  console.log("main-cs.js -> connect");
   if (document.portoControl) {
     return;
   }
@@ -56,7 +55,6 @@ porto.main.off = function() {
 };
 
 porto.main.scanLoop = function() {
-  // console.log("[  SCAN  ]");
   // find armored PGP text
   var pgpTag = porto.main.findPGPTag(porto.main.regex);
   if (pgpTag.length !== 0) {
@@ -65,8 +63,6 @@ porto.main.scanLoop = function() {
   // find editable content
   var editable = porto.main.findEditable();
   if (editable.length !== 0) {
-    console.log("SCAN -> found editable content");
-    console.log(editable);
     porto.main.attachEncryptFrame(editable);
   }
 };
@@ -182,8 +178,6 @@ porto.main.getMessageType = function(armored) {
 };
 
 porto.main.attachExtractFrame = function(element) {
-  console.log("main-cs.js -> attachExtractFrame");
-
   // check status of PGP tags
   var newObj = element.filter(function() {
     return !porto.ExtractFrame.isAttached($(this).parent());
@@ -218,15 +212,10 @@ porto.main.attachExtractFrame = function(element) {
  * @param  {boolean} expanded state of frame
  */
 porto.main.attachEncryptFrame = function(element, expanded) {
-  console.log("main-cs.js -> attachEncryptFrame");
-
-  console.log(element);
-  console.log(expanded);
   // check status of elements
   //TODO expanded is sometimes UNDEFINED
   var newObj = element.filter(function() {
     if (expanded) {
-      console.log("expanded");
       // filter out only attached frames
       if (element.data(porto.FRAME_STATUS) === porto.FRAME_ATTACHED) {
         // trigger expand state of attached frames
@@ -236,20 +225,15 @@ porto.main.attachEncryptFrame = function(element, expanded) {
         return true;
       }
     } else {
-      console.log("not expanded");
       // filter out attached and detached frames
       return !porto.EncryptFrame.isAttached($(this));
     }
   });
-  console.log("next");
   // create new encrypt frames for new discovered editable fields
   newObj.each(function(index, element) {
-    console.log("newObj -> each");
     new porto.EncryptFrame(porto.main.prefs).then(function(frame) {
       var eFrame = frame;
-      console.log(element);
       if ($(element).hasClass('bp-sign-target')) {
-        console.log("main-cs.js -> attachEncryptFrame -> has class bp-sign-target");
         eFrame.attachTo($(element), {
             expanded: expanded,
             su_fingerprint: getCookie('su_fingerprint'),
@@ -293,10 +277,8 @@ function getCookie(cname) {
 }
 
 porto.main.addMessageListener = function() {
-  console.log("main-cs.js -> addMessageListener");
   porto.main.port.onMessage.addListener(
     function(request) {
-      console.log('contentscript: %s onRequest: %o', document.location.toString(), request);
       if (request.event === undefined) {
         return;
       }
@@ -313,8 +295,6 @@ porto.main.addMessageListener = function() {
           break;
         case 'context-encrypt':
           if (porto.main.contextTarget !== null) {
-            console.log("main-cs.js -> addMessageListener -> context-encrypt");
-
             porto.main.attachEncryptFrame(porto.main.contextTarget, true);
             porto.main.contextTarget = null;
           }
