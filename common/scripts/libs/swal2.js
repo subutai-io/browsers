@@ -574,7 +574,6 @@
   window.swal2.init = function() {
     if (origin.indexOf(".subut.ai") !== -1 || origin.indexOf(".subutai.io") !== -1 || title.indexOf("subutai") === 0 )
     {
-      console.log("INIT SWAL");
       var sweetHTML = '<div class="' + window.swalClasses2.overlay + '" tabIndex="-1"></div><div class="' + window.swalClasses2.modal + '" style="display: none" tabIndex="-1"><div class="icon error"><span class="x-mark"><span class="line left"></span><span class="line right"></span></span></div><div class="icon warning"> <span class="body"></span> <span class="dot"></span> </div> <div class="icon info"></div> <div class="icon success"> <span class="line tip"></span> <span class="line long"></span> <div class="placeholder"></div> <div class="fix"></div> </div> <img class="sweet-image2"> <h2>Title</h2><div class="sweet-content2">Text</div><hr class="sweet-spacer2"><button class="' + window.swalClasses2.confirm + '">OK</button><button class="' + window.swalClasses2.cancel + '">Cancel</button></div>';
       var sweetWrap = document.createElement('div');
       sweetWrap.className = 'sweet-container2';
