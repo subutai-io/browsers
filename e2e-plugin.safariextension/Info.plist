@@ -26,7 +26,7 @@
 				<key>Identifier</key>
 				<string>e2e-toolbar</string>
 				<key>Image</key>
-				<string>img/icon16x16.png</string>
+				<string>icon16x16.png</string>
 				<key>Include By Default</key>
 				<true/>
 				<key>Label</key>
