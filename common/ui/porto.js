@@ -81,7 +81,6 @@ if (porto.sfx) {
     if (safari.application && safari.application.addEventListener) {
       return safari.application;
     }
-    console.log("No add/remove event listener possible at this location!");
     console.trace();
     return {
       addEventListener: function() {
@@ -121,7 +120,6 @@ if (porto.sfx) {
     if (p && p.dispatchMessage) {
       return p;
     }
-    console.log("No dispatchMessage possible at this location!");
     console.trace();
     return {
       dispatchMessage: function() {

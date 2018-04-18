@@ -24,7 +24,6 @@ var options = options || null;
   var demailSuffix = 'de-mail.de';
 
   function init() {
-    console.log("Keys js initialized...");
 
     keyTemplate = $('.b-main-table .b-main-table-body').html();
 
@@ -138,8 +137,6 @@ var options = options || null;
     parameters.confirm = $('#password-confirm').val();
 
     porto.extension.sendMessage({event: 'get-user-ids'}, function(data) {
-      console.log('User ids');
-      console.log(data);
       var usersArr = data.users;
       var exists = false;
       for (var inx in usersArr) {
@@ -249,8 +246,6 @@ var options = options || null;
 
   function populatePeerList(peers, preselect) {
     peersMetadata = [];
-    console.log('Management hosts');
-    console.log(peers);
 
     var $peersContainer = $('#key-types');
     $peersContainer.children().remove();
@@ -418,7 +413,6 @@ var options = options || null;
 
   function showKeyInfo() {
     var $keyData = $(this).parent();
-    console.log('key info clicked');
 
     swal2({
       html: $keyInfoTemplate.html(),

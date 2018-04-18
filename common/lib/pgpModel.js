@@ -54,7 +54,6 @@ define(function(require, exports, module) {
       try {
         result.message = openpgp.message.readArmored(armoredText);
       } catch (e) {
-        console.log('openpgp.message.readArmored', e);
         return reject({
           type: 'error',
           message: l10n('message_read_error', [e])
@@ -98,7 +97,6 @@ define(function(require, exports, module) {
     try {
       result.message = openpgp.cleartext.readArmored(armoredText);
     } catch (e) {
-      console.log('openpgp.cleartext.readArmored', e);
       throw {
         type: 'error',
         message: l10n('cleartext_read_error', [e])
@@ -192,7 +190,6 @@ define(function(require, exports, module) {
           return msg.data;
         })
         .catch(e => {
-          console.log('openpgp.encrypt() error', e);
           throw {
             code: 'ENCRYPT_ERROR',
             message: l10n('encrypt_error', [e])
@@ -231,7 +228,6 @@ define(function(require, exports, module) {
             resolve(msg);
           })
           .catch(function(e) {
-            console.log('openpgp.getWorker().signAndEncryptMessage() error', e);
             reject({
               type: 'error',
               code: 'ENCRYPT_ERROR',
