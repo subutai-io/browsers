@@ -111,7 +111,6 @@ var porto = porto || null;
 
   function handleAppActivation() {
     if (activeState) {
-      console.log('enabling buttons');
       $('#state').find('.glyphicon').removeClass('glyphicon-unchecked').addClass('glyphicon-check');
       $('#add').removeClass('disabled').css('pointer-events', 'auto');
       $('#subutai-reload').removeClass('disabled').css('pointer-events', 'auto');
