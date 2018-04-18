@@ -187,7 +187,7 @@ var options = options || null;
             console.error('generateKey() options.keyring(generateKey)', error);
             console.error(error);
             swal2({
-              title: "Oh, snap",
+              title: "Oh, snap!",
               text: error.message,
               type: "error",
               customClass: "b-warning",
@@ -200,7 +200,7 @@ var options = options || null;
       }
       catch (error) {
         swal2({
-          title: "Oh, snap", text: error.message, type: "error", customClass: "b-warning", timer: 1500
+          title: "Oh, snap!", text: error.message, type: "error", customClass: "b-warning", timer: 1500
         });
       }
     });

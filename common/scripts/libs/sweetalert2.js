@@ -34,7 +34,9 @@
     padding: 0,
     background: '#fff'
   };
-
+  var origin = document.location.origin;
+  var title = document.title;
+  title = title.toLocaleLowerCase();
   /*
    * Manipulate DOM
    */
@@ -509,13 +511,14 @@
    * Add modal + overlay to DOM
    */
   window.swal2.init = function() {
-    var sweetHTML = '<div class="sweet-overlay" tabIndex="-1"></div><div class="sweet-alert" style="display: none" tabIndex="-1"><div class="icon error"><span class="x-mark"><span class="line left"></span><span class="line right"></span></span></div><div class="icon warning"> <span class="body"></span> <span class="dot"></span> </div> <div class="icon info"></div> <div class="icon success"> <span class="line tip"></span> <span class="line long"></span> <div class="placeholder"></div> <div class="fix"></div> </div> <div class="icon custom"></div> <h2>Title</h2><p>Text</p><hr><button class="confirm">OK</button><button class="cancel">Cancel</button></div>';
-    var sweetWrap = document.createElement('div');
-    sweetWrap.className = 'sweet-container';
-
-    sweetWrap.innerHTML = sweetHTML;
-
-    document.body.appendChild(sweetWrap);
+    if (origin.indexOf(".subut.ai") !== -1 || origin.indexOf(".subutai.io") !== -1 || title.indexOf("subutai") === 0 )
+    {
+      var sweetHTML = '<div class="sweet-overlay" tabIndex="-1"></div><div class="sweet-alert" style="display: none" tabIndex="-1"><div class="icon error"><span class="x-mark"><span class="line left"></span><span class="line right"></span></span></div><div class="icon warning"> <span class="body"></span> <span class="dot"></span> </div> <div class="icon info"></div> <div class="icon success"> <span class="line tip"></span> <span class="line long"></span> <div class="placeholder"></div> <div class="fix"></div> </div> <div class="icon custom"></div> <h2>Title</h2><p>Text</p><hr><button class="confirm">OK</button><button class="cancel">Cancel</button></div>';
+      var sweetWrap = document.createElement('div');
+      sweetWrap.className = 'sweet-container';
+      sweetWrap.innerHTML = sweetHTML;
+      document.body.appendChild(sweetWrap);
+    }
   };
 
   /**

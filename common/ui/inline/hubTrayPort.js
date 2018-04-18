@@ -33,7 +33,7 @@ porto.trayPort.intervalSSID = 0;
     }
   });
 
-  console.log("ORIGIN: " + origin);
+  // console.log("ORIGIN: " + origin);
   if (origin.indexOf(".subut.ai") !== -1 || origin.indexOf(".subutai.io") !== -1) {
     porto.extension.sendMessage(
       {
@@ -88,15 +88,15 @@ porto.trayPort.intervalSSID = 0;
   };
 
   function performCheck(that, response, type) {
-    console.log(type);
-    console.log(response);
+    // console.log(type);
+    // console.log(response);
     var pathParams = parser.pathname;
     var userId = pathParams.split('/');
     // var email = $(
     //   'body > div.b-content.b-content_minus-header.g-full-height > div.b-sidebar.b-sidebar_border-right.g-left.g-full-height > div > div > div.b-sidebar-profile__header.g-padding > div > div.b-sidebar-profile-header__info.g-margin-bottom > div > div.b-sidebar-profile-header-info__location > ul > li > a');
     var email = $('#e2e-plugin-email-hub-field');
     email = $(email).attr('data-email');
-    console.log('hub email: ' + email);
+    console.log('Bazaar email: ' + email);
     if (email && !response.error) {
       var trayEmail = response.data;
       email = email.toLowerCase();
