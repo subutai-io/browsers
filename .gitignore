@@ -13,3 +13,4 @@ atlassian-ide-plugin.xml
 .DS_Store
 /nightly/
 *.log
+/dist
