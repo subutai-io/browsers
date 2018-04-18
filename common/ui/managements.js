@@ -16,8 +16,6 @@ var options = options || null;
   var managementList = [];
 
   function init() {
-    console.log("Keys js initialized...");
-
     managementTemplate = $('.b-main-table .b-main-table-body').html();
 
     initRebirthUI();

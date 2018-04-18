@@ -26,10 +26,6 @@ porto.EncryptFrame = function(prefs) {
 };
 
 porto.EncryptFrame.prototype.attachTo = function(element, options) {
-  console.log("encryptFrame.js - prototype.attachTo");
-  console.log("Element: %s", element);
-  console.log("Options: %s", options);
-
   $.extend(this._options, options);
   this._init(element);
   this._establishConnection();
@@ -117,7 +113,6 @@ porto.EncryptFrame.prototype._renderFrame = function(expanded) {
 };
 
 porto.EncryptFrame.prototype._normalizeButtons = function() {
-  //console.log('editor mode', this._editorMode);
   this._eFrame.find('.m-encrypt-button').hide();
   //switch (this._editorMode) {
   //  case porto.EDITOR_WEBMAIL:
@@ -384,7 +379,6 @@ porto.EncryptFrame.prototype._getEmailRecipient = function() {
       emails = emails.concat(valid);
     }
   });
-  //console.log('found emails', emails);
   return emails;
 };
 
@@ -393,13 +387,11 @@ porto.EncryptFrame.prototype._getEmailRecipient = function() {
  * @param {string} msg txt or html content
  */
 porto.EncryptFrame.prototype._setMessage = function(msg, type, fingerprint) {
-  console.log("encryptFrame -> prototype._setMessage");
   if (this._emailTextElement.is('textarea')) {
     // decode HTML entities for type text due to previous HTML parsing
     msg = porto.util.decodeHTML(msg);
     this._emailTextElement.val(msg);
     $(this._emailTextElement).text(msg);
-    // console.log(msg);
     // this._emailTextElement.removeClass('bp-set-pub-key');
 
     var signTargets = document.getElementsByClassName('bp-sign-target');
@@ -456,9 +448,7 @@ porto.EncryptFrame.prototype._resetEmailText = function() {
 
 porto.EncryptFrame.prototype._registerEventListener = function() {
   var that = this;
-  console.log(that);
   this._port.onMessage.addListener(function(msg) {
-    console.log('E-Frame | Event - [%s] ', msg.event);
     switch (msg.event) {
       case 'encrypt-dialog-cancel':
       case 'sign-dialog-cancel':

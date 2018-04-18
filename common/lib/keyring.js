@@ -182,7 +182,6 @@ define(function(require, exports, module) {
         uiKey.validity = key.verifyPrimaryKey() === openpgp.enums.keyStatus.valid;
       } catch (e) {
         uiKey.validity = false;
-        console.log('Exception in verifyPrimaryKey', e);
       }
       // fingerprint used as UID
       uiKey.guid = key.primaryKey.getFingerprint();
@@ -204,7 +203,6 @@ define(function(require, exports, module) {
         uiKey.name = uiKey.name || 'NO USERID FOUND';
         uiKey.email = uiKey.email || 'UNKNOWN';
         uiKey.exDate = uiKey.exDate || 'UNKNOWN';
-        console.log('Exception map primary user', e);
       }
       uiKey.crDate = key.primaryKey.created.toISOString();
       uiKey.algorithm = getAlgorithmString(key.primaryKey.algorithm);
@@ -499,7 +497,6 @@ define(function(require, exports, module) {
     var imported = openpgp.key.readArmored(armored);
     if (imported.err) {
       imported.err.forEach(function(error) {
-        console.log('Error on key.readArmored', error);
         result.push({
           type: 'error',
           message: l10n('key_import_public_read', [error.message])
@@ -538,7 +535,6 @@ define(function(require, exports, module) {
     var imported = openpgp.key.readArmored(armored);
     if (imported.err) {
       imported.err.forEach(function(error) {
-        console.log('Error on key.readArmored', error);
         result.push({
           type: 'error',
           message: l10n('key_import_private_read', [error.message])

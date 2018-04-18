@@ -33,7 +33,6 @@ porto.trayPort.intervalSSID = 0;
     }
   });
 
-  // console.log("ORIGIN: " + origin);
   if (origin.indexOf(".subut.ai") !== -1 || origin.indexOf(".subutai.io") !== -1) {
     porto.extension.sendMessage(
       {
@@ -88,8 +87,6 @@ porto.trayPort.intervalSSID = 0;
   };
 
   function performCheck(that, response, type) {
-    // console.log(type);
-    // console.log(response);
     var pathParams = parser.pathname;
     var userId = pathParams.split('/');
     // var email = $(
@@ -112,8 +109,6 @@ porto.trayPort.intervalSSID = 0;
         } else if (userId[3] === 'environments') {
           envName = userId[4];
         }
-        console.log('environment: ' + envName);
-
         if (type === 'ez-desktop') {
           openDesktopClient('cmd:desktop%%%' + envName + '%%%' + row.attr('data-container-id'));
         }
