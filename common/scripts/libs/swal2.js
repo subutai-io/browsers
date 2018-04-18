@@ -11,6 +11,7 @@
     cancel: 'sweet-cancel2'
   };
 
+  var origin = document.location.origin;
   var mediaqueryId = 'sweet-alert-mediaquery2';
   var alertTypes   = ['error', 'warning', 'info', 'success'];
   var defaultParams = {
@@ -568,13 +569,14 @@
    * Add modal + overlay to DOM
    */
   window.swal2.init = function() {
-    var sweetHTML = '<div class="' + window.swalClasses2.overlay + '" tabIndex="-1"></div><div class="' + window.swalClasses2.modal + '" style="display: none" tabIndex="-1"><div class="icon error"><span class="x-mark"><span class="line left"></span><span class="line right"></span></span></div><div class="icon warning"> <span class="body"></span> <span class="dot"></span> </div> <div class="icon info"></div> <div class="icon success"> <span class="line tip"></span> <span class="line long"></span> <div class="placeholder"></div> <div class="fix"></div> </div> <img class="sweet-image2"> <h2>Title</h2><div class="sweet-content2">Text</div><hr class="sweet-spacer2"><button class="' + window.swalClasses2.confirm + '">OK</button><button class="' + window.swalClasses2.cancel + '">Cancel</button></div>';
-    var sweetWrap = document.createElement('div');
-    sweetWrap.className = 'sweet-container2';
-
-    sweetWrap.innerHTML = sweetHTML;
-
-    document.body.appendChild(sweetWrap);
+    if (origin.indexOf(".subut.ai") !== -1 || origin.indexOf(".subutai.io") !== -1)
+    {
+      var sweetHTML = '<div class="' + window.swalClasses2.overlay + '" tabIndex="-1"></div><div class="' + window.swalClasses2.modal + '" style="display: none" tabIndex="-1"><div class="icon error"><span class="x-mark"><span class="line left"></span><span class="line right"></span></span></div><div class="icon warning"> <span class="body"></span> <span class="dot"></span> </div> <div class="icon info"></div> <div class="icon success"> <span class="line tip"></span> <span class="line long"></span> <div class="placeholder"></div> <div class="fix"></div> </div> <img class="sweet-image2"> <h2>Title</h2><div class="sweet-content2">Text</div><hr class="sweet-spacer2"><button class="' + window.swalClasses2.confirm + '">OK</button><button class="' + window.swalClasses2.cancel + '">Cancel</button></div>';
+      var sweetWrap = document.createElement('div');
+      sweetWrap.className = 'sweet-container2';
+      sweetWrap.innerHTML = sweetHTML;
+      document.body.appendChild(sweetWrap);
+    }
   };
 
   /**
