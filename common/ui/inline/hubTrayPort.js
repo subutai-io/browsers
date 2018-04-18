@@ -33,7 +33,7 @@ porto.trayPort.intervalSSID = 0;
     }
   });
 
-  console.log("ORIGIN: " + origin);
+  // console.log("ORIGIN: " + origin);
   if (origin.indexOf(".subut.ai") !== -1 || origin.indexOf(".subutai.io") !== -1) {
     porto.extension.sendMessage(
       {
