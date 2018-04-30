@@ -24,7 +24,6 @@ var options = options || null;
   var demailSuffix = 'de-mail.de';
 
   function init() {
-    console.log("Keys js initialized...");
 
     keyTemplate = $('.b-main-table .b-main-table-body').html();
 
@@ -138,8 +137,6 @@ var options = options || null;
     parameters.confirm = $('#password-confirm').val();
 
     porto.extension.sendMessage({event: 'get-user-ids'}, function(data) {
-      console.log('User ids');
-      console.log(data);
       var usersArr = data.users;
       var exists = false;
       for (var inx in usersArr) {
@@ -187,7 +184,7 @@ var options = options || null;
             console.error('generateKey() options.keyring(generateKey)', error);
             console.error(error);
             swal2({
-              title: "Oh snap",
+              title: "Oh, snap!",
               text: error.message,
               type: "error",
               customClass: "b-warning",
@@ -200,7 +197,7 @@ var options = options || null;
       }
       catch (error) {
         swal2({
-          title: "Oh snap", text: error.message, type: "error", customClass: "b-warning", timer: 1500
+          title: "Oh, snap!", text: error.message, type: "error", customClass: "b-warning", timer: 1500
         });
       }
     });
@@ -249,8 +246,6 @@ var options = options || null;
 
   function populatePeerList(peers, preselect) {
     peersMetadata = [];
-    console.log('Management hosts');
-    console.log(peers);
 
     var $peersContainer = $('#key-types');
     $peersContainer.children().remove();
@@ -418,7 +413,6 @@ var options = options || null;
 
   function showKeyInfo() {
     var $keyData = $(this).parent();
-    console.log('key info clicked');
 
     swal2({
       html: $keyInfoTemplate.html(),

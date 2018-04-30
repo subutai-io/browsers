@@ -42,7 +42,7 @@ var porto = porto || {};
        .fail(function(xhr, status, errorThrown) {
          swal2.enableButtons();
          swal2({
-           title: "Oh snap",
+           title: "Oh, snap!",
            text: errorThrown,
            type: "error",
            customClass: "b-warning"
@@ -84,7 +84,7 @@ var porto = porto || {};
      .fail(function(xhr, status, errorThrown) {
        swal2.enableButtons();
        swal2({
-         title: "Oh snap",
+         title: "Oh, snap!",
          text: errorThrown,
          type: "error",
          customClass: "b-warning"
