@@ -168,7 +168,7 @@ porto.trayPort.intervalSSID = 0;
           var parseError = parseStep1[1].split('==');
           if (parseError[1]) {
             swal2({
-              title: "Oh, snap! Error " + parseStep1[0],
+              title: "Oh snap! Error " + parseStep1[0],
               text: parseError[1],
               type: "error",
               customClass: "b-warning"
@@ -210,7 +210,7 @@ porto.trayPort.intervalSSID = 0;
           var parseError = parseStep1[1].split('==');
           if (parseError[1]) {
             swal2({
-              title: "Oh, snap! Error " + parseStep1[0],
+              title: "Oh snap! Error " + parseStep1[0],
               text: parseError[1],
               type: "error",
               customClass: "b-warning"
