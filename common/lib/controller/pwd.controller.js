@@ -63,16 +63,16 @@ define(function(require, exports, module) {
             that.resolve(that.options);
           })
           .catch(function(err) {
-            if (err.message == 'Wrong password') {
-              that.ports.pwdDialog.postMessage({event: 'wrong-password'});
-            } else {
-              if (that.ports.dDialog) {
-                that.ports.dDialog.postMessage({event: 'error-message', error: err.message});
-              }
-              that.closePopup();
-              that.reject(err);
+          if (err.code == 'WRONG_PASSWORD') {
+            that.ports.pwdDialog.postMessage({event: 'wrong-password'});
+          } else {
+            if (that.ports.dDialog) {
+              that.ports.dDialog.postMessage({event: 'error-message', error: err.message});
             }
-          });
+            // that.closePopup();
+            // that.reject(err);
+          }
+        });
         break;
       case 'pwd-user-input':
         uiLog.push(msg.source, msg.type);
