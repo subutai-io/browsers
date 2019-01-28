@@ -30,6 +30,9 @@ var options = options || null;
     initRebirthUI();
     $('body').on('change', '#protectkey', function() {
       $(".js-passwd-hide").toggleClass("js-passwd-show");
+      $("#password").val("");
+      $("#password-confirm").val("");
+
       console.log('toggle passwd');
     });
 
