@@ -37,6 +37,14 @@ define(function(require, exports, module) {
           port.postMessage({event: 'signing-key-userids', keys: keys, primary: primary});
         });
         break;
+      case 'gw_sign-dialog-init':
+        var goodwillData = JSON.parse(window.localStorage.getItem("goodwill"));
+        this.porto.data.load('common/ui/inline/dialogs/templates/gwSign.html').then(function(content) {
+          var port = that.ports.gwsDialog;
+          port.postMessage({event: 'gw-sign-dialog-content', data: content});
+          port.postMessage({event: 'gw-signing-data', gwdata: goodwillData});
+        });
+        break;
       case 'get-signing-keys':
         that.ports.eFrame.postMessage({event: 'filter-relevant-key', keys: keys});
         break;
@@ -124,6 +132,9 @@ define(function(require, exports, module) {
               // TODO: propagate error to sign dialog
             }
           });
+        break;
+      case 'gw-sign-dialog-ok':
+        that.ports.eFrame.postMessage({event: 'gw-signed-message', message: msg});
         break;
       case 'eframe-email-text':
         if (msg.action === 'encrypt') {

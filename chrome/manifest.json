@@ -47,6 +47,7 @@
     "common/ui/inline/framestyles.css",
     "common/ui/inline/dialogs/encryptDialog.html",
     "common/ui/inline/dialogs/signDialog.html",
+    "common/ui/inline/dialogs/gwSignDialog.html",
     "common/ui/inline/dialogs/pubkeyDialog.html",
     "common/ui/editor/editor.html",
     "common/ui/options.html",

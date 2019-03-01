@@ -80,3 +80,7 @@ popd
 #popd
 
 grunt dist-cr dist-ff --force
+
+cd dist/
+unzip e2e-plugin.chrome.zip
+cd ..

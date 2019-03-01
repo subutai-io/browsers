@@ -15,9 +15,11 @@
   "license": "ALS",
   "readmeFilename": "Readme.md",
   "dependencies": {
-    "mailreader": "~1.0.0",
     "emailjs-mime-builder": "mailvelope/emailjs-mime-builder#v1.0.1m",
-    "emailjs-mime-codec": "mailvelope/emailjs-mime-codec#v1.0.2m"
+    "emailjs-mime-codec": "mailvelope/emailjs-mime-codec#v1.0.2m",
+    "mailreader": "~1.0.0",
+    "phantomjs": "^2.1.7",
+    "phantomjs-prebuilt": "^2.1.16"
   },
   "devDependencies": {
     "grunt": "~0.4.2",

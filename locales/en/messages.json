@@ -199,6 +199,10 @@
     "message": "Sign message with key:",
     "description": "Header of sign dialog."
   },
+  "sign_gw_dialog_header": {
+    "message": "Sign message with GW private key:",
+    "description": "Header of sign dialog."
+  },
   "options_home": {
     "message": "Options",
     "description": "Options navigation: Home."
