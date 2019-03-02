@@ -527,8 +527,15 @@ porto.EncryptFrame.prototype._registerEventListener = function() {
       case 'gw-signed-message':
        $('#gw-signed-message')
           .removeClass('gw-sign-message')
-          .addClass('signed-message').val(msg.message.data);
+          .addClass('signed-message').val(msg.message.data).hide();
         that._removeDialog();
+
+        $("#success").show();
+        $(".sa-success").addClass("hide");
+        setTimeout(function() {
+          $(".sa-success").removeClass("hide");
+        }, 10);
+
         break;
       case 'set-editor-output':
         that._saveEmailText();

@@ -45,8 +45,7 @@ var porto = porto || null;
   function onOk() {
     // $('body').addClass('busy');
     // $('#okBtn').button('loading');
-
-    console.log("OK!");
+    $("#incorrectPassword").hide();
     var keyName = $('#gwKeySelect').val();
     var keyPwd = $('#password').val();
     var prKey = "";
@@ -55,7 +54,7 @@ var porto = porto || null;
     var wrongPwd = true;
     goodwillData.forEach(function(item) {
       if(item.name === keyName){
-        if(item.password === keyPwd){
+        if(isPasswordCorrect(item.password, keyPwd)){
           wrongPwd = false;
           prKey = item['private-key'];
         }
@@ -63,19 +62,16 @@ var porto = porto || null;
     });
 
     if(wrongPwd === true){
-      console.log('wrong password');
+
+      $("#incorrectPassword").show();
+
     }else {
       var provider = new Web3.providers.HttpProvider('http://127.0.0.1:8545');
       var web3 = new Web3(provider);
-      var message = web3.eth.accounts.sign("Hello", prKey);
+      var message = web3.eth.accounts.sign("Hello", decryptPrivateKey(prKey, keyPwd));
 
       // set-editor-output
       port.postMessage({event: 'gw-sign-dialog-ok', sender: name, data: JSON.stringify ({signature: message.signature, messageHash: message.messageHash})});
-
-      // window.parent.$('#gw-signed-message')
-      //   .removeClass('gw-sign-message')
-      //   .addClass('signed-message')
-      //   .val(JSON.stringify ({signature: message.signature, messageHash: message.messageHash}) );
 
       onCancel();
     }
@@ -102,6 +98,27 @@ var porto = porto || null;
     });
   }
 
+  function isPasswordCorrect( storedPassword, typedPassword ){
+
+    try {
+      var decPwd = decryptPassword(storedPassword, typedPassword);
+      return decPwd === typedPassword;
+    }
+    catch(err) {
+      return false;
+    }
+  }
+
+  function decryptPassword( encryptedPassword, plainPassword )
+  {
+    return CryptoJS.AES.decrypt(encryptedPassword, plainPassword).toString(CryptoJS.enc.Utf8);
+  }
+
+  function decryptPrivateKey( privateKey, addressPassword) {
+    return CryptoJS.AES.decrypt(privateKey, addressPassword).toString(CryptoJS.enc.Utf8);
+  }
+
+
   function messageListener(msg) {
     switch (msg.event) {
       case 'gw-sign-dialog-content':
@@ -111,6 +128,7 @@ var porto = porto || null;
         console.log(msg);
         break;
       case 'gw-signing-data':
+        console.log(msg.gwdata);
         var keySelect = $('#gwKeySelect');
         msg.gwdata.forEach(function(item) {
           keySelect.append(new Option(item.name.toLowerCase(), item.name.toLowerCase()));

@@ -100,7 +100,6 @@ var options = options || null;
   }
 
   function generateKeyModal() {
-    console.log('generate key modal');
     swal2({
       html: $generateKeyTemplate.html(),
       showCancelButton: false,
@@ -626,7 +625,6 @@ var options = options || null;
   }
 
   function showImportKeyModal() {
-    console.log('key import dialog opened');
     swal2({
       html: $keyImportTemplate.html(),
       showCancelButton: false,

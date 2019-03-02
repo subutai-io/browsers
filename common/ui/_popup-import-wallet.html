@@ -1,7 +1,7 @@
 <div class="b-popup" id="js-popup-settings">
   <div class="b-popup__header">
     <div class="b-title">
-      Generate wallet
+      Import wallet
       <a href="#" class="bp-close-modal-button g-right">
         <i class="fa fa-times"></i>
       </a>
@@ -11,8 +11,8 @@
     <div class="b-form">
       <!--<span id="error-msg" style="display: none" class="b-form-hint b-form-hint_red">Email already exists.</span>-->
       <!--<div class="b-form-wrapper g-margin-bottom" style="display: none">-->
-        <!--<label for="name" class="b-form-label g-margin-right">Enter key name</label>-->
-        <!--<input id="name" type="text" class="b-form-input g-right" placeholder="Name">-->
+      <!--<label for="name" class="b-form-label g-margin-right">Enter key name</label>-->
+      <!--<input id="name" type="text" class="b-form-input g-right" placeholder="Name">-->
       <!--</div>-->
       <div class="b-form-wrapper g-margin-bottom">
         <label for="address-name" class="b-form-label g-margin-right">Enter address name</label>
@@ -20,6 +20,11 @@
                tabindex="2">
       </div>
 
+      <div class="b-form-wrapper g-margin-bottom">
+        <label for="address-key" class="b-form-label g-margin-right">Enter private key</label>
+        <input id="address-key" type="text" class="b-form-input g-right" placeholder="Enter private key"
+               tabindex="2">
+      </div>
 
       <div class="b-form-wrapper g-margin-bottom">
         <label for="address-pwd" class="b-form-label g-margin-right">Enter password</label>
@@ -27,7 +32,7 @@
                tabindex="2">
       </div>
     </div>
-    <button class="b-btn b-btn_green confirm g-right" tabindex="1">Generate</button>
+    <button class="b-btn b-btn_green confirm g-right" tabindex="1">Import</button>
     <div class="clear"></div>
   </div>
 </div>
