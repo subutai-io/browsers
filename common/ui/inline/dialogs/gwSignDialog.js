@@ -66,8 +66,7 @@ var porto = porto || null;
       $("#incorrectPassword").show();
 
     }else {
-      var provider = new Web3.providers.HttpProvider('http://127.0.0.1:8545');
-      var web3 = new Web3(provider);
+      var web3 = new Web3();
       var message = web3.eth.accounts.sign("Hello", decryptPrivateKey(prKey, keyPwd));
 
       // set-editor-output

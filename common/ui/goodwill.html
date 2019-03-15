@@ -88,28 +88,16 @@
   <div class="b-workspace">
     <div class="b-workspace__header">
       <div class="g-right">
-        <button class="b-btn b-btn_blue bp-import-gw-key-modal js-cbox-modal g-margin-right-half"><i class="fa fa-arrow-down"></i> Import</button>
         <button class="b-btn b-btn_green bp-generate-wallet-modal"><i class="fa fa-plus "></i> Generate</button>
+        <button class="b-btn b-btn_blue  export-gw-keys-modal js-cbox-modal g-margin-left-half"><i class="fa fa-arrow-up"></i> Export</button>
+        <button class="b-btn b-btn_blue  bp-import-gw-key-modal js-cbox-modal g-margin-left-half"><i class="fa fa-arrow-down"></i> Import</button>
+        <button class="b-btn b-btn_red   delete-gw-keys-modal js-cbox-modal g-margin-left-half"><i class="fa fa-close"></i> Delete  </button>
       </div>
       <h1 class="b-title">GoodWill</h1>
     </div>
 
     <div class="b-workspace__content">
       <div class="b-workspace-content g-padding-0">
-        <div class="g-margin-bottom">
-          <div class="b-form">
-            <button class="b-btn b-btn_blue b-btn b-btn_blue g-right export-gw-keys-modal js-cbox-modal ">
-              <i class="fa fa-arrow-up"></i> Export
-            </button>
-            &nbsp;&nbsp;
-            <button class="b-btn b-btn_red b-btn b-btn_red g-right delete-gw-keys-modal js-cbox-modal ">
-              <i class="fa fa-arrow-up"></i> Delete
-            </button>
-            <select id="key-types" class="b-form-input b-form-input_dropdown" style="width: auto">
-            </select>
-          </div>
-        </div>
-
         <div class="b-main-table-border">
           <table class="b-main-table" id="goodwill-addresses">
             <thead>

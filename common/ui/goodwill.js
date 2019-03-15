@@ -61,7 +61,6 @@ var options = options || null;
   }
 
   function showImportGwKeyModal() {
-    console.log('import wallet modal');
     swal2({
       html: $keyImportTemplate.html(),
       showCancelButton: false,
@@ -74,13 +73,14 @@ var options = options || null;
       if (isConfirm) {
 
         var addressName = $('#address-name').val();
-        var privateKey = $('#address-key').val();
-        var addressPassword = $('#address-pwd').val();
-
-        var provider = new Web3.providers.HttpProvider('http://127.0.0.1:8545');
-        var web3 = new Web3(provider);
-
-        var data = web3.eth.accounts.privateKeyToAccount(privateKey);
+        $('#incorrectName').hide();
+        if(hasKeyByName(addressName)) {
+          $('#incorrectName').show();
+        }else {
+          var privateKey = $('#address-key').val();
+          var addressPassword = $('#address-pwd').val();
+          var web3 = new Web3();
+          var data = web3.eth.accounts.privateKeyToAccount(privateKey);
 
           var goodWillData = {
             "name": addressName,
@@ -97,9 +97,9 @@ var options = options || null;
           goodWillAddresses.push(goodWillData);
           window.localStorage.setItem('goodwill', JSON.stringify(goodWillAddresses));
 
-
-        triggerImport();
-        loadKeys();
+          triggerImport();
+          loadKeys();
+        }
       }
     });
 
@@ -148,6 +148,20 @@ var options = options || null;
     }
   }
 
+
+  function  hasKeyByName( keyName) {
+    var goodWillAddresses = JSON.parse(window.localStorage.getItem("goodwill"));
+    for (var i in goodWillAddresses)
+    {
+      if (goodWillAddresses[i].name === keyName)
+      {
+        return true;
+      }
+    }
+
+    return false;
+  }
+
   function showDeleteGwKeyModal() {
 
     swal2({
@@ -170,23 +184,23 @@ var options = options || null;
           if (goodwillData[i].name === keyName)
           {
             if(isPasswordCorrect(goodwillData[i].password, typedPwd)){
+              var goodWillAddressesNew = [];
+              for (var i in goodWillAddresses)
+              {
+                if (goodwillData[i].name !== keyName){
+                  goodWillAddressesNew.push(goodwillData[i]);
+                }
+              }
 
+              window.localStorage.setItem('goodwill', JSON.stringify(goodWillAddressesNew));
+              loadKeys();
+              triggerDelete();
             }else {
               $('#incorrectPassword').show();
             }
           }
         }
-        var goodWillAddressesNew = [];
-        for (var i in goodWillAddresses)
-        {
-          if (goodwillData[i].name !== keyName){
-            goodWillAddressesNew.push(goodwillData[i]);
-          }
-        }
 
-        window.localStorage.setItem('goodwill', JSON.stringify(goodWillAddressesNew));
-        loadKeys();
-        triggerDelete();
       }
     });
 
@@ -237,35 +251,43 @@ var options = options || null;
       animation: false,
       buttonsStyling: false
     }, function(isConfirm) {
+
+      $('#incorrectName').hide();
       if (isConfirm) {
         var addressName = $('#address-name').val();
-        var addressPassword = $('#address-pwd').val();
-        generateAddress(addressPassword).then(function (data) {
-          var goodWillData = {
-            "name": addressName,
-            "address": data.address.toLowerCase(),
-            "private-key": encryptPrivateKey(data.privateKey.toLowerCase(), addressPassword),
-            "password": encryptPassword(addressPassword)
-          };
-          var goodWillAddresses = JSON.parse(window.localStorage.getItem("goodwill"));
 
-          if(goodWillAddresses === null || goodWillAddresses === undefined) {
-            goodWillAddresses = [];
-          }
+        if(hasKeyByName(addressName)){
+          $('#incorrectName').show();
+        }else {
+          var addressPassword = $('#address-pwd').val();
+          generateAddress(addressPassword).then(function (data) {
+            var goodWillData = {
+              "name": addressName,
+              "address": data.address.toLowerCase(),
+              "private-key": encryptPrivateKey(data.privateKey.toLowerCase(), addressPassword),
+              "password": encryptPassword(addressPassword)
+            };
+            var goodWillAddresses = JSON.parse(window.localStorage.getItem("goodwill"));
 
-          goodWillAddresses.push(goodWillData);
-          window.localStorage.setItem('goodwill', JSON.stringify(goodWillAddresses));
-          loadKeys();
-        });
-        triggerGenerate();
+            if(goodWillAddresses === null || goodWillAddresses === undefined) {
+              goodWillAddresses = [];
+            }
+
+            goodWillAddresses.push(goodWillData);
+            window.localStorage.setItem('goodwill', JSON.stringify(goodWillAddresses));
+            loadKeys();
+          });
+          triggerGenerate();
+        }
+
+
       }
     });
   }
 
   function generateAddress(password) {
     return new Promise(function (resolve, reject) {
-      var provider = new Web3.providers.HttpProvider('http://127.0.0.1:8545');
-      var web3 = new Web3(provider);
+      var web3 = new Web3();
       resolve(web3.eth.accounts.create(password));
     });
   }
