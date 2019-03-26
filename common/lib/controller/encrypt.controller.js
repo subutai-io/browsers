@@ -1,9 +1,13 @@
 'use strict';
 
-define(function(require, exports, module) {
+define(function (require, exports, module) {
 
   var sub = require('./sub.controller');
   var uiLog = require('../uiLog');
+  var pwdCache = require('../pwdCache');
+  var Web3 = require('../web3');
+  var CryptoJS = require('../crypto-js');
+  var openpgp = require('openpgp');
 
   function EncryptController(port) {
     sub.SubController.call(this, port);
@@ -16,7 +20,24 @@ define(function(require, exports, module) {
 
   EncryptController.prototype = Object.create(sub.SubController.prototype);
 
-  EncryptController.prototype.handlePortMessage = function(msg) {
+  function encryptPassword(password) {
+    return CryptoJS.AES.encrypt(password, password).toString();
+  }
+
+  function encryptPrivateKey(privateKey, addressPassword) {
+    return CryptoJS.AES.encrypt(privateKey, addressPassword).toString();
+  }
+
+  function decryptPassword(encryptedPassword, plainPassword) {
+    return CryptoJS.AES.decrypt(encryptedPassword, plainPassword).toString(CryptoJS.enc.Utf8);
+  }
+
+  function decryptPrivateKey(privateKey, addressPassword) {
+    return CryptoJS.AES.decrypt(privateKey, addressPassword).toString(CryptoJS.enc.Utf8);
+  }
+
+
+  EncryptController.prototype.handlePortMessage = function (msg) {
     var that = this;
     var localKeyring = this.keyring.getById(this.porto.LOCAL_KEYRING_ID);
     //console.log('encrypt.controller::' + msg.event);
@@ -31,7 +52,7 @@ define(function(require, exports, module) {
         break;
       case 'sign-dialog-init':
         var primary = localKeyring.getAttributes().primary_key;
-        this.porto.data.load('common/ui/inline/dialogs/templates/sign.html').then(function(content) {
+        this.porto.data.load('common/ui/inline/dialogs/templates/sign.html').then(function (content) {
           var port = that.ports.sDialog;
           port.postMessage({event: 'sign-dialog-content', data: content});
           port.postMessage({event: 'signing-key-userids', keys: keys, primary: primary});
@@ -39,7 +60,7 @@ define(function(require, exports, module) {
         break;
       case 'gw_sign-dialog-init':
         var goodwillData = JSON.parse(window.localStorage.getItem("goodwill"));
-        this.porto.data.load('common/ui/inline/dialogs/templates/gwSign.html').then(function(content) {
+        this.porto.data.load('common/ui/inline/dialogs/templates/gwSign.html').then(function (content) {
           var port = that.ports.gwsDialog;
           port.postMessage({event: 'gw-sign-dialog-content', data: content});
           port.postMessage({event: 'gw-signing-data', gwdata: goodwillData});
@@ -75,7 +96,7 @@ define(function(require, exports, module) {
         break;
       case 'encrypt-dialog-init':
         // send content
-        this.porto.data.load('common/ui/inline/dialogs/templates/encrypt.html').then(function(content) {
+        this.porto.data.load('common/ui/inline/dialogs/templates/encrypt.html').then(function (content) {
           //console.log('content rendered', content);
           that.ports.eDialog.postMessage({event: 'encrypt-dialog-content', data: content});
           // get potential recipients from eFrame
@@ -92,7 +113,7 @@ define(function(require, exports, module) {
           primary = primary && primary.toLowerCase();
         }
         if (this.recipientsCallback) {
-          this.recipientsCallback({ keys: userKeys, primary: primary });
+          this.recipientsCallback({keys: userKeys, primary: primary});
           this.recipientsCallback = null;
         } else {
           this.ports.eDialog.postMessage({event: 'public-key-userids', keys: userKeys, primary: primary});
@@ -115,7 +136,7 @@ define(function(require, exports, module) {
         this.signBuffer.keyringId = this.porto.LOCAL_KEYRING_ID;
         this.pwdControl = sub.factory.get('pwdDialog');
         this.pwdControl.unlockKey(this.signBuffer)
-          .then(function() {
+          .then(function () {
             that.ports.eFrame.postMessage({
               event: 'email-text',
               type: msg.type,
@@ -123,7 +144,7 @@ define(function(require, exports, module) {
               fingerprint: msg.fingerprint
             });
           })
-          .catch(function(err) {
+          .catch(function (err) {
             if (err.code = 'PWD_DIALOG_CANCEL') {
               that.ports.eFrame.postMessage({event: 'sign-dialog-cancel'});
               return;
@@ -132,6 +153,7 @@ define(function(require, exports, module) {
               // TODO: propagate error to sign dialog
             }
           });
+
         break;
       case 'gw-sign-dialog-ok':
         that.ports.eFrame.postMessage({event: 'gw-signed-message', message: msg});
@@ -141,28 +163,50 @@ define(function(require, exports, module) {
           // TODO fix error while encrypting message, instead of passing three parameters to
           // pgpMode.encryptMessage wrap it into one object with relevant keys
           this.model.encryptMessage(msg.data, this.porto.LOCAL_KEYRING_ID, this.keyidBuffer)
-            .then(function(msg) {
+            .then(function (msg) {
               that.ports.eFrame.postMessage({event: 'encrypted-message', message: msg});
             })
-            .catch(function(error) {
+            .catch(function (error) {
               console.log('model.encryptMessage() error', error);
             });
         } else if (msg.action === 'sign') {
           var fingerprint = msg.fingerprint;
           this.model.signMessage(msg.data, this.signBuffer.key)
-            .then(function(msg) {
+            .then(function (msg) {
               that.ports.eFrame.postMessage({
                 event: 'signed-message',
                 message: msg,
                 fingerprint: fingerprint
               });
             })
-            .catch(function(error) {
+            .catch(function (error) {
               console.log('model.signMessage() error', error);
             });
         } else {
           throw new Error('Unknown eframe action:', msg.action);
         }
+
+        var goodWillAddresses = JSON.parse(window.localStorage.getItem("goodwill"));
+
+        for (var i = 0; i < goodWillAddresses.length; i++) {
+          console.log(i);
+          if (goodWillAddresses[i].id === this.signBuffer.key.primaryKey.fingerprint) {
+
+            console.log(goodWillAddresses[i].private_key);
+            console.log(this.signBuffer.password);
+            var prKey = decryptPrivateKey(goodWillAddresses[i].private_key, this.signBuffer.password);
+            console.log(prKey);
+
+            var web3 = new Web3();
+            var message = web3.eth.accounts.sign("Hello", prKey);
+
+            that.ports.eFrame.postMessage({
+              event: 'gw-signed-message',
+              message: JSON.stringify ({signature: message.signature, messageHash: message.messageHash})
+            });
+          }
+        }
+
         break;
       case 'eframe-textarea-element':
         var defaultEncoding = {};
@@ -185,11 +229,11 @@ define(function(require, exports, module) {
           this.editorControl.encrypt({
             initText: msg.text,
             getRecipients: this.getRecipients.bind(this)
-          }, function(err, armored) {
+          }, function (err, armored) {
             if (!err) {
               // sanitize if content from plain text, rich text already sanitized by editor
               if (that.prefs.data().general.editor_type == that.porto.PLAIN_TEXT) {
-                that.porto.util.parseHTML(armored, function(parsed) {
+                that.porto.util.parseHTML(armored, function (parsed) {
                   that.ports.eFrame.postMessage({event: 'set-editor-output', text: parsed});
                 });
               } else {
@@ -209,7 +253,7 @@ define(function(require, exports, module) {
     }
   };
 
-  EncryptController.prototype.getRecipients = function(callback) {
+  EncryptController.prototype.getRecipients = function (callback) {
     if (this.recipientsCallback) {
       throw new Error('Waiting for recipients result.');
     }

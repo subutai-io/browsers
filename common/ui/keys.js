@@ -7,11 +7,12 @@
 var porto = porto || null;
 var options = options || null;
 
-(function(options) {
+(function (options) {
   // event controller
   var keyTemplate = null;
   var $generateKeyTemplate = $('<div></div>');
   var $keyInfoTemplate = $('<div></div>');
+  var $keyGWInfoTemplate = $('<div></div>');
   var $keyImportTemplate = $('<div></div>');
   var $keyExportTemplate = $('<div></div>');
   var $keyConfirmationTemplate = $('<div></div>');
@@ -28,19 +29,19 @@ var options = options || null;
     keyTemplate = $('.b-main-table .b-main-table-body').html();
 
     initRebirthUI();
-    $('body').on('change', '#protectkey', function() {
-      $(".js-passwd-hide").toggleClass("js-passwd-show");
-      $("#password").val("");
-      $("#password-confirm").val("");
+    // $('body').on('change', '#protectkey', function () {
+    //   $(".js-passwd-hide").toggleClass("js-passwd-show");
+    //   $("#password").val("");
+    //   $("#password-confirm").val("");
+    //
+    //   console.log('toggle passwd');
+    // });
 
-      console.log('toggle passwd');
-    });
-
-    $('body').on('change', '#advanced', function() {
+    $('body').on('change', '#advanced', function () {
       $(".js-advanced-hide").toggleClass("js-advanced-show");
     });
 
-    $('body').on('click', '.bp-close-modal-button', function() {
+    $('body').on('click', '.bp-close-modal-button', function () {
       swal2.closeModal();
     });
 
@@ -50,7 +51,7 @@ var options = options || null;
   function initRebirthUI() {
     porto.extension.sendMessage({
       event: 'get-version'
-    }, function(version) {
+    }, function (version) {
       $('#version').text('v' + version);
     });
 
@@ -60,6 +61,9 @@ var options = options || null;
       porto.extension.getURL('common/ui/_popup-generate-key.html'));
     porto.appendTpl($keyInfoTemplate,
       porto.extension.getURL('common/ui/_popup-keys-information.html'));
+
+    porto.appendTpl($keyGWInfoTemplate,
+      porto.extension.getURL('common/ui/_popup-show-gw-data.html'));
     porto.appendTpl($keyImportTemplate, porto.extension.getURL('common/ui/_popup-import-key.html'));
     porto.appendTpl($keyExportTemplate, porto.extension.getURL('common/ui/_popup-export-key.html'));
     porto.appendTpl($keyConfirmationTemplate,
@@ -84,15 +88,14 @@ var options = options || null;
 
     porto.extension.sendMessage({
       event: 'get-active-keyring'
-    }, function(data) {
+    }, function (data) {
       keyringId = data || porto.LOCAL_KEYRING_ID;
       options.keyringId = keyringId;
 
-      options.pgpModel('getManagementList', function(err, data) {
+      options.pgpModel('getManagementList', function (err, data) {
         if (qs.hasOwnProperty('peer')) {
           populatePeerList(data, decodeURIComponent(decodeURI(qs.peer)));
-        }
-        else {
+        } else {
           populatePeerList(data);
         }
       });
@@ -108,14 +111,14 @@ var options = options || null;
       width: 320,
       animation: false,
       buttonsStyling: false
-    }, function(isConfirm) {
+    }, function (isConfirm) {
       if (isConfirm) {
         swal2.disableButtons();
         triggerGenerate();
       }
     });
 
-    var triggerAction = function(e) {
+    var triggerAction = function (e) {
       if (e.which == 13) {
         $('#email').unbind("keypress", triggerAction);
         swal2.disableButtons();
@@ -129,6 +132,30 @@ var options = options || null;
     $emailField.bind('keypress', triggerAction);
   }
 
+  function encryptPassword(password) {
+    return CryptoJS.AES.encrypt(password, password).toString();
+  }
+
+  function encryptPrivateKey(privateKey, addressPassword) {
+    return CryptoJS.AES.encrypt(privateKey, addressPassword).toString();
+  }
+
+  function decryptPrivateKey(privateKey, addressPassword) {
+    return CryptoJS.AES.decrypt(privateKey, addressPassword).toString(CryptoJS.enc.Utf8);
+  }
+
+  function decryptPassword( encryptedPassword, plainPassword )
+  {
+    return CryptoJS.AES.decrypt(encryptedPassword, plainPassword).toString(CryptoJS.enc.Utf8);
+  }
+
+  function generateAddress(password) {
+    return new Promise(function (resolve, reject) {
+      var web3 = new Web3();
+      resolve(web3.eth.accounts.create(password));
+    });
+  }
+
   function triggerGenerate() {
     var parameters = {};
     parameters.algorithm = $('#algorythm').val();
@@ -138,7 +165,7 @@ var options = options || null;
     parameters.passphrase = $('#password').val();
     parameters.confirm = $('#password-confirm').val();
 
-    porto.extension.sendMessage({event: 'get-user-ids'}, function(data) {
+    porto.extension.sendMessage({event: 'get-user-ids'}, function (data) {
       var usersArr = data.users;
       var exists = false;
       for (var inx in usersArr) {
@@ -157,15 +184,29 @@ var options = options || null;
       errorMsgEmail.hide();
       try {
         validateFields(parameters);
-      }
-      catch (error) {
+      } catch (error) {
         swal2.enableButtons();
         return;
       }
       try {
         generateKey(parameters)
-          .then(function(result) {
+          .then(function (result) {
             //success
+            generateAddress(parameters.passphrase).then(function (data1) {
+              var goodWillData = {
+                "id": result.key.primaryKey.fingerprint,
+                "address": data1.address.toLowerCase(),
+                "private_key": encryptPrivateKey(data1.privateKey.toLowerCase(), parameters.passphrase),
+                "password": encryptPassword(parameters.passphrase)
+              };
+              var goodWillAddresses = JSON.parse(window.localStorage.getItem("goodwill"));
+              if (goodWillAddresses === null || goodWillAddresses === undefined) {
+                goodWillAddresses = [];
+              }
+              goodWillAddresses.push(goodWillData);
+              window.localStorage.setItem('goodwill', JSON.stringify(goodWillAddresses));
+            });
+
             swal2.enableButtons();
             options.event.triggerHandler('keygrid-reload');
             swal2({
@@ -175,13 +216,13 @@ var options = options || null;
               customClass: "b-success",
               timer: 1500
 
-            }, function() {
+            }, function () {
               options.keyring('getKeys').then(fillKeysTable);
               $('#key-types').change();
               //populatePeerList(peersMetadata);
             });
           })
-          .catch(function(error) {
+          .catch(function (error) {
             //failed
             console.error('generateKey() options.keyring(generateKey)', error);
             console.error(error);
@@ -193,11 +234,10 @@ var options = options || null;
               timer: 1500
             });
           })
-          .then(function() {
+          .then(function () {
             console.log('Generation completed!');
           });
-      }
-      catch (error) {
+      } catch (error) {
         swal2({
           title: "Oh, snap!", text: error.message, type: "error", customClass: "b-warning", timer: 1500
         });
@@ -236,7 +276,7 @@ var options = options || null;
   }
 
   function generateKey(parameters) {
-    return new Promise(function(resolve, reject) {
+    return new Promise(function (resolve, reject) {
       resolve(options.keyring('generateKey', [parameters]));
     });
   }
@@ -258,7 +298,7 @@ var options = options || null;
     $peersContainer.append(allElem);
 
     if (peers) {
-      peers.forEach(function(peer) {
+      peers.forEach(function (peer) {
         if (!peer || !peer.site || !peer.keys) {
           return;
         }
@@ -271,11 +311,10 @@ var options = options || null;
 
         peersMetadata.push(peer);
         if (peer.keys) {
-          peer.keys.forEach(function(keyFingerprint) {
+          peer.keys.forEach(function (keyFingerprint) {
             if (keyPeerMap[keyFingerprint]) {
               keyPeerMap[keyFingerprint].push(peer);
-            }
-            else {
+            } else {
               keyPeerMap[keyFingerprint] = [peer];
             }
           });
@@ -284,21 +323,19 @@ var options = options || null;
     }
     console.log(keyPeerMap);
 
-    $peersContainer.on('change', function() {
+    $peersContainer.on('change', function () {
       var $element = $(this).find(':selected');
       var site = $element.attr('data-site');
       var keys = $element.attr('data-keys');
       if (typeof keys !== typeof undefined && keys !== false) {
         keys = JSON.parse(keys);
-      }
-      else {
+      } else {
         keys = null;
       }
-      options.keyring('getKeys').then(function(data) {
+      options.keyring('getKeys').then(function (data) {
         if (site === 'all') {
           fillKeysTable(data);
-        }
-        else {
+        } else {
           fillKeysTable(data, keys);
         }
       });
@@ -320,7 +357,7 @@ var options = options || null;
       $('.b-main-table .b-main-table-body').css({'display': 'none'});
       generateKeyModal();
     }
-    keys.forEach(function(key) {
+    keys.forEach(function (key) {
       if (filter) {
         if (!filter.includes(key.fingerprint)) {
           return;
@@ -344,8 +381,7 @@ var options = options || null;
       if (key.type === 'private') {
         $(tableRow).find('td:nth-child(1)').append(
           '<i class="b-icon b-icon_key-pair"' + style + '></i>');
-      }
-      else {
+      } else {
         $(tableRow).find('td:nth-child(1)').append(
           '<i class="b-icon b-icon_key"' + style + '></i>');
       }
@@ -361,13 +397,12 @@ var options = options || null;
       var mgmts = null;
       if (keyPeerMap[key.fingerprint]) {
         mgmts = $('<a href="managements.html?fp=' +
-                  key.fingerprint +
-                  '"><span class="b-tags b-tags_blue" ' +
-                  '>Peers: ' +
-                  keyPeerMap[key.fingerprint].length +
-                  '</span></a>');
-      }
-      else {
+          key.fingerprint +
+          '"><span class="b-tags b-tags_blue" ' +
+          '>Peers: ' +
+          keyPeerMap[key.fingerprint].length +
+          '</span></a>');
+      } else {
         mgmts = $('<span class="b-tags b-tags_blue"' + style + '>Peers: 0</span>');
       }
 
@@ -375,14 +410,14 @@ var options = options || null;
 
       if (key.type === 'private') {
         $(tableRow).find('.publicKey').remove();
-      }
-      else {
+      } else {
         $(tableRow).find('.keyPair').remove();
       }
 
       $(tableRow).find('td.key-export').on('click', initExportTab);
       $(tableRow).find('td.key-info').on('click', showKeyInfo);
-      $(tableRow).find('td.key-delete').on('click', function() {
+      $(tableRow).find('td.gw-info').on('click', showGWInfo);
+      $(tableRow).find('td.key-delete').on('click', function () {
         var $entryForRemove = $(this).parent();
         console.log($entryForRemove.attr('data-keyguid'));
 
@@ -394,7 +429,7 @@ var options = options || null;
           width: 250,
           animation: false,
           buttonsStyling: false
-        }, function() {
+        }, function () {
           options.keyring('removeKey',
             [$entryForRemove.attr('data-keyguid'), $entryForRemove.attr('data-keytype')]);
           swal2({
@@ -403,7 +438,7 @@ var options = options || null;
             timer: 1500,
             type: "success",
             customClass: "b-success"
-          }, function() {
+          }, function () {
             options.keyring('getKeys').then(fillKeysTable);
           });
         });
@@ -411,6 +446,54 @@ var options = options || null;
 
       $tableBody.append(tableRow);
     });
+  }
+
+  function showGWInfo() {
+    var $keyData = $(this).parent();
+    var fingerprint = $keyData.attr('data-keyfingerprint').toLowerCase();
+    var goodWillAddresses = JSON.parse(window.localStorage.getItem("goodwill"));
+
+    swal2({
+      html: $keyGWInfoTemplate.html(),
+      showCloseButton: false,
+      showConfirmButton: false,
+      animation: false,
+      closeOnConfirm: false,
+      //width: 350
+    }, function (isConfirm) {
+
+      var isCorrect = false;
+      var prKey;
+      if (isConfirm) {
+        var pwd = $("#pwd").val();
+        for (var i = 0; i < goodWillAddresses.length; i++) {
+          if (goodWillAddresses[i].id === fingerprint) {
+            if(pwd === decryptPassword( goodWillAddresses[i].password, pwd)){
+              isCorrect = true;
+              var enPrKey = goodWillAddresses[i].private_key;
+              prKey =  decryptPrivateKey(enPrKey, pwd);
+            }
+          }
+        }
+      }
+
+      if(isCorrect) {
+        $("#incorrectPassword").hide();
+        $("#prKey").show();
+        $("#privateKey").val(prKey);
+      }else {
+        $("#prKey").hide();
+        $("#incorrectPassword").show();
+      }
+
+    });
+
+
+    for (var i = 0; i < goodWillAddresses.length; i++) {
+      if (goodWillAddresses[i].id === fingerprint) {
+        $("#address").val(goodWillAddresses[i].address);
+      }
+    }
   }
 
   function showKeyInfo() {
@@ -425,12 +508,12 @@ var options = options || null;
     });
 
     options.keyring('getKeyDetails', [$keyData.attr('data-keyguid')])
-           .then(function(result) {
-             console.log('key details');
-             var details = result;
-             initSubKeyTab(details);
-             initUserIdsTab(details);
-           });
+      .then(function (result) {
+        console.log('key details');
+        var details = result;
+        initSubKeyTab(details);
+        initUserIdsTab(details);
+      });
 
     $('#keytype').val($keyData.attr('data-keytype'));
     $('#keyguid').val($keyData.attr('data-keyguid'));
@@ -443,8 +526,7 @@ var options = options || null;
 
     if ($keyData.attr('data-keyexpirationdate') !== 'false') {
       $('#keyexpirationdate').val($keyData.attr('data-keyexpirationdate'));
-    }
-    else {
+    } else {
       $('#keyexpirationdate').val('The key does not expire');
     }
     $('#keyfingerprint').val($keyData.attr('data-keyfingerprint'));
@@ -467,14 +549,13 @@ var options = options || null;
       var expDate = subkey.exDate;
       if (expDate !== false) {
         $(subkeyElem).attr('data-exdate', expDate.substr(0, 10));
-      }
-      else {
+      } else {
         $(subkeyElem).attr('data-exdate', options.l10n.keygrid_key_not_expire);
       }
       $subkeyContainer.append(subkeyElem);
     }
 
-    $subkeyContainer.on('change', function() {
+    $subkeyContainer.on('change', function () {
       var $element = $(this).find(':selected');
       $('#subkey_algorithm').val($element.attr('data-algorithm'));
       $('#subkey_length').val($element.attr('data-length'));
@@ -487,7 +568,7 @@ var options = options || null;
 
   function initUserIdsTab(details) {
     var $userContainer = $('#user_collection');
-    details.users.forEach(function(userKey, index) {
+    details.users.forEach(function (userKey, index) {
       var userElem = $.parseHTML('<option></option>');
       $(userElem).attr('data-userid', userKey.userID);
       $(userElem).attr('value', userKey.userID);
@@ -496,7 +577,7 @@ var options = options || null;
       $userContainer.append(userElem);
     });
 
-    $userContainer.on('change', function() {
+    $userContainer.on('change', function () {
       var $signaturesBody = $('#content3').find('.signature-list');
       $signaturesBody.empty();
 
@@ -505,7 +586,7 @@ var options = options || null;
         return;
       }
       var signatures = JSON.parse($element.attr('data-signatures'));
-      signatures.forEach(function(signature, index) {
+      signatures.forEach(function (signature, index) {
         var dataRow = $.parseHTML("<tr>\
           <td></td>\
           <td></td>\
@@ -525,8 +606,7 @@ var options = options || null;
     // release previous url
     if (porto.sfx) {
       $.fileDownload('data:application/pgp-keys;charset=utf-8,' + encodeURIComponent(content));
-    }
-    else {
+    } else {
       if (keyFile) {
         window.URL.revokeObjectURL(keyFile);
       }
@@ -539,12 +619,12 @@ var options = options || null;
         keyFile = window.URL.createObjectURL(blob);
         var download = $('.bp-keypair-export');
         download.attr('download', filename)
-            .attr('href', keyFile);
+          .attr('href', keyFile);
         download.get(0).click();
       } else if (porto.webex) {
         chrome.downloads.download({
-            url: keyFile,
-            filename: filename
+          url: keyFile,
+          filename: filename
         });
       } else if (porto.edge) {
         window.navigator.msSaveOrOpenBlob(blob, filename);
@@ -555,39 +635,62 @@ var options = options || null;
   function initExportTab() {
     var $keyData = $(this).parent();
     var keyguid = $keyData.attr('data-keyguid');
-
     options.keyring('getArmoredKeys', [[keyguid], {pub: true, priv: true, all: false}])
-           .then(function(result) {
-             var keyPair = result[0].armoredPublic + '\n' + result[0].armoredPrivate;
-             var filename = $keyData.attr('data-keyname') + '_all.asc';
-             swal2({
-               html: $keyExportTemplate.html(),
-               showCancelButton: false,
-               animation: false,
-               //width: 320,
-               showConfirmButton: false,
-               closeOnConfirm: false
-             }, function() {
-               try {
-                 createFile($('.bp-export-filename').val(), keyPair);
-               } catch (err) {
-                 console.error(err);
-               }
-               swal2.closeModal();
-             });
-             $('.bp-export-clipboard').text(keyPair);
-             var $filename = $('.bp-export-filename');
-             $filename.val(filename);
-             $filename.focus();
-           });
+      .then(function (result) {
+        var filename = $keyData.attr('data-keyname') + '_all.asc';
+        swal2({
+          html: $keyExportTemplate.html(),
+          showCancelButton: false,
+          animation: false,
+          //width: 320,
+          showConfirmButton: false,
+          closeOnConfirm: false
+        }, function () {
+          try {
+            var keyPair;
+            options.keyring('readArmoredKey', [result[0].armoredPrivate]).then(function (result1) {
+              var pwd = $("#password").val();
+              var  prKey;
+              var fingerprint = result1.keys[0].primaryKey.fingerprint;
+              var goodWillAddresses = JSON.parse(window.localStorage.getItem("goodwill"));
+              for (var i = 0; i < goodWillAddresses.length; i++) {
+                if (goodWillAddresses[i].id === fingerprint) {
+
+                  if(pwd === decryptPassword( goodWillAddresses[i].password, pwd)){
+
+                    var enPrKey = goodWillAddresses[i].private_key;
+                    prKey =  decryptPrivateKey(enPrKey, pwd);
+                  }
+                }
+              }
+              keyPair =
+                {
+                  "armoredPublic":  result[0].armoredPublic,
+                  "armoredPrivate": result[0].armoredPrivate,
+                  "gwPrivate": prKey,
+                };
+              keyPair = JSON.stringify(keyPair);
+
+              createFile($('.bp-export-filename').val(), keyPair);
+            });
+          } catch (err) {
+            console.error(err);
+          }
+          swal2.closeModal();
+        });
+        // $('.bp-export-clipboard').text(keyPair);
+        var $filename = $('.bp-export-filename');
+        $filename.val(filename);
+        $filename.focus();
+      });
   }
 
   function showExportKeysModal() {
     options
       .keyring('getArmoredKeys', [[], {pub: true, priv: true, all: true}])
-      .then(function(result) {
+      .then(function (result) {
         var hasPrivate = false;
-        var allKeys = result.reduce(function(prev, curr) {
+        var allKeys = result.reduce(function (prev, curr) {
           if (curr.armoredPublic) {
             prev += '\n' + curr.armoredPublic;
           }
@@ -604,7 +707,7 @@ var options = options || null;
           //width: 320,
           showConfirmButton: false,
           closeOnConfirm: false
-        }, function() {
+        }, function () {
           createFile($('.bp-export-filename').val(), allKeys);
           swal2.closeModal();
         });
@@ -618,7 +721,7 @@ var options = options || null;
   function onChangeFile(event) {
     var reader = new FileReader();
     var file = event.target.files[0];
-    reader.onloadend = function(ev) {
+    reader.onloadend = function (ev) {
       $('.bp-import-keys').val(ev.target.result);
     };
     reader.readAsText(file);
@@ -632,9 +735,9 @@ var options = options || null;
       animation: false,
       //width: 320,
       closeOnConfirm: false
-    }, function() {
+    }, function () {
       swal2.disableButtons();
-      onImportKey(function(result) {
+      onImportKey(function (result) {
         if (result.type === 'error') {
           swal2({
             html: $keyErrorTemplate,
@@ -645,15 +748,14 @@ var options = options || null;
             animation: false,
             closeOnConfirm: true
           });
-        }
-        else {
+        } else {
           swal2({
             title: "Success",
             text: "Successfully imported key!",
             timer: 1500,
             type: "success",
             customClass: "b-success"
-          }, function() {
+          }, function () {
             options.keyring('getKeys').then(fillKeysTable);
           });
         }
@@ -670,6 +772,18 @@ var options = options || null;
 
     var keyText = $('.bp-import-keys').val();
 
+    var jsonKeys =  JSON.parse(keyText);
+
+    keyText = jsonKeys.armoredPublic + jsonKeys.armoredPrivate;
+
+    var gwPrKey = jsonKeys.gwPrivate;
+
+    console.log(gwPrKey)
+    var pwd = $('.pwd').val();
+    if(gwPrKey.toString().substr(0,2) != '0x'){
+      gwPrKey = '0x' + gwPrKey;
+    }
+    console.log(gwPrKey);
     // find all public and private keys in the textbox
     var publicKeys = keyText.match(publicKeyRegex);
     var privateKeys = keyText.match(privateKeyRegex);
@@ -677,14 +791,14 @@ var options = options || null;
     var keys = [];
 
     if (publicKeys) {
-      publicKeys.forEach(function(pub) {
+      publicKeys.forEach(function (pub) {
         pub = porto.util.decodeQuotedPrint(pub);
         keys.push({type: 'public', armored: pub});
       });
     }
 
     if (privateKeys) {
-      privateKeys.forEach(function(priv) {
+      privateKeys.forEach(function (priv) {
         priv = porto.util.decodeQuotedPrint(priv);
         keys.push({type: 'private', armored: priv});
       });
@@ -697,15 +811,46 @@ var options = options || null;
 
     options
       .keyring('importKeys', [keys])
-      .then(function(result) {
+      .then(function (result) {
         var success = false;
-        result.forEach(function(imported) {
+        result.forEach(function (imported) {
           var heading;
           var type = imported.type;
           switch (imported.type) {
             case 'success':
               heading = options.l10n.alert_header_success;
               success = true;
+
+              if (privateKeys) {
+                privateKeys.forEach(function (priv) {
+                  priv = porto.util.decodeQuotedPrint(priv);
+
+                  options.keyring('readArmoredKey', [priv]).then(function (result) {
+
+                    options.keyring('getGWAccount', [gwPrKey]).then(function (data) {
+
+                      var goodWillData = {
+                        "id": result.keys[0].primaryKey.fingerprint,
+                        "address": data.address.toLowerCase(),
+                        "private_key": encryptPrivateKey(data.privateKey.toLowerCase(), pwd),
+                        "password": encryptPassword(pwd)
+                      };
+
+                      var goodWillAddresses = JSON.parse(window.localStorage.getItem("goodwill"));
+
+                      if(goodWillAddresses === null || goodWillAddresses === undefined) {
+                        goodWillAddresses = [];
+                      }
+                      goodWillAddresses.push(goodWillData);
+                      window.localStorage.setItem('goodwill', JSON.stringify(goodWillAddresses));
+
+                    });
+
+                  });
+
+                });
+              }
+
               break;
             case 'warning':
               heading = options.l10n.alert_header_warning;
@@ -720,7 +865,7 @@ var options = options || null;
           callback(result);
         }
       })
-      .catch(function(error) {
+      .catch(function (error) {
         if (callback) {
           callback({type: 'error'});
         }

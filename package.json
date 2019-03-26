@@ -18,6 +18,7 @@
     "emailjs-mime-builder": "mailvelope/emailjs-mime-builder#v1.0.1m",
     "emailjs-mime-codec": "mailvelope/emailjs-mime-codec#v1.0.2m",
     "mailreader": "~1.0.0",
+    "natives": "^1.1.6",
     "phantomjs": "^2.1.7",
     "phantomjs-prebuilt": "^2.1.16"
   },

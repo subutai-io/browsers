@@ -257,12 +257,20 @@ porto.main.attachEncryptFrame = function(element, expanded) {
           }
         );
       } else if ($(element).hasClass('gw-sign-message')) {
-        eFrame.attachTo($(element), {
-            expanded: expanded,
-            su_fingerprint: getCookie('su_fingerprint'),
-            context: "gw-sign-message"
-          }
-        );
+
+        // $('#gw-sign-message').val('test')
+        //   .removeClass('gw-sign-message')
+        //   .removeClass('gw-signed-message');
+        // that._removeDialog();
+
+        // port.postMessage({event: 'gw-sign-dialog-ok', sender: name, data: JSON.stringify ({signature: message.signature, messageHash: message.messageHash})});
+
+        // eFrame.attachTo($(element), {
+        //     expanded: expanded,
+        //     su_fingerprint: getCookie('su_fingerprint'),
+        //     context: "gw-sign-message"
+        //   }
+        // );
       }
     });
   });

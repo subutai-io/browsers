@@ -153,7 +153,7 @@ porto.EncryptFrame.prototype._normalizeButtons = function() {
 
     case 'gw-sign-message':
       if (!this._emailUndoText) {
-        this._eFrame.find('#gwSignBtn').show();
+        this._eFrame.find('#gwSignBtn').click();
       }
       break;
 
@@ -523,19 +523,14 @@ porto.EncryptFrame.prototype._registerEventListener = function() {
             fprintInput.text(msg.fingerprint);
           }
         }
+
         break;
       case 'gw-signed-message':
-       $('#gw-signed-message')
+        console.log(msg);
+       $('#gw-sign-message').val(msg.message)
           .removeClass('gw-sign-message')
-          .addClass('signed-message').val(msg.message.data).hide();
-        that._removeDialog();
-
-        $("#success").show();
-        $(".sa-success").addClass("hide");
-        setTimeout(function() {
-          $(".sa-success").removeClass("hide");
-        }, 10);
-
+          .removeClass('gw-signed-message');
+          that._removeDialog();
         break;
       case 'set-editor-output':
         that._saveEmailText();

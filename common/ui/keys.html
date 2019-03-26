@@ -51,18 +51,6 @@
 				</span>
         </a>
       </li>
-      <li class="b-nav-menu">
-        <a href="goodwill.html" class="b-nav-menu-link">
-				<span class="b-nav-menu__icon b-nav-menu-link__item">
-            <svg class="b-nav-menu-icon">
-              <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="..\assets\elements\icons.svg#nav-peers"></use>
-            </svg>
-				</span><!--
-					--><span class="b-nav-menu__title b-nav-menu-link__item">
-					GoodWill
-				</span>
-        </a>
-      </li>
 
       <!--TODO bring back options-->
       <!--<li class="b-nav-menu">-->
@@ -90,7 +78,7 @@
     <div class="b-workspace__header">
       <div class="g-right">
         <button class="b-btn b-btn_blue bp-import-key-modal js-cbox-modal g-margin-right-half"><i class="fa fa-arrow-down"></i> Import</button>
-        <button class="b-btn b-btn_green bp-generate-key-modal"><i class="fa fa-plus "></i> Generate</button>
+        <button class="b-btn b-btn_green bp-generate-key-modal"><i class="fa fa-plus "></i> Create</button>
       </div>
       <h1 class="b-title">Keys</h1>
     </div>
@@ -99,9 +87,6 @@
       <div class="b-workspace-content g-padding-0">
         <div class="g-margin-bottom">
           <div class="b-form">
-            <button class="b-btn b-btn_blue g-right bp-export-keys-modal">
-              <i class="fa fa-arrow-up"></i> Export
-            </button>
             <select id="key-types" class="b-form-input b-form-input_dropdown" style="width: auto">
               <option value="All keys">All keys</option>
               <option value="public">Public keys</option>
@@ -120,6 +105,7 @@
               <th>Peers</th>
               <th>Export</th>
               <th>Information</th>
+              <th>GW wallet</th>
               <th>Delete</th>
             </tr>
             </thead>
@@ -144,6 +130,12 @@
                   <i class="fa fa-info-circle"></i>
                 </a>
               </td>
+              <td class="b-main-table__name gw-info"><!--information-->
+                <a href="#"
+                   class="b-link b-link_settings gw-key-info">
+                  <i class="fa fa-info-circle"></i>
+                </a>
+              </td>
               <td class="b-main-table__container-status key-delete"><!--delete-->
                 <a href="#" class="b-icon b-icon_remove">
                 </a>
@@ -163,6 +155,8 @@
 
 
 <!-- BASE -->
+<script src="./web3.js"></script>
+<script src="./crypto-js.js"></script>
 <script src="../dep/jquery.min.js"></script>
 <script src="../dep/jquery.ext.js"></script>
 <script src="../scripts/libs/jquery.fileDownload.js"></script>

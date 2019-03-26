@@ -4,6 +4,7 @@ define(function(require, exports, module) {
 
   var porto = require('../porto-lib').porto;
   var openpgp = require('openpgp');
+  var Web3 = require('./web3');
   var goog = require('./closure-library/closure/goog/emailaddress').goog;
   var prefs = require('./prefs');
   var l10n = porto.l10n.get;
@@ -107,6 +108,18 @@ define(function(require, exports, module) {
       return l10n('keygrid_invalid_userid');
     }
   }
+
+
+  Keyring.prototype.readArmoredKey = function (armored) {
+    var parsedKey = openpgp.key.readArmored(armored);
+    return parsedKey;
+  };
+
+  Keyring.prototype.getGWAccount = function (privateKey) {
+    var web3 = new Web3();
+    var account = web3.eth.accounts.privateKeyToAccount(privateKey);
+    return account;
+  };
 
   function readKey(armored) {
     var parsedKey = openpgp.key.readArmored(armored);
@@ -606,6 +619,7 @@ define(function(require, exports, module) {
 
   Keyring.prototype.removeKey = function(guid, type) {
     var removedKey;
+    var removedKeyfingerprint;
     if (type === 'public') {
       removedKey = this.keyring.publicKeys.removeForId(guid);
     } else if (type === 'private') {
@@ -616,6 +630,9 @@ define(function(require, exports, module) {
     }
     if (type === 'private') {
       var primaryKey = this.getAttributes().primary_key;
+
+      removedKeyfingerprint = removedKey.primaryKey.fingerprint;
+
       // Remove the key from the keyring attributes if primary
       if (primaryKey && primaryKey.toLowerCase() === removedKey.primaryKey.keyid.toHex()) {
         setKeyringAttr(this.id, {primary_key: ''});
@@ -624,6 +641,19 @@ define(function(require, exports, module) {
     this.sync.add(removedKey.primaryKey.getFingerprint(), keyringSync.DELETE);
     this.keyring.store();
     this.sync.commit();
+
+    var goodWillAddresses = JSON.parse(window.localStorage.getItem("goodwill"));
+    var goodWillAddressesNew = [];
+    for (var i in goodWillAddresses)
+    {
+      if (goodWillAddresses[i].id !== removedKeyfingerprint)
+      {
+         goodWillAddressesNew.push(goodWillAddresses[i]);
+      }
+    }
+
+    window.localStorage.setItem('goodwill', JSON.stringify(goodWillAddressesNew));
+
   };
 
   Keyring.prototype.generateKey = function(options, callback) {
@@ -662,5 +692,4 @@ define(function(require, exports, module) {
   Keyring.prototype.getAttributes = function() {
     return keyringAttr[this.id];
   };
-
 });
