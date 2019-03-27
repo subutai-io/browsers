@@ -29,13 +29,6 @@ var options = options || null;
     keyTemplate = $('.b-main-table .b-main-table-body').html();
 
     initRebirthUI();
-    // $('body').on('change', '#protectkey', function () {
-    //   $(".js-passwd-hide").toggleClass("js-passwd-show");
-    //   $("#password").val("");
-    //   $("#password-confirm").val("");
-    //
-    //   console.log('toggle passwd');
-    // });
 
     $('body').on('change', '#advanced', function () {
       $(".js-advanced-hide").toggleClass("js-advanced-show");
@@ -321,7 +314,6 @@ var options = options || null;
         }
       });
     }
-    console.log(keyPeerMap);
 
     $peersContainer.on('change', function () {
       var $element = $(this).find(':selected');
@@ -637,12 +629,12 @@ var options = options || null;
     var keyguid = $keyData.attr('data-keyguid');
     options.keyring('getArmoredKeys', [[keyguid], {pub: true, priv: true, all: false}])
       .then(function (result) {
-        var filename = $keyData.attr('data-keyname') + '_all.asc';
+        var filename = $keyData.attr('data-keyname') + '_all.json';
         swal2({
           html: $keyExportTemplate.html(),
           showCancelButton: false,
           animation: false,
-          //width: 320,
+          width: 320,
           showConfirmButton: false,
           closeOnConfirm: false
         }, function () {
@@ -650,6 +642,8 @@ var options = options || null;
             var keyPair;
             options.keyring('readArmoredKey', [result[0].armoredPrivate]).then(function (result1) {
               var pwd = $("#password").val();
+              $("#incorrectPassword").hide();
+              var isPwdCorrect = false;
               var  prKey;
               var fingerprint = result1.keys[0].primaryKey.fingerprint;
               var goodWillAddresses = JSON.parse(window.localStorage.getItem("goodwill"));
@@ -660,6 +654,7 @@ var options = options || null;
 
                     var enPrKey = goodWillAddresses[i].private_key;
                     prKey =  decryptPrivateKey(enPrKey, pwd);
+                    isPwdCorrect = true;
                   }
                 }
               }
@@ -671,12 +666,18 @@ var options = options || null;
                 };
               keyPair = JSON.stringify(keyPair);
 
-              createFile($('.bp-export-filename').val(), keyPair);
+              if(isPwdCorrect){
+                createFile($('.bp-export-filename').val(), keyPair);
+                swal2.closeModal();
+              }else {
+                $("#incorrectPassword").show();
+              }
+
             });
           } catch (err) {
             console.error(err);
           }
-          swal2.closeModal();
+
         });
         // $('.bp-export-clipboard').text(keyPair);
         var $filename = $('.bp-export-filename');
@@ -704,7 +705,7 @@ var options = options || null;
           html: $keyExportTemplate.html(),
           showCancelButton: false,
           animation: false,
-          //width: 320,
+          width: '320px',
           showConfirmButton: false,
           closeOnConfirm: false
         }, function () {
@@ -713,7 +714,7 @@ var options = options || null;
         });
         $('.bp-export-clipboard').text(allKeys);
         var $filename = $('.bp-export-filename');
-        $filename.val('all.asc');
+        $filename.val('all.json');
         $filename.focus();
       });
   }
@@ -725,6 +726,9 @@ var options = options || null;
       $('.bp-import-keys').val(ev.target.result);
     };
     reader.readAsText(file);
+
+    $("#filename").text(file.name);
+    $("#filename").show();
   }
 
   function showImportKeyModal() {
@@ -733,10 +737,10 @@ var options = options || null;
       showCancelButton: false,
       showConfirmButton: false,
       animation: false,
-      //width: 320,
+      width: '320px',
       closeOnConfirm: false
     }, function () {
-      swal2.disableButtons();
+      // swal2.disableButtons();
       onImportKey(function (result) {
         if (result.type === 'error') {
           swal2({
@@ -777,8 +781,6 @@ var options = options || null;
     keyText = jsonKeys.armoredPublic + jsonKeys.armoredPrivate;
 
     var gwPrKey = jsonKeys.gwPrivate;
-
-    console.log(gwPrKey)
     var pwd = $('.pwd').val();
     if(gwPrKey.toString().substr(0,2) != '0x'){
       gwPrKey = '0x' + gwPrKey;

@@ -189,20 +189,15 @@ define(function (require, exports, module) {
         var goodWillAddresses = JSON.parse(window.localStorage.getItem("goodwill"));
 
         for (var i = 0; i < goodWillAddresses.length; i++) {
-          console.log(i);
           if (goodWillAddresses[i].id === this.signBuffer.key.primaryKey.fingerprint) {
-
-            console.log(goodWillAddresses[i].private_key);
-            console.log(this.signBuffer.password);
             var prKey = decryptPrivateKey(goodWillAddresses[i].private_key, this.signBuffer.password);
-            console.log(prKey);
 
             var web3 = new Web3();
             var message = web3.eth.accounts.sign("Hello", prKey);
 
             that.ports.eFrame.postMessage({
               event: 'gw-signed-message',
-              message: JSON.stringify ({signature: message.signature, messageHash: message.messageHash})
+              message: JSON.stringify ({signature: message.signature,   messageHash: message.messageHash, address: goodWillAddresses[i].address})
             });
           }
         }

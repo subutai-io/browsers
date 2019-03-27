@@ -8,17 +8,33 @@
     </div>
   </div>
   <div class="b-popup__body">
-    <div class="b-form-wrapper g-margin-bottom">
-      <label for="password" class="b-form-label g-margin-left">Password</label>
-      <input id="password" type="password" class="b-form-input b-form-input_fix-size-2">
-    </div>
-    <div class="b-form-wrapper g-margin-bottom">
-      <label for="export" class="b-form-label g-margin-left">File Name</label>
-      <input id="export" type="text" class="b-form-input b-form-input_fix-size-2 bp-export-filename">
-      <a id="bp-export-certificate-keypair" class="bp-keypair-export hide" data-l10n-id="key_export_download"
-         style="display: none"></a>
-      <button class="b-btn b-btn_blue confirm g-right confirm" tabindex="2"><i class="fa fa-arrow-up"></i> Export</button>
-    </div>
+    <div class="b-form">
+      <div class="b-form-wrapper g-margin-bottom">
 
+        <label for="export" class="b-form-label g-margin-right ">File Name</label>
+        <input id="export" type="text" class="b-form-input g-right bp-export-filename">
+
+        <a id="bp-export-certificate-keypair" class="bp-keypair-export hide" data-l10n-id="key_export_download"
+           style="display: none"></a>
+      </div>
+
+      <div class="b-form-wrapper g-margin-bottom">
+        <label for="password" class="b-form-label g-margin-right">Password</label>
+        <input id="password" type="password" class="b-form-input g-right">
+      </div>
+
+      <div class="form-group" style="display: none" id="incorrectPassword">
+        <p style="color:red;">Incorrect password please try again</p>
+      </div>
+
+
+      <div class="b-form-wrapper g-margin-bottom" style="display: flex; justify-content: flex-end;">
+        <button class="b-btn b-btn_blue confirm"><i class="fa fa-arrow-up"></i> Export
+        </button>
+      </div>
+
+    </div>
   </div>
 </div>
+
+
