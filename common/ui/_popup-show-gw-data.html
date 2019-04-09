@@ -1,0 +1,35 @@
+<div class="b-popup">
+  <div class="b-popup__header">
+    <div class="b-title">
+      GoodWill info
+      <a href="#" class="bp-close-modal-button g-right">
+        <i class="fa fa-times"></i>
+      </a>
+    </div>
+  </div>
+  <div class="b-popup__body">
+    <div class="b-form">
+      <div class="b-form-wrapper g-margin-bottom-half">
+        <label for="address" class="b-form-label g-margin-right">GW address</label>
+        <input id="address" type="text" readonly class="b-form-input b-form-input_fix-size-2 g-right">
+      </div>
+      <div class="b-form-wrapper g-margin-bottom-half">
+        <label for="pwd" class="b-form-label g-margin-right">Password</label>
+        <input id="pwd" type="password" class="b-form-input b-form-input_fix-size-2 g-right">
+      </div>
+
+      <div class="form-group" style="display: none" id="incorrectPassword">
+        <p style="color:red;">Incorrect password please try again</p>
+      </div>
+
+      <div class="b-form-wrapper g-margin-bottom-half" id="prKey"  style="display: none;">
+        <label for="privateKey" class="b-form-label g-margin-right">Private key</label>
+        <input id="privateKey" type="text" readonly class="b-form-input b-form-input_fix-size-2 g-right">
+      </div>
+
+      <div class="b-form-wrapper g-margin-bottom-half">
+        <button class="b-btn b-btn_blue confirm" tabindex="2"><i class="fa fa-arrow-up"></i> Show Private Key</button>
+      </div>
+    </div>
+  </div>
+</div>

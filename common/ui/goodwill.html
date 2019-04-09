@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Subutai E2E Plugin - Keys</title>
+  <title>Subutai E2E Plugin - Goodwill</title>
 
   <!--CSS Libs-->
   <link rel="stylesheet" href="../css/libs/font-awesome.min.css"/>
@@ -19,7 +19,6 @@
 
   <nav class="b-nav b-nav_left">
     <div class="b-header__logo">
-    <div class="b-header__logo">
       <div class="b-header-logo">
         <a href="#">
           <img src="../assets/elements/logo.svg" alt="" height="40px"/>
@@ -27,7 +26,7 @@
       </div>
     </div>
     <ul class="b-nav__menu">
-      <li class="b-nav-menu b-nav-menu_active">
+      <li class="b-nav-menu ">
         <a href="keys.html" class="b-nav-menu-link">
 				<span class="b-nav-menu__icon b-nav-menu-link__item">
             <svg class="b-nav-menu-icon">
@@ -35,7 +34,7 @@
             </svg>
 				</span><!--
 					--><span class="b-nav-menu__title b-nav-menu-link__item">
-					Wallet
+                        Keys
 				</span>
         </a>
       </li>
@@ -48,6 +47,18 @@
 				</span><!--
 					--><span class="b-nav-menu__title b-nav-menu-link__item">
 					Peers
+				</span>
+        </a>
+      </li>
+      <li class="b-nav-menu b-nav-menu_active">
+        <a href="goodwill.html" class="b-nav-menu-link">
+				<span class="b-nav-menu__icon b-nav-menu-link__item">
+            <svg class="b-nav-menu-icon">
+              <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="..\assets\elements\icons.svg#nav-peers"></use>
+            </svg>
+				</span><!--
+					--><span class="b-nav-menu__title b-nav-menu-link__item">
+					GoodWill
 				</span>
         </a>
       </li>
@@ -77,78 +88,36 @@
   <div class="b-workspace">
     <div class="b-workspace__header">
       <div class="g-right">
-        <button class="b-btn b-btn_blue bp-import-key-modal js-cbox-modal g-margin-right-half"><i class="fa fa-arrow-down"></i> Import</button>
-        <button class="b-btn b-btn_green bp-generate-key-modal"><i class="fa fa-plus "></i> Create</button>
+        <button class="b-btn b-btn_green bp-generate-wallet-modal"><i class="fa fa-plus "></i> Generate</button>
+        <button class="b-btn b-btn_blue  export-gw-keys-modal js-cbox-modal g-margin-left-half"><i class="fa fa-arrow-up"></i> Export</button>
+        <button class="b-btn b-btn_blue  bp-import-gw-key-modal js-cbox-modal g-margin-left-half"><i class="fa fa-arrow-down"></i> Import</button>
+        <button class="b-btn b-btn_red   delete-gw-keys-modal js-cbox-modal g-margin-left-half"><i class="fa fa-close"></i> Delete  </button>
       </div>
-      <h1 class="b-title">Accounts</h1>
+      <h1 class="b-title">GoodWill</h1>
     </div>
 
     <div class="b-workspace__content">
       <div class="b-workspace-content g-padding-0">
-        <div class="g-margin-bottom">
-          <div class="b-form">
-            <select id="key-types" class="b-form-input b-form-input_dropdown" style="width: auto">
-              <option value="All keys">All keys</option>
-              <option value="public">Public keys</option>
-              <option value="key-pair">Key pairs</option>
-            </select>
-          </div>
-        </div>
         <div class="b-main-table-border">
-          <table class="b-main-table">
+          <table class="b-main-table" id="goodwill-addresses">
             <thead>
             <tr>
-              <th></th>
               <th>Name</th>
-              <th>Email</th>
-              <th>Key ID</th>
-              <th>Peers</th>
-              <th>Export</th>
-              <th>Information</th>
-              <th>GW Information</th>
-              <th>Delete</th>
+              <th>Address</th>
             </tr>
             </thead>
-            <tr class="js-empty-table" style="display: none"><td valign="top" colspan="9" style="text-align: center;">No data available in table</td></tr>
+            <tr class="js-empty-table" style="display: none"><td valign="top" colspan="8" style="text-align: center;">No data available in table</td></tr>
             <tbody class="b-main-table-body" style="display: none">
             <!--// Template-->
             <tr>
-              <td class="b-main-table__container-status"></td>
-              <td class="b-main-table__name key-name"><i class="b-icon b-icon_award g-margin-left"></i></td><!--name-->
-              <td class="b-main-table__name key-email"></td><!--email-->
-              <td class="b-main-table__capitalize key-id"></td> <!--keyid-->
-              <td class="b-main-table__controls key-peers"></td><!--peers-->
-              <td class="b-main-table__container-status key-export"><!--export-->
-                <a href="#"
-                   class="b-link b-link_export bp-key-export">
-                  <i class="fa fa-paper-plane"></i>
-                </a>
-              </td>
-              <td class="b-main-table__container-status key-info"><!--information-->
-                <a href="#"
-                   class="b-link b-link_settings bp-key-info">
-                  <i class="fa fa-info-circle"></i>
-                </a>
-              </td>
-              <td class="b-main-table__name gw-info"><!--information-->
-                <a href="#"
-                   class="b-link b-link_settings gw-key-info">
-                  <i class="fa fa-info-circle"></i>
-                </a>
-              </td>
-              <td class="b-main-table__container-status key-delete"><!--delete-->
-                <a href="#" class="b-icon b-icon_remove">
-                </a>
-              </td>
+              <td class="b-main-table__name address-name"><i class="b-icon b-icon_award g-margin-left"></i></td><!--name-->
+              <td class="b-main-table__name address"></td><!--email-->
             </tr>
             </tbody>
           </table>
-
         </div>
       </div>
     </div>
-
-  </div>
 
   <div class="clear"></div>
 </div>
@@ -164,7 +133,11 @@
 <script src="../../lib/porto-type.js"></script>
 <script src="./porto.js"></script>
 <script src="./messageDispatcher.js"></script>
-<script src="./keys.js"></script>
+
+
+<script src="./goodwill.js"></script>
+
+
 <!--<script src="../scripts/scripts.js"></script>-->
 </body>
 </html>

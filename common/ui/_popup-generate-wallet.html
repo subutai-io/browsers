@@ -1,0 +1,36 @@
+<div class="b-popup" id="js-popup-settings">
+  <div class="b-popup__header">
+    <div class="b-title">
+      Generate wallet
+      <a href="#" class="bp-close-modal-button g-right">
+        <i class="fa fa-times"></i>
+      </a>
+    </div>
+  </div>
+  <div class="b-popup__body">
+    <div class="b-form">
+      <!--<span id="error-msg" style="display: none" class="b-form-hint b-form-hint_red">Email already exists.</span>-->
+      <!--<div class="b-form-wrapper g-margin-bottom" style="display: none">-->
+        <!--<label for="name" class="b-form-label g-margin-right">Enter key name</label>-->
+        <!--<input id="name" type="text" class="b-form-input g-right" placeholder="Name">-->
+      <!--</div>-->
+      <div class="b-form-wrapper g-margin-bottom">
+        <label for="address-name" class="b-form-label g-margin-right">Enter address name</label>
+        <input id="address-name" type="text" class="b-form-input g-right" placeholder="Enter address name"
+               tabindex="2">
+      </div>
+
+      <div class="form-group" style="display: none" id="incorrectName">
+        <p style="color:red;">Wallet name already exists!</p>
+      </div>
+
+      <div class="b-form-wrapper g-margin-bottom">
+        <label for="address-pwd" class="b-form-label g-margin-right">Enter password</label>
+        <input id="address-pwd" type="password" class="b-form-input g-right" placeholder="Enter password"
+               tabindex="2">
+      </div>
+    </div>
+    <button class="b-btn b-btn_green confirm g-right" tabindex="1">Generate</button>
+    <div class="clear"></div>
+  </div>
+</div>

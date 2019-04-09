@@ -1,7 +1,7 @@
 {
   "name": "__MSG_ext_name__",
-  "version": "5.0.3",
-  "version_name": "5.0.3",
+  "version": "6.0.0",
+  "version_name": "6.0.0",
   "description": "__MSG_ext_description__",
   "homepage_url":"https://subutai.io",
   "manifest_version": 2,
@@ -47,6 +47,7 @@
     "common/ui/inline/framestyles.css",
     "common/ui/inline/dialogs/encryptDialog.html",
     "common/ui/inline/dialogs/signDialog.html",
+    "common/ui/inline/dialogs/gwSignDialog.html",
     "common/ui/inline/dialogs/pubkeyDialog.html",
     "common/ui/editor/editor.html",
     "common/ui/options.html",

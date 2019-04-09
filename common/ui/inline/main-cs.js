@@ -159,7 +159,7 @@ porto.main.findEditable = function() {
   editable = editable.add(editableBody);
   // filter out elements below a certain height limit
   editable = editable.filter(function() {
-    return ($(this).hasClass('bp-sign-target') || $(this).hasClass('bp-set-pub-key') || $(this).hasClass('e2e-sign-message'));
+    return ($(this).hasClass('bp-sign-target') || $(this).hasClass('bp-set-pub-key') || $(this).hasClass('e2e-sign-message')|| $(this).hasClass('gw-sign-message'));
   });
   //console.log(editable);
   return editable;
@@ -256,6 +256,21 @@ porto.main.attachEncryptFrame = function(element, expanded) {
             context: "e2e-sign-message"
           }
         );
+      } else if ($(element).hasClass('gw-sign-message')) {
+
+        // $('#gw-sign-message').val('test')
+        //   .removeClass('gw-sign-message')
+        //   .removeClass('gw-signed-message');
+        // that._removeDialog();
+
+        // port.postMessage({event: 'gw-sign-dialog-ok', sender: name, data: JSON.stringify ({signature: message.signature, messageHash: message.messageHash})});
+
+        // eFrame.attachTo($(element), {
+        //     expanded: expanded,
+        //     su_fingerprint: getCookie('su_fingerprint'),
+        //     context: "gw-sign-message"
+        //   }
+        // );
       }
     });
   });
