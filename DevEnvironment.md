@@ -1,6 +1,6 @@
 ## Build instructions
 
-If you don’t have grunt and bower installed, yet:
+If you don’t have grunt and bower installed``, yet:
 
     npm install -g grunt-cli bower
 
