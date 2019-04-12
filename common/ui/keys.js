@@ -106,6 +106,8 @@ var options = options || null;
       buttonsStyling: false
     }, function (isConfirm) {
       if (isConfirm) {
+
+
         swal2.disableButtons();
         triggerGenerate();
       }
@@ -166,7 +168,15 @@ var options = options || null;
           exists = true;
           break;
         }
+      };
+
+      if (parameters.passphrase === ""){
+        $("#error-msg").text("Password can not be empty.");
+        $("#error-msg").show();
+        swal2.enableButtons();
+        return;
       }
+
       var errorMsgEmail = $("#error-msg");
       if (exists) {
         errorMsgEmail.text("Email already exists.");
