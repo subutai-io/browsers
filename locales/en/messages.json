@@ -192,8 +192,12 @@
     "description": "Max 6 character."
   },
   "encrypt_dialog_header": {
-    "message": "Encrypt for:",
+    "message": "Encrypt with:",
     "description": "Header of encrypt dialog."
+  },
+  "decrypt_dialog_header": {
+    "message": "Decrypt with:",
+    "description": "Header of decrypt dialog."
   },
   "sign_dialog_header": {
     "message": "Sign message with key:",
