@@ -19,12 +19,12 @@ var porto = porto || null;
     porto.l10n.getMessages([
       'encrypt_dialog_no_recipient',
       'encrypt_dialog_add',
-      'encrypt_dialog_header',
+      'decrypt_dialog_header',
       'keygrid_delete',
       'form_cancel',
       'form_ok'
     ], function(result) {
-      port.postMessage({event: 'encrypt-dialog-init', sender: name});
+      port.postMessage({event: 'decrypt-dialog-init', sender: name});
       l10n = result;
     });
   }
@@ -47,7 +47,7 @@ var porto = porto || null;
     var $keySelect = $('#keySelect');
     var selectedKey = $keySelect.find(':selected');
     port.postMessage({
-      event: 'encrypt-dialog-ok',
+      event: 'decrypt-dialog-ok',
       sender: name,
       signKeyId: $keySelect.val(),
       fingerprint: selectedKey.data('fingerprint'),
@@ -117,10 +117,10 @@ var porto = porto || null;
       case 'encrypt-dialog-content':
         load(msg.data);
         break;
-      case 'encrypt-failed':
+      case 'decrypt-failed':
         $('body').removeClass('busy');
-        alert('Failed to encrypt.');
-        console.log('Failed to encrypt: '+JSON.stringify(msg.data));
+        alert('Cannot decrypt with this key.');
+        console.log('Cannot decrypt with this key: '+JSON.stringify(msg.data));
         break;
       case 'public-key-userids':
         var keySelect = $('#keySelect');

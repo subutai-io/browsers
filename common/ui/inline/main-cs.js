@@ -201,7 +201,7 @@ porto.main.findEditable = function () {
   editable = editable.add(editableBody);
   // filter out elements below a certain height limit
   editable = editable.filter(function() {
-    return ($(this).hasClass('bp-sign-target') || $(this).hasClass('bp-set-pub-key') || $(this).hasClass('e2e-sign-message')|| $(this).hasClass('gw-sign-message'));
+    return ($(this).hasClass('bp-sign-target') || $(this).hasClass('bp-set-pub-key') || $(this).hasClass('e2e-sign-message') || $(this).hasClass('gw-sign-message') || $(this).hasClass('bp-encrypt-target') || $(this).hasClass('bp-decrypt-target'));
   });
   //console.log(editable);
   return editable;
@@ -279,7 +279,27 @@ porto.main.attachEncryptFrame = function(element, expanded) {
         eFrame.attachTo($(element), {
             expanded: expanded,
             su_fingerprint: getCookie('su_fingerprint'),
-            context: "bp-sign-target"
+            context: 'bp-sign-target'
+          }
+        );
+      }
+      else if ($(element).hasClass('bp-encrypt-target')) {
+        eFrame.attachTo($(element), {
+            expanded: expanded,
+            su_fingerprint: getCookie('su_fingerprint'),
+            context: 'bp-encrypt-target'
+          }
+        );
+      }
+      else if ($(element).hasClass('bp-decrypt-target')) {
+        var fingerprint = $(element).data('fingerprint');
+        if ( fingerprint === undefined || fingerprint == null || fingerprint.length !== 40 ) {
+          fingerprint = getCookie('su_fingerprint');
+        }
+        eFrame.attachTo($(element), {
+            expanded: expanded,
+            su_fingerprint: fingerprint,
+            context: 'bp-decrypt-target'
           }
         );
       }
@@ -287,7 +307,7 @@ porto.main.attachEncryptFrame = function(element, expanded) {
         eFrame.attachTo($(element), {
             expanded: expanded,
             su_fingerprint: getCookie('su_fingerprint'),
-            context: "bp-set-pub-key"
+            context: 'bp-set-pub-key'
           }
         );
       }
@@ -295,7 +315,7 @@ porto.main.attachEncryptFrame = function(element, expanded) {
         eFrame.attachTo($(element), {
             expanded: expanded,
             su_fingerprint: getCookie('su_fingerprint'),
-            context: "e2e-sign-message"
+            context: 'e2e-sign-message'
           }
         );
       } else if ($(element).hasClass('gw-sign-message')) {

@@ -104,6 +104,16 @@ define(function (require, exports, module) {
           that.ports.eFrame.postMessage({event: 'recipient-proposal'});
         });
         break;
+      case 'decrypt-dialog-init':
+
+        // send content
+        this.porto.data.load('common/ui/inline/dialogs/templates/decrypt.html').then(function (content) {
+          that.ports.eDialog.postMessage({event: 'encrypt-dialog-content', data: content});
+          // get potential recipients from eFrame
+          // if editor is active get recipients from parent eFrame
+          that.ports.eFrame.postMessage({event: 'recipient-proposal'});
+        });
+        break;
       case 'eframe-recipient-proposal':
         var emails = this.porto.util.sortAndDeDup(msg.data);
         var userKeys = localKeyring.getKeyUserIDs(emails);
@@ -120,10 +130,76 @@ define(function (require, exports, module) {
         }
         break;
       case 'encrypt-dialog-ok':
-        // add recipients to buffer
-        this.keyidBuffer = msg.recipient;
-        // get email text from eFrame
-        this.ports.eFrame.postMessage({event: 'email-text', type: msg.type, action: 'encrypt'});
+        this.signBuffer = {};
+        var key;
+        try {
+          key = this.keyring.getById(this.porto.LOCAL_KEYRING_ID).getKeyForSigning(msg.signKeyId);
+        } catch ( err ) {
+          console.log(err);
+          break;
+        }
+        // add key in buffer
+        this.signBuffer.key = key.signKey;
+        this.signBuffer.keyid = msg.signKeyId;
+        this.signBuffer.userid = key.userId;
+        this.signBuffer.reason = 'PWD_DIALOG_REASON_SIGN';
+        this.signBuffer.keyringId = this.porto.LOCAL_KEYRING_ID;
+        this.pwdControl = sub.factory.get('pwdDialog');
+        this.pwdControl.unlockKey(this.signBuffer)
+          .then(function () {
+            that.ports.eFrame.postMessage({
+              event: 'email-text',
+              type: msg.type,
+              action: 'encrypt',
+              fingerprint: msg.fingerprint
+            });
+          })
+          .catch(function (err) {
+            if (err.code = 'PWD_DIALOG_CANCEL') {
+              that.ports.eFrame.postMessage({event: 'sign-dialog-cancel'});
+              return;
+            }
+            if (err) {
+              // TODO: propagate error to sign dialog
+            }
+          });
+
+        break;
+      case 'decrypt-dialog-ok':
+        this.signBuffer = {};
+        var key;
+        try {
+          key = this.keyring.getById(this.porto.LOCAL_KEYRING_ID).getKeyForSigning(msg.signKeyId);
+        } catch ( err) {
+          console.log(err);
+          break;
+        }
+        // add key in buffer
+        this.signBuffer.key = key.signKey;
+        this.signBuffer.keyid = msg.signKeyId;
+        this.signBuffer.userid = key.userId;
+        this.signBuffer.reason = 'PWD_DIALOG_REASON_SIGN';
+        this.signBuffer.keyringId = this.porto.LOCAL_KEYRING_ID;
+        this.pwdControl = sub.factory.get('pwdDialog');
+        this.pwdControl.unlockKey(this.signBuffer)
+          .then(function () {
+            that.ports.eFrame.postMessage({
+              event: 'email-text',
+              type: msg.type,
+              action: 'decrypt',
+              fingerprint: msg.fingerprint
+            });
+          })
+          .catch(function (err) {
+            if (err.code = 'PWD_DIALOG_CANCEL') {
+              that.ports.eFrame.postMessage({event: 'sign-dialog-cancel'});
+              return;
+            }
+            if (err) {
+              // TODO: propagate error to sign dialog
+            }
+          });
+
         break;
       case 'sign-dialog-ok':
         this.signBuffer = {};
@@ -160,15 +236,34 @@ define(function (require, exports, module) {
         break;
       case 'eframe-email-text':
         if (msg.action === 'encrypt') {
-          // TODO fix error while encrypting message, instead of passing three parameters to
-          // pgpMode.encryptMessage wrap it into one object with relevant keys
-          this.model.encryptMessage(msg.data, this.porto.LOCAL_KEYRING_ID, this.keyidBuffer)
+          this.model.encrypt(msg.data, this.signBuffer.key, this)
             .then(function (msg) {
-              that.ports.eFrame.postMessage({event: 'encrypted-message', message: msg});
+              console.log('successfully encrypted: '+JSON.stringify(msg));
+              that.ports.eFrame.postMessage({event: 'encrypted-message', message: msg.data});
             })
             .catch(function (error) {
               console.log('model.encryptMessage() error', error);
+              if (that.ports.eDialog) {
+                that.ports.eDialog.postMessage({event: 'encrypt-failed', data: error});
+              }
             });
+          break;
+        } else if (msg.action === 'decrypt') {
+          this.model.decrypt(msg.data, this.signBuffer.key)
+            .then(function (msg) {
+              console.log('successfully decrypted: '+JSON.stringify(msg));
+              that.ports.eFrame.postMessage({event: 'decrypted-message', message: msg.data});
+            })
+            .catch(function (error) {
+              console.log('model.decryptMessage() error', error);
+              if (that.ports.eDialog) {
+                that.ports.eDialog.postMessage({event: 'decrypt-failed', data: error.message});
+              }
+              else {
+                that.ports.eFrame.postMessage({event: 'decrypt-failed', data: error.message});
+              }
+            });
+          break;
         } else if (msg.action === 'sign') {
           var fingerprint = msg.fingerprint;
           this.model.signMessage(msg.data, this.signBuffer.key)

@@ -162,6 +162,11 @@ define(function(require, exports, module) {
     }
   }
 
+  function decrypt(armored, key) {
+    var msg = openpgp.message.readArmored(armored);
+    return openpgp.decrypt({message: msg, privateKey: key, format:'utf8'});
+  }
+
   /**
    * @param {Object} options
    * @param {String} options.keyIdsHex
@@ -197,6 +202,10 @@ define(function(require, exports, module) {
         });
       }
     });
+  }
+
+  function encrypt(textToEncrypt, key, that) {
+    return openpgp.encrypt({data: textToEncrypt, publicKeys: key, armor: true});
   }
 
   /**
@@ -427,8 +436,10 @@ define(function(require, exports, module) {
   exports.readMessage = readMessage;
   exports.readCleartextMessage = readCleartextMessage;
   exports.decryptMessage = decryptMessage;
+  exports.decrypt = decrypt;
   exports.unlockKey = unlockKey;
   exports.encryptMessage = encryptMessage;
+  exports.encrypt = encrypt;
   exports.signAndEncryptMessage = signAndEncryptMessage;
   exports.signMessage = signMessage;
   exports.verifyMessage = verifyMessage;
