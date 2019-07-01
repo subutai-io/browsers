@@ -160,8 +160,8 @@ porto.EncryptFrame.prototype._normalizeButtons = function() {
       break;
     case 'bp-set-pub-key':
       if (this._emailTextElement.hasClass('bp-set-pub-key')) {
-        //this._eFrame.find('#encryptBtn').show();
-        this._eFrame.find('#encryptBtn').click();
+        //this._eFrame.find('#signBtn').show();
+        this._eFrame.find('#signBtn').click();
         this._emailTextElement.addClass('bp-signing-in-progress');
       }
       //this._eFrame.find('#editorBtn').show();
@@ -432,7 +432,7 @@ porto.EncryptFrame.prototype._setMessage = function(msg, type, fingerprint) {
     // this._emailTextElement.removeClass('bp-set-pub-key');
 
     var cls = this._options.context;
-    if (typeof cls === 'string' || cls instanceof String) {
+    if ((typeof cls === 'string' || cls instanceof String) && (cls === 'bp-sign-target' || cls === 'bp-encrypt-target')) {
       var signTargets = document.getElementsByClassName(cls);
       if (signTargets.length > 0) {
         try {
