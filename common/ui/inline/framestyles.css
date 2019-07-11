@@ -104,6 +104,10 @@
   background-image: url('../../img/encrypt-22.png');
 }
 
+:root .m-encrypt-frame .m-icon-decrypt {
+  background-image: url('../../img/decrypt-22.png');
+}
+
 :root .m-encrypt-frame .m-icon-sign {
   background-image: url('../../img/sign-22.png');
 }

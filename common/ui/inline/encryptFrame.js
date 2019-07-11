@@ -77,6 +77,7 @@ porto.EncryptFrame.prototype._renderFrame = function(expanded) {
             <button id="encryptBtn" class="m-btn m-encrypt-button" type="button"><i class="m-icon m-icon-encrypt"></i></button> \
             <button id="undoBtn" class="m-btn m-encrypt-button" type="button"><i class="m-icon m-icon-undo"></i></button> \
             <button id="editorBtn" class="m-btn m-encrypt-button" type="button"><i class="m-icon m-icon-editor"></i></button> \
+            <button id="decryptBtn" class="m-btn m-encrypt-button" type="button"><i class="m-icon m-icon-decrypt"></i></button> \
             ';
   this._eFrame = $('<div/>', {
     id: 'eFrame-' + that.id, 'class': 'm-encrypt-frame', html: toolbar
@@ -91,9 +92,10 @@ porto.EncryptFrame.prototype._renderFrame = function(expanded) {
   this._eFrame.find('.m-frame-close').on('click', this._closeFrame.bind(this));
   this._eFrame.find('#signBtn').on('click', this._onSignButton.bind(this));
   this._eFrame.find('#gwSignBtn').on('click', this._onSignButton.bind(this));
-  this._eFrame.find('#encryptBtn').on('click', this._onSignButton.bind(this));
+  this._eFrame.find('#encryptBtn').on('click', this._onEncryptButton.bind(this));
   this._eFrame.find('#undoBtn').on('click', this._onUndoButton.bind(this));
   this._eFrame.find('#editorBtn').on('click', this._onEditorButton.bind(this));
+  this._eFrame.find('#decryptBtn').on('click', this._onDecryptButton.bind(this));
   if (!expanded) {
     this._isToolbar = true;
     this._normalizeButtons();
@@ -137,10 +139,29 @@ porto.EncryptFrame.prototype._normalizeButtons = function() {
       //this._eFrame.find('#signBtn').show();
       this._eFrame.find('#signBtn').click();
       break;
+    case 'bp-encrypt-target':
+      this._eFrame.find('#encryptBtn').show();
+      // this._eFrame.find('#encryptBtn').click();
+      break;
+    case 'bp-decrypt-target':
+      var fingerprint = this._options.su_fingerprint;
+      if (fingerprint !== undefined && fingerprint.length === 40) {
+        this._port.postMessage({
+          event: 'decrypt-dialog-ok',
+          sender: 'eFrame-' + this.id,
+          signKeyId: fingerprint.substr(24).toLowerCase(),
+          fingerprint: fingerprint,
+          type: 'text'
+        });
+      }
+      else {
+        this._eFrame.find('#decryptBtn').show();
+      }
+      break;
     case 'bp-set-pub-key':
       if (this._emailTextElement.hasClass('bp-set-pub-key')) {
-        //this._eFrame.find('#encryptBtn').show();
-        this._eFrame.find('#encryptBtn').click();
+        //this._eFrame.find('#signBtn').show();
+        this._eFrame.find('#signBtn').click();
         this._emailTextElement.addClass('bp-signing-in-progress');
       }
       //this._eFrame.find('#editorBtn').show();
@@ -190,6 +211,11 @@ porto.EncryptFrame.prototype._onEncryptButton = function() {
   return false;
 };
 
+porto.EncryptFrame.prototype._onDecryptButton = function() {
+  this.showDecryptDialog();
+  return false;
+};
+
 porto.EncryptFrame.prototype._onUndoButton = function() {
   this._resetEmailText();
   this._normalizeButtons();
@@ -203,19 +229,23 @@ porto.EncryptFrame.prototype._onEditorButton = function() {
 };
 
 porto.EncryptFrame.prototype.showSignDialog = function() {
-  this._expandFrame(this._showDialog.bind(this, 'sign'));
+  this._expandFrame(this._showDialog.bind(this, 'signDialog.html'));
 };
 
 porto.EncryptFrame.prototype.showGWSignDialog = function() {
-  this._expandFrame(this._showDialog.bind(this, 'gwsign'));
+  this._expandFrame(this._showDialog.bind(this, 'gwSignDialog.html'));
 };
 
 porto.EncryptFrame.prototype.showPubkeyDialog = function() {
-  this._expandFrame(this._showDialog.bind(this, 'pubkey'));
+  this._expandFrame(this._showDialog.bind(this, 'pubkeyDialog.html'));
 };
 
 porto.EncryptFrame.prototype.showEncryptDialog = function() {
-  this._expandFrame(this._showDialog.bind(this, 'encrypt'));
+  this._expandFrame(this._showDialog.bind(this, 'encryptDialog.html'));
+};
+
+porto.EncryptFrame.prototype.showDecryptDialog = function() {
+  this._expandFrame(this._showDialog.bind(this, 'decryptDialog.html'));
 };
 
 porto.EncryptFrame.prototype._expandFrame = function(callback) {
@@ -261,7 +291,7 @@ porto.EncryptFrame.prototype._setFrameDim = function() {
   }
 };
 
-porto.EncryptFrame.prototype._showDialog = function(type) {
+porto.EncryptFrame.prototype._showDialog = function(dialogName) {
   this._eDialog = $('<iframe/>', {
     id: 'eDialog-' + this.id,
     'class': 'm-frame-dialog',
@@ -269,21 +299,9 @@ porto.EncryptFrame.prototype._showDialog = function(type) {
     scrolling: 'no',
     style: 'display: block'
   });
-  var url, dialog;
-  if (type === 'encrypt') {
-    dialog = 'encryptDialog';
-  }
-  else if (type === 'sign') {
-    dialog = 'signDialog';
-  }
-  else if (type === 'pubkey') {
-    dialog = 'pubkeyDialog';
-  }  else if (type === 'gwsign') {
-    dialog = 'gwSignDialog';
-  }
-  //console.error(dialog);
+  var url;
   if (porto.crx || porto.sfx || porto.webex) {
-    url = porto.extension.getURL('common/ui/inline/dialogs/' + dialog + '.html?id=' + this.id);
+    url = porto.extension.getURL('common/ui/inline/dialogs/' + dialogName + '?id=' + this.id);
   }
   this._eDialog.attr('src', url);
   this._eFrame.append(this._eDialog);
@@ -413,17 +431,19 @@ porto.EncryptFrame.prototype._setMessage = function(msg, type, fingerprint) {
     $(this._emailTextElement).text(msg);
     // this._emailTextElement.removeClass('bp-set-pub-key');
 
-    var signTargets = document.getElementsByClassName('bp-sign-target');
-    if (signTargets.length > 0) {
-      try {
-        var changeEvent = new Event('change');
-        signTargets[0].dispatchEvent(changeEvent);
+    var cls = this._options.context;
+    if ((typeof cls === 'string' || cls instanceof String) && (cls === 'bp-sign-target' || cls === 'bp-encrypt-target')) {
+      var signTargets = document.getElementsByClassName(cls);
+      if (signTargets.length > 0) {
+        try {
+          var changeEvent = new Event('change');
+          signTargets[0].dispatchEvent(changeEvent);
+        } catch (err) {
+          console.error(err);
+        }
       }
-      catch (err) {
-        console.error(err);
-      }
+      $(this._emailTextElement).removeClass(cls);
     }
-    $(this._emailTextElement).removeClass('bp-sign-target');
 
     var loadingScreenDelegateScreen = document.getElementsByClassName('js-loading-screen');
     if (loadingScreenDelegateScreen.length > 0) {
@@ -512,6 +532,7 @@ porto.EncryptFrame.prototype._registerEventListener = function() {
         });
         break;
       case 'encrypted-message':
+      case 'decrypted-message':
       case 'signed-message':
         that._saveEmailText();
         that._removeDialog();
@@ -524,6 +545,9 @@ porto.EncryptFrame.prototype._registerEventListener = function() {
           }
         }
 
+        break;
+      case 'decrypt-failed':
+        that._eFrame.find('#decryptBtn').show();
         break;
       case 'gw-signed-message':
         console.log(msg);

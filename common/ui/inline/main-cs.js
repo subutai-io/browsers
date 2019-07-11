@@ -10,13 +10,13 @@ porto.main.regex = /END\sPGP/;
 porto.main.minEditHeight = 84;
 porto.main.contextTarget = null;
 porto.main.prefs = null;
-porto.util.csGetHash().then(function(hash) {
+porto.util.csGetHash().then(function (hash) {
   porto.main.name = 'mainCS-' + hash;
   $(document).ready(porto.main.connect);
 });
 porto.main.port = null;
 
-porto.main.connect = function() {
+porto.main.connect = function () {
   if (document.portoControl) {
     return;
   }
@@ -27,7 +27,7 @@ porto.main.connect = function() {
   document.portoControl = true;
 };
 
-porto.main.init = function(prefs, watchList) {
+porto.main.init = function (prefs, watchList) {
   porto.main.prefs = prefs;
   porto.main.watchList = watchList;
   if (porto.main.prefs.main_active) {
@@ -37,24 +37,24 @@ porto.main.init = function(prefs, watchList) {
   }
 };
 
-porto.main.on = function() {
+porto.main.on = function () {
   //console.log('inside cs: ', document.location.host);
   if (porto.main.intervalID === 0) {
     porto.main.scanLoop();
-    porto.main.intervalID = window.setInterval(function() {
+    porto.main.intervalID = window.setInterval(function () {
       porto.main.scanLoop();
     }, porto.main.interval);
   }
 };
 
-porto.main.off = function() {
+porto.main.off = function () {
   if (porto.main.intervalID !== 0) {
     window.clearInterval(porto.main.intervalID);
     porto.main.intervalID = 0;
   }
 };
 
-porto.main.scanLoop = function() {
+porto.main.scanLoop = function () {
   // find armored PGP text
   var pgpTag = porto.main.findPGPTag(porto.main.regex);
   if (pgpTag.length !== 0) {
@@ -65,6 +65,9 @@ porto.main.scanLoop = function() {
   if (editable.length !== 0) {
     porto.main.attachEncryptFrame(editable);
   }
+
+  var findUserEmail = porto.main.findUserEmail();
+
 };
 
 /**
@@ -72,9 +75,9 @@ porto.main.scanLoop = function() {
  * @param {Regex} regex
  * @return $([nodes])
  */
-porto.main.findPGPTag = function(regex) {
+porto.main.findPGPTag = function (regex) {
   var treeWalker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT, {
-    acceptNode: function(node) {
+    acceptNode: function (node) {
       if (node.parentNode.tagName !== 'SCRIPT' && porto.main.regex.test(node.textContent)) {
         return NodeFilter.FILTER_ACCEPT;
       } else {
@@ -90,11 +93,11 @@ porto.main.findPGPTag = function(regex) {
   }
 
   // filter out hidden elements
-  nodeList = $(nodeList).filter(function() {
+  nodeList = $(nodeList).filter(function () {
     var element = $(this);
     // visibility check does not work on text nodes
     return element.parent().is(':visible') &&
-        // no elements within editable elements
+      // no elements within editable elements
       element.parents('[contenteditable], textarea').length === 0 &&
       this.ownerDocument.designMode !== 'on';
   });
@@ -102,7 +105,46 @@ porto.main.findPGPTag = function(regex) {
   return nodeList;
 };
 
-porto.main.findEditable = function() {
+porto.main.findUserEmail = function () {
+
+  if ($("#e2e-user-email").length > 0 && $("#e2e-user-email").hasClass("e2e-user-email")) {
+
+    var exists = false;
+
+    var email = $("#e2e-user-email").text();
+    var gwAddress = $("#gw-address").text();
+
+    $("#e2e-user-email").removeClass("e2e-user-email");
+
+    porto.extension.sendMessage({event: 'get-user-ids'}, function (data) {
+      for (var inx = 0; inx < data.users.length; inx++) {
+        if (email == data.users[inx].email) {
+          exists = true;
+        }
+      }
+
+      if ((gwAddress.length > 5) && exists) {
+        $("#e2e-plgn-st").text("Available");
+        $("#e2e-plgn-st").css('color', 'green');
+        $("#e2e-load-btn").removeAttr("disabled");
+      } else if ((gwAddress.length < 5) && exists) {
+        $("#e2e-plgn-st").text("Available");
+        $("#e2e-plgn-st").css('color', 'green');
+        $("#e2e-load-btn").removeAttr("disabled");
+      } else if ((gwAddress.length > 5) && !exists) {
+        $("#e2e-plgn-st").text("Available: No Account");
+        $("#e2e-plgn-st").css('color', '#CCA11B');
+      } else if (((gwAddress.length < 5) && !exists)) {
+        $("#e2e-plgn-st").text("Available: No Account");
+        $("#e2e-plgn-st").css('color', '#CCA11B');
+      }
+
+    });
+    //  Available: No Account
+  }
+};
+
+porto.main.findEditable = function () {
   // find textareas and elements with contenteditable attribute, filter out <body>
   var editable = $('[contenteditable], textarea').not('body');
   var iframes = $('iframe').filter(':visible');
@@ -159,7 +201,7 @@ porto.main.findEditable = function() {
   editable = editable.add(editableBody);
   // filter out elements below a certain height limit
   editable = editable.filter(function() {
-    return ($(this).hasClass('bp-sign-target') || $(this).hasClass('bp-set-pub-key') || $(this).hasClass('e2e-sign-message')|| $(this).hasClass('gw-sign-message'));
+    return ($(this).hasClass('bp-sign-target') || $(this).hasClass('bp-set-pub-key') || $(this).hasClass('e2e-sign-message') || $(this).hasClass('gw-sign-message') || $(this).hasClass('bp-encrypt-target') || $(this).hasClass('bp-decrypt-target'));
   });
   //console.log(editable);
   return editable;
@@ -177,13 +219,13 @@ porto.main.getMessageType = function(armored) {
   }
 };
 
-porto.main.attachExtractFrame = function(element) {
+porto.main.attachExtractFrame = function (element) {
   // check status of PGP tags
-  var newObj = element.filter(function() {
+  var newObj = element.filter(function () {
     return !porto.ExtractFrame.isAttached($(this).parent());
   });
   // create new decrypt frames for new discovered PGP tags
-  newObj.each(function(index, element) {
+  newObj.each(function (index, element) {
     try {
       // parent element of text node
       var pgpEnd = $(element).parent();
@@ -237,7 +279,27 @@ porto.main.attachEncryptFrame = function(element, expanded) {
         eFrame.attachTo($(element), {
             expanded: expanded,
             su_fingerprint: getCookie('su_fingerprint'),
-            context: "bp-sign-target"
+            context: 'bp-sign-target'
+          }
+        );
+      }
+      else if ($(element).hasClass('bp-encrypt-target')) {
+        eFrame.attachTo($(element), {
+            expanded: expanded,
+            su_fingerprint: getCookie('su_fingerprint'),
+            context: 'bp-encrypt-target'
+          }
+        );
+      }
+      else if ($(element).hasClass('bp-decrypt-target')) {
+        var fingerprint = $(element).data('fingerprint');
+        if ( fingerprint === undefined || fingerprint == null || fingerprint.length !== 40 ) {
+          fingerprint = getCookie('su_fingerprint');
+        }
+        eFrame.attachTo($(element), {
+            expanded: expanded,
+            su_fingerprint: fingerprint,
+            context: 'bp-decrypt-target'
           }
         );
       }
@@ -245,7 +307,7 @@ porto.main.attachEncryptFrame = function(element, expanded) {
         eFrame.attachTo($(element), {
             expanded: expanded,
             su_fingerprint: getCookie('su_fingerprint'),
-            context: "bp-set-pub-key"
+            context: 'bp-set-pub-key'
           }
         );
       }
@@ -253,7 +315,7 @@ porto.main.attachEncryptFrame = function(element, expanded) {
         eFrame.attachTo($(element), {
             expanded: expanded,
             su_fingerprint: getCookie('su_fingerprint'),
-            context: "e2e-sign-message"
+            context: 'e2e-sign-message'
           }
         );
       } else if ($(element).hasClass('gw-sign-message')) {
