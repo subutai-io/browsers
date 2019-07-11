@@ -1,6 +1,6 @@
 {
   "name": "subutai",
-  "version": "6.0.6",
+  "version": "6.0.7",
   "description": "Subutai E2E Plugin",
   "scripts": {
     "test": "grunt test"

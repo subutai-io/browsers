@@ -11,9 +11,9 @@
 	<key>CFBundleIdentifier</key>
 	<string>io.subutai.tooling.e2eplugin.sfx</string>
 	<key>CFBundleInfoDictionaryVersion</key>
-	<string>6.0.6</string>
+	<string>6.0.7</string>
 	<key>CFBundleShortVersionString</key>
-	<string>6.0.6</string>
+	<string>6.0.7</string>
 	<key>CFBundleVersion</key>
 	<string>6.0.1</string>
 	<key>Chrome</key>
