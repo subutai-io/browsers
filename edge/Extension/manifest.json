@@ -1,8 +1,8 @@
 {
   "name": "Subutai E2E Plugin",
   "author": "Subutai Tooling",
-  "version": "6.0.7",
-  "version_name": "6.0.7",
+  "version": "6.0.9",
+  "version_name": "6.0.9",
   "description": "Effortlessly secure the doors to your Subutai Cloud",
   "homepage_url":"https://subutai.io",
   "manifest_version": 2,
